@@ -1,26 +1,140 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------
+   NODA — brand foundation
+   Colour and type do the work. Everything here is a token so the
+   palette and the display face can be swapped in one place.
+   --------------------------------------------------------------- */
+
+@theme {
+  /* Category colours — one saturated colour per outcome */
+  --color-ignite: #fd4f42;
+  --color-solar: #ff9052;
+  --color-indigo: #3d34c9;
+  --color-teal: #128a7c;
+  --color-volt: #c7e64b;
+
+  /* Neutrals */
+  --color-bone: #f7f4ef;
+  --color-bone-deep: #efe9e0;
+  --color-ink: #16130f;
+  --color-ink-soft: #4a4540;
+  --color-hairline: #e2dbd0;
+
+  /* Type. --font-display is the TAN Ashiord slot: swap the family in
+     app/layout.tsx and nothing else needs to change. */
+  --font-display: var(--font-tan-ashiord), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+
+  /* Motion — slow, quiet, deliberate */
+  --ease-quiet: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Paper-grain overlay used on colour fields and image placeholders */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E");
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bone);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-indigo);
+  color: var(--color-bone);
+}
+
+/* Focus that suits a quiet brand but stays unmistakable */
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+  border-radius: 1px;
+}
+
+@layer components {
+  /* Display type: large, confident, tight and deliberate */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 0.94;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  /* The small letterspaced caps used for eyebrows, nav and labels */
+  .micro {
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .rule {
+    border-color: color-mix(in srgb, currentColor 16%, transparent);
+  }
+}
+
+/* --- Scroll reveal ------------------------------------------------
+   Opacity and a short lift only. No scale, no bounce. */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 900ms var(--ease-quiet),
+    transform 900ms var(--ease-quiet);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal[data-shown="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- Underline that draws in, for text links --------------------- */
+.link-quiet {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 1px;
+  transition: background-size 500ms var(--ease-quiet);
+  padding-bottom: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link-quiet {
+    background-size: 0% 1px;
+  }
+
+  .link-quiet:hover {
+    background-size: 100% 1px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

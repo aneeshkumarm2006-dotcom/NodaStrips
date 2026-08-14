@@ -35,14 +35,33 @@ export function Header() {
 
   const floating = overHero && !scrolled;
 
+  /**
+   * Frosted capsule over the hero photograph; a plain row once scrolled.
+   * The capsule is desktop-only — on a phone the row is already full and
+   * the extra padding pushes the CTA off the edge.
+   */
+  const group = [
+    "flex items-center gap-3 transition-all duration-700 sm:gap-5",
+    "[transition-timing-function:var(--ease-quiet)]",
+    floating
+      ? "sm:rounded-full sm:bg-bone/55 sm:px-5 sm:py-2 sm:backdrop-blur-xl"
+      : "",
+  ].join(" ");
+
   return (
-    <header className="sticky top-0 z-50">
-      {/* Announcement — indigo, so it reads as one field with the sleep hero */}
-      <div className="bg-indigo text-bone">
+    // Fixed rather than sticky, so the bar can float on top of the hero
+    // photograph the way the reference site's does.
+    <header className="fixed inset-x-0 top-0 z-50">
+      {/* Announcement — Volt Lime from the deck, which is also the register
+          the reference site uses for this bar */}
+      <div className="bg-volt text-ink">
         <div className="mx-auto flex h-9 max-w-[1600px] items-center justify-center px-6">
-          <Link href="/quiz" className="micro link-quiet whitespace-nowrap opacity-90">
+          <Link
+            href="/subscription"
+            className="micro link-quiet whitespace-nowrap opacity-90"
+          >
             {/* Trimmed on small screens so the bar stays one line */}
-            <span className="sm:hidden">Get first access →</span>
+            <span className="sm:hidden">Free shipping on subscriptions</span>
             <span className="hidden sm:inline">{ANNOUNCEMENT}</span>
           </Link>
         </div>
@@ -52,57 +71,62 @@ export function Header() {
         className={[
           "transition-[background-color,border-color,color] duration-700",
           "[transition-timing-function:var(--ease-quiet)]",
-          // At the top of the homepage the header shares the hero's colour,
-          // so announcement + header + hero read as one indigo field.
+          // The hero photograph is high-key, so the header sits transparent
+          // over it in dark type rather than reversing out of a colour band.
           floating
-            ? "border-b border-transparent bg-indigo text-bone"
+            ? "border-b border-transparent bg-transparent pt-3 text-brand-deep"
             : "border-b border-hairline bg-bone/85 text-ink backdrop-blur-md",
         ].join(" ")}
       >
-        <div className="mx-auto flex h-20 max-w-[1600px] items-center gap-8 px-6 lg:px-10">
-          {/* Left — mobile menu toggle */}
-          <button
-            type="button"
-            onClick={() => setMenuOpen(true)}
-            aria-label="Open menu"
-            aria-expanded={menuOpen}
-            className="-ml-2 p-2 lg:hidden"
-          >
-            <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
-              <path d="M3 7h18M3 15h18" stroke="currentColor" strokeWidth="1.5" />
-            </svg>
-          </button>
+        <div className="mx-auto flex h-20 max-w-[1600px] items-center justify-between gap-4 px-4 lg:px-6">
+          {/* Over the photograph the two groups become frosted capsules, as
+              the reference does; on a solid bar they are plain rows. */}
+          <div className={group}>
+            <button
+              type="button"
+              onClick={() => setMenuOpen(true)}
+              aria-label="Open menu"
+              aria-expanded={menuOpen}
+              className="-ml-1 p-2 lg:hidden"
+            >
+              <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
+                <path d="M3 7h18M3 15h18" stroke="currentColor" strokeWidth="1.5" />
+              </svg>
+            </button>
 
-          <Link href="/" className="shrink-0" aria-label="NODA — home">
-            <Wordmark className="h-6" />
-          </Link>
-
-          {/* Centre — navigation */}
-          <nav className="hidden flex-1 justify-center gap-9 lg:flex" aria-label="Main">
-            {NAV.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="micro link-quiet whitespace-nowrap"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-
-          {/* Right — utilities. No search button, by design. */}
-          <div className="ml-auto flex items-center gap-5 lg:ml-0">
-            <LanguageSelector />
-            <span aria-hidden="true" className="hidden opacity-30 sm:inline">
-              ·
-            </span>
-            <Link href="/account" className="micro link-quiet hidden sm:inline">
-              Account
+            <Link href="/" className="shrink-0" aria-label="NODA — home">
+              <Wordmark className="h-6" />
             </Link>
-            <span aria-hidden="true" className="hidden opacity-30 sm:inline">
-              ·
+
+            <nav className="hidden gap-8 lg:flex" aria-label="Main">
+              {NAV.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="micro link-quiet whitespace-nowrap"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+
+          {/* Utilities, then the one filled CTA. No search, by design. */}
+          <div className={group}>
+            {/* On a phone the locale lives in the drawer — the row is full */}
+            <span className="hidden sm:block">
+              <LanguageSelector />
             </span>
             <CartLink />
+            <Link href="/account" className="micro link-quiet hidden sm:inline">
+              Sign in
+            </Link>
+            <Link
+              href="/shop"
+              className="micro whitespace-nowrap rounded-full bg-brand-deep px-4 py-2.5 text-bone transition-colors duration-500 [transition-timing-function:var(--ease-quiet)] hover:bg-ink sm:-mr-1.5 sm:px-5 sm:py-3"
+            >
+              Shop now
+            </Link>
           </div>
         </div>
       </div>
@@ -234,14 +258,16 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
           ))}
         </nav>
 
-        <div className="mt-auto flex flex-col gap-4 pt-12">
+        <div className="mt-auto flex flex-col items-start gap-5 pt-12">
+          {/* The locale utility lives here on phones */}
+          <LanguageSelector />
           <Link
             href="/account"
             className="micro"
             tabIndex={open ? 0 : -1}
             onClick={onClose}
           >
-            Account
+            Sign in
           </Link>
           <Link
             href="/cart"

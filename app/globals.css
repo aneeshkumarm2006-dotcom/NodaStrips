@@ -2,28 +2,38 @@
 
 /* ---------------------------------------------------------------
    NODA — brand foundation
-   Colour and type do the work. Everything here is a token so the
-   palette and the display face can be swapped in one place.
+
+   One product, one brand colour, one accent. The page is mostly warm
+   bone; Deep Teal is spent deliberately, on the hero and two or three
+   full-bleed moments. That ratio is what reads as premium — not the hex.
    --------------------------------------------------------------- */
 
 @theme {
-  /* Category colours — one saturated colour per outcome */
+  /* Brand — Deep Teal, from the direction document.
+     Named `brand` rather than by hue so a palette change stays a one-line
+     edit rather than a sweep through every component. */
+  --color-brand: #128a7c;
+  --color-brand-deep: #0a4a43;
+  --color-brand-soft: #e4efeb;
+
+  /* Accent — Ignite Coral, the sunburst colour in the mark */
   --color-ignite: #fd4f42;
-  --color-solar: #ff9052;
-  --color-indigo: #3d34c9;
-  --color-teal: #128a7c;
+
+  /* Held in reserve — Volt Lime, used only at small sizes */
   --color-volt: #c7e64b;
 
-  /* Neutrals */
+  /* Neutrals — the page lives here */
   --color-bone: #f7f4ef;
   --color-bone-deep: #efe9e0;
   --color-ink: #16130f;
   --color-ink-soft: #4a4540;
   --color-hairline: #e2dbd0;
 
-  /* Type. --font-display is the TAN Ashiord slot: swap the family in
-     app/layout.tsx and nothing else needs to change. */
-  --font-display: var(--font-tan-ashiord), Georgia, "Times New Roman", serif;
+  /* Type.
+     Headlines are set in a grotesque sans, matching the reference site
+     rather than the deck's TAN Ashiord serif — see the note in the README.
+     Archivo carries both roles, so the page uses one family throughout. */
+  --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
 
   /* Motion — slow, quiet, deliberate */
@@ -49,11 +59,10 @@ body {
 }
 
 ::selection {
-  background: var(--color-indigo);
+  background: var(--color-brand);
   color: var(--color-bone);
 }
 
-/* Focus that suits a quiet brand but stays unmistakable */
 :focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 4px;
@@ -61,16 +70,18 @@ body {
 }
 
 @layer components {
-  /* Display type: large, confident, tight and deliberate */
+  /* Display type: large, confident, tight and deliberate.
+     A sans needs more line-height and less negative tracking than the
+     serif did, or it sets too tight and reads cramped. */
   .display {
     font-family: var(--font-display);
-    font-weight: 400;
-    line-height: 0.94;
-    letter-spacing: -0.025em;
+    font-weight: 500;
+    line-height: 1.04;
+    letter-spacing: -0.03em;
     text-wrap: balance;
   }
 
-  /* The small letterspaced caps used for eyebrows, nav and labels */
+  /* Small letterspaced caps — eyebrows, nav, labels, data */
   .micro {
     font-family: var(--font-body);
     font-size: 0.6875rem;
@@ -79,13 +90,14 @@ body {
     text-transform: uppercase;
   }
 
-  .rule {
-    border-color: color-mix(in srgb, currentColor 16%, transparent);
+  /* Body copy at a readable measure */
+  .prose-quiet {
+    font-size: 1.0625rem;
+    line-height: 1.7;
   }
 }
 
-/* --- Scroll reveal ------------------------------------------------
-   Opacity and a short lift only. No scale, no bounce. */
+/* --- Scroll reveal ------------------------------------------------ */
 .reveal {
   opacity: 0;
   transform: translateY(18px);
@@ -118,6 +130,19 @@ body {
   .link-quiet:hover {
     background-size: 100% 1px;
   }
+}
+
+/* --- Screen-reader-only, for chart table views ------------------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

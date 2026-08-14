@@ -3,7 +3,7 @@
  *
  * The artwork is a PNG, so it is applied as a CSS mask and filled with
  * `currentColor`. That keeps the supplied geometry exactly as drawn while
- * still letting it render in one colour anywhere — bone on indigo, ink on
+ * still letting it render in one colour anywhere — bone on brand, ink on
  * bone, or any category colour — from a single file.
  *
  * Where a fixed brand colour is wanted instead, the five colourways are in

@@ -12,17 +12,44 @@ npm run dev     # http://localhost:3000
 
 ## What's here
 
-| Brief | Built | File |
-| --- | --- | --- |
-| §04 Header | Announcement bar, wordmark, 5-item nav, country/language, account, cart. **No search.** | [components/Header.tsx](components/Header.tsx) |
-| §05.01 Hero | Sleep in full Indigo Dusk, big wordmark, primary CTA | [components/sections/Hero.tsx](components/sections/Hero.tsx) |
-| §05.02 The range + Combo | Five category cards, one colour each, plus the Combo bundle | [components/sections/Range.tsx](components/sections/Range.tsx) |
-| §05.03 How it works / Science | Three steps, calm and editorial | [components/sections/Science.tsx](components/sections/Science.tsx) |
-| §05.04 Take the quiz | Personalization teaser supporting the hero CTA | [components/sections/Quiz.tsx](components/sections/Quiz.tsx) |
-| §05.05 Sleep Journal + footer | Editorial teaser; subscription sign-up, language and full nav in the footer | [components/sections/Journal.tsx](components/sections/Journal.tsx), [components/Footer.tsx](components/Footer.tsx) |
+A **single-product store** — Sleep only. Structurally modelled on seed.com,
+which is also a one-product brand, so its long editorial homepage is the right
+shape rather than a borrowed one.
 
-The five nav destinations plus Account and Cart exist as stub pages so nothing
+| | Section | File |
+| --- | --- | --- |
+| 01 | Hero — the product in full aubergine, big wordmark, one CTA | [Hero.tsx](components/sections/Hero.tsx) |
+| 02 | The strip — what it is, and add-to-cart | [Strip.tsx](components/sections/Strip.tsx) |
+| 03 | What's inside — the formula listed with doses | [Inside.tsx](components/sections/Inside.tsx) |
+| 04 | How it works — three steps | [HowItWorks.tsx](components/sections/HowItWorks.tsx) |
+| 05 | How it compares — bar chart with a dataset toggle | [Compare.tsx](components/sections/Compare.tsx) |
+| 06 | The ritual — when and how | [Ritual.tsx](components/sections/Ritual.tsx) |
+| 07 | Reviews — quiet pull quotes | [Reviews.tsx](components/sections/Reviews.tsx) |
+| 08 | Questions — accordion | [Faq.tsx](components/sections/Faq.tsx) |
+| 09 | Sleep Journal — editorial teaser | [Journal.tsx](components/sections/Journal.tsx) |
+| — | Header (no search) and Footer | [Header.tsx](components/Header.tsx), [Footer.tsx](components/Footer.tsx) |
+
+Nav destinations plus Account and Cart exist as stub pages so nothing
 dead-ends during review. Everything beyond the main page is intentionally empty.
+
+### The comparison section
+
+Built to match the davidprotein.com section the client shared: wide
+gradient-filled bars for ours, outlined bars for the comparators, a
+tick-marked axis with a rotated label, product tiles beneath, and the
+methodology footnote centred underneath. Two datasets behind a toggle.
+
+Two decisions worth keeping when this moves to Liquid:
+
+- **Comparators are formats, not brands** — oral strip vs powder, gummy,
+  capsule, tablet. Naming competitors requires substantiation and legal
+  review; the argument works without it.
+- **Every figure is direct-labelled, each bar has a hover and focus readout,
+  and a screen-reader table carries all the values**, so nothing is locked
+  behind colour or hover.
+
+No chart library — the bars are CSS heights with a transition, which is also
+what makes this straightforward to rebuild as a Liquid section.
 
 ## Where the brand lives
 
@@ -99,16 +126,46 @@ masking layer entirely and should replace them when available.
    the whole page takes real photography at once. The shot list is the `brief`
    prop on each slot.
 
+## The palette
+
+Straight from the direction document. Indigo Dusk was rejected by the client,
+so **Deep Teal** carries the page — it is the closest thing in the deck to the
+deep green Seed builds on.
+
+| | | |
+| --- | --- | --- |
+| Deep Teal | `#128A7C` | The brand colour — deck palette |
+| Deep Teal, deep step | `#0A4A43` | Dark bands, header at rest, footer (derived) |
+| Ignite Coral | `#FD4F42` | The only accent — deck palette, and the sunburst colour |
+| Volt Lime | `#C7E64B` | Deck palette. The light source inside the image fields, never a surface |
+| Warm Bone | `#F7F4EF` | Paper — most of the page lives here |
+| Ink | `#16130F` | Type, and the filled buttons |
+
+Two things worth knowing:
+
+- **The token is named `brand`, not `teal`.** The colour has changed twice
+  already, so `--color-brand` in [app/globals.css](app/globals.css) is the one
+  edit that repaints the site. No component names a hue.
+- **Ratio beats hex.** Teal is spent on the hero, the product band, the
+  annotated card, the comparison and the footer; everything between them
+  breathes on bone. A page drenched in brand colour reads as a supplement
+  store, which is the failure mode the direction document warns about.
+
+Inside the image placeholders, the glow mixes **Volt Lime** rather than coral —
+coral mixed into teal goes muddy brown, lime keeps the greens clean.
+
 ## Decisions worth a second opinion
 
-- **Sleep is Indigo Dusk.** The direction assigns five colours and names only
-  Sleep. Indigo read as the obvious fit; the other four mappings are a guess.
-- **Category names.** Energy, Immunity, Focus and Greens are placeholders —
-  rename in `lib/brand.ts`.
-- **Prices** (£28 / £72) are placeholders purely so the cards look finished.
-- **Editorial copy** — headlines, the three science steps, the three quiz
-  questions and the three journal posts — is written to hold the structure at
-  the right tone, not to ship.
+- **Everything in [lib/brand.ts](lib/brand.ts) is placeholder** — copy,
+  ingredients, doses, prices, comparison figures, reviews and FAQ answers.
+  None of it is approved and none of the numbers are substantiated. The file
+  carries a warning at the top.
+- **The formulation** (melatonin 0.5 mg, L-theanine, magnesium bisglycinate,
+  lemon balm) is invented to make the ingredients section read correctly.
+- **Prices** (£28 / £24 subscription) are placeholders so the section looks
+  finished.
+- **Any health claim on this page** needs regulatory review before launch —
+  particularly the comparison section and the FAQ.
 
 ## House rules encoded here
 

@@ -1,42 +1,70 @@
 import Link from "next/link";
 import { ArtSlot } from "@/components/ArtSlot";
-import { Wordmark } from "@/components/Wordmark";
-import { HERO_CATEGORY, PRIMARY_CTA } from "@/lib/brand";
+import { PRODUCT } from "@/lib/brand";
 
 /**
- * 01 — Hero. One category in full colour, the wordmark big, the primary CTA.
- * Sleep leads.
+ * 01 — Hero, on the reference site's model: a high-key photograph with the
+ * product right of centre, and the copy set in dark type over the bright,
+ * empty left third. One filled pill plus one underlined text link.
+ *
+ * A soft bone scrim sits over the left so the type stays legible whatever
+ * photograph lands here later.
  */
 export function Hero() {
   return (
+    // Pulled up under the fixed header and inset from the page edges, so the
+    // photograph reads as a rounded panel with the header floating on it.
     <section
-      className="relative isolate overflow-hidden bg-indigo text-bone"
+      className="relative isolate -mt-[7.25rem] overflow-hidden rounded-b-[2rem] text-brand-deep"
       aria-labelledby="hero-heading"
     >
-      <div className="relative z-10 mx-auto grid min-h-[calc(100svh-7.25rem)] max-w-[1600px] grid-cols-1 items-center gap-14 px-6 pb-32 pt-20 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20 lg:px-10 lg:pb-40 lg:pt-24">
-        <div className="max-w-2xl">
-          <p className="micro opacity-70">
-            01 — The {HERO_CATEGORY.name} range
-          </p>
+      {/* The photograph. ArtSlot positions itself, so it is wrapped rather
+          than given an `absolute` that would collide with its own class. */}
+      <div className="absolute inset-0 -z-20">
+        <ArtSlot
+          variant="still"
+          brief="the strips on a bedside table, low evening light"
+          showCaption={false}
+          className="h-full w-full"
+        />
+      </div>
 
+      {/* Scrim — light, not dark, so dark type reads over a high-key image */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-gradient-to-r from-bone via-bone/70 to-transparent lg:via-bone/45"
+      />
+
+      <div className="mx-auto flex min-h-svh max-w-[1600px] flex-col justify-center px-6 pb-28 pt-[calc(7.25rem+4rem)] lg:px-10">
+        <div className="max-w-2xl">
           <h1
             id="hero-heading"
-            className="display mt-8 text-[clamp(3.5rem,10vw,7.5rem)]"
+            className="display text-[clamp(2.5rem,5vw,4.25rem)]"
           >
-            {HERO_CATEGORY.line}
+            A better night, built
+            <br />
+            around how you absorb.
           </h1>
 
-          <p className="mt-9 max-w-md text-[1.0625rem] leading-relaxed opacity-80">
-            A fast-dissolving vegan strip that goes straight into your system.
-            No water. No pills. One strip, and the night takes it from there.
+          <p className="prose-quiet mt-7 max-w-md text-ink-soft">
+            {PRODUCT.subtitle} One strip, thirty minutes before bed.
           </p>
 
-          <div className="mt-12 flex flex-col items-start gap-7 sm:flex-row sm:items-center sm:gap-10">
+          <div className="mt-11 flex flex-wrap items-center gap-x-9 gap-y-4">
             <Link
-              href={PRIMARY_CTA.href}
-              className="micro group inline-flex h-14 items-center gap-3 bg-bone px-8 text-ink transition-colors duration-500 [transition-timing-function:var(--ease-quiet)] hover:bg-white sm:whitespace-nowrap"
+              href="/shop"
+              className="inline-flex items-center rounded-full bg-brand-deep px-9 py-4 text-[0.9375rem] text-bone transition-colors duration-500 [transition-timing-function:var(--ease-quiet)] hover:bg-ink"
             >
-              {PRIMARY_CTA.label}
+              Shop the strip
+            </Link>
+
+            <Link
+              href="/science"
+              className="group inline-flex items-center gap-2.5 text-[0.9375rem]"
+            >
+              <span className="underline decoration-1 underline-offset-[6px]">
+                How it works
+              </span>
               <span
                 aria-hidden="true"
                 className="transition-transform duration-500 [transition-timing-function:var(--ease-quiet)] group-hover:translate-x-1"
@@ -44,30 +72,8 @@ export function Hero() {
                 →
               </span>
             </Link>
-
-            <Link href="#range" className="micro link-quiet whitespace-nowrap opacity-80">
-              See the range
-            </Link>
           </div>
         </div>
-
-        <ArtSlot
-          variant="sun"
-          tint={HERO_CATEGORY.hex}
-          brief="the sleep strip, low sun behind, deep indigo"
-          className="aspect-4/5 w-full lg:aspect-square"
-        />
-      </div>
-
-      {/* The wordmark, big and quiet, running off the bottom edge */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-0 overflow-hidden"
-      >
-        <Wordmark
-          mono
-          className="mx-6 block h-[15vw] translate-y-[26%] text-bone/12 lg:mx-10"
-        />
       </div>
     </section>
   );

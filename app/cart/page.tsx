@@ -1,7 +1,14 @@
-import { StubPage } from "@/components/StubPage";
+import type { Metadata } from "next";
+import { PageHeader } from "@/components/PageHeader";
+import { CartView } from "./CartView";
 
-export const metadata = { title: "Cart — NODA" };
+export const metadata: Metadata = { title: "Cart — NODA" };
 
-export default function Page() {
-  return <StubPage index="Cart" title="Cart" note="The cart is wired to the header count on the main page. Checkout to follow." />;
+export default function CartPage() {
+  return (
+    <>
+      <PageHeader index="Cart" title="Your cart" />
+      <CartView />
+    </>
+  );
 }

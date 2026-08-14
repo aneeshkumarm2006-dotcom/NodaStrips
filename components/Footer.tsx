@@ -1,117 +1,77 @@
 import Link from "next/link";
-import { CATEGORIES, LANGUAGES, NAV } from "@/lib/brand";
+import { BRAND, FOOTER_COLUMNS, FOOTER_STATEMENT, LANGUAGES } from "@/lib/brand";
 import { Mark } from "./Mark";
 import { SubscribeForm } from "./SubscribeForm";
-import { Wordmark } from "./Wordmark";
 
-const COMPANY = [
-  { label: "About", href: "/about" },
-  { label: "Ingredients", href: "/ingredients" },
-  { label: "Contact", href: "/contact" },
-  { label: "Account", href: "/account" },
-];
-
-const LEGAL = [
-  { label: "Privacy", href: "/privacy" },
-  { label: "Terms", href: "/terms" },
-  { label: "Shipping & returns", href: "/shipping" },
-];
-
-/** Subscription sign-up, language option, and the full navigation. */
+/**
+ * Footer on Seed's model: brand statement and newsletter on the left, five
+ * short link columns on the right, legal and locale along the bottom.
+ */
 export function Footer() {
   return (
-    <footer className="bg-ink text-bone">
-      <div className="mx-auto max-w-[1600px] px-6 py-24 lg:px-10 lg:py-28">
-        <div className="grid grid-cols-1 gap-16 lg:grid-cols-[1.2fr_1fr] lg:gap-24">
+    <footer className="bg-brand-deep text-bone">
+      <div className="mx-auto max-w-[1600px] px-6 py-20 lg:px-10 lg:py-24">
+        <div className="grid grid-cols-1 gap-16 lg:grid-cols-[1fr_1.25fr] lg:gap-20">
           <div>
-            <Mark className="h-12 w-12 text-ignite" title="NODA" />
-            <p className="display mt-10 max-w-sm text-[clamp(1.75rem,3vw,2.5rem)]">
-              Where better days begin.
+            <div className="flex items-center gap-3">
+              <Mark className="h-8 w-8 text-ignite" title="NODA" />
+              <span className="display text-[1.5rem] tracking-tight">
+                {BRAND.name}
+              </span>
+            </div>
+
+            <p className="prose-quiet mt-8 max-w-md opacity-75">
+              {FOOTER_STATEMENT}
             </p>
-            <p className="mt-6 max-w-sm leading-relaxed opacity-60">
-              One strip, straight into your system. No water, no pills.
-            </p>
-            <div className="mt-12">
+
+            <div className="mt-12 max-w-md border-t border-bone/15 pt-10">
               <SubscribeForm />
             </div>
           </div>
 
           <nav
             aria-label="Footer"
-            className="grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-3"
+            className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-5"
           >
-            <FooterColumn title="Shop">
-              {CATEGORIES.map((cat) => (
-                <FooterLink key={cat.slug} href={`/shop/${cat.slug}`}>
-                  {cat.name}
-                </FooterLink>
-              ))}
-              <FooterLink href="/shop/combo">Combo</FooterLink>
-            </FooterColumn>
-
-            <FooterColumn title="Explore">
-              {NAV.map((item) => (
-                <FooterLink key={item.href} href={item.href}>
-                  {item.label}
-                </FooterLink>
-              ))}
-            </FooterColumn>
-
-            <FooterColumn title="Company">
-              {COMPANY.map((item) => (
-                <FooterLink key={item.href} href={item.href}>
-                  {item.label}
-                </FooterLink>
-              ))}
-            </FooterColumn>
+            {FOOTER_COLUMNS.map((col) => (
+              <div key={col.title}>
+                <h2 className="micro opacity-45">{col.title}</h2>
+                <ul className="mt-5 flex flex-col gap-3">
+                  {col.links.map((link) => (
+                    <li key={`${col.title}-${link.label}`}>
+                      <Link
+                        href={link.href}
+                        className="link-quiet text-sm opacity-80"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </nav>
         </div>
 
-        <div className="mt-24 flex flex-col gap-8 border-t border-bone/15 pt-10 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-            <Wordmark className="h-6" />
-            <span className="micro opacity-40">Estd. 2026 · Located in Canada</span>
-          </div>
+        <div className="mt-20 flex flex-col gap-6 border-t border-bone/15 pt-8 lg:flex-row lg:items-center lg:justify-between">
+          <p className="micro opacity-40">{BRAND.estd}</p>
 
-          <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
             <LocaleSelect />
-            {LEGAL.map((item) => (
-              <Link key={item.href} href={item.href} className="micro link-quiet opacity-60">
-                {item.label}
-              </Link>
-            ))}
             <span className="micro opacity-40">
-              © {new Date().getFullYear()} NODA
+              © {new Date().getFullYear()} {BRAND.name}
             </span>
           </div>
         </div>
+
+        <p className="mt-10 max-w-3xl text-xs leading-relaxed opacity-35">
+          Placeholder site. Nothing on this page has been reviewed by a
+          regulator, and no statement here has been evaluated by any health
+          authority. Not intended to diagnose, treat, cure or prevent any
+          disease.
+        </p>
       </div>
     </footer>
-  );
-}
-
-function FooterColumn({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div>
-      <h2 className="micro opacity-50">{title}</h2>
-      <ul className="mt-6 flex flex-col gap-3.5">{children}</ul>
-    </div>
-  );
-}
-
-function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <li>
-      <Link href={href} className="link-quiet text-[0.9375rem] opacity-80">
-        {children}
-      </Link>
-    </li>
   );
 }
 
@@ -131,7 +91,7 @@ function LocaleSelect() {
           <option
             key={`${lang.code}-${lang.country}`}
             value={lang.country}
-            className="bg-ink"
+            className="bg-brand-deep"
           >
             {lang.flag} {lang.country} — {lang.code}
           </option>

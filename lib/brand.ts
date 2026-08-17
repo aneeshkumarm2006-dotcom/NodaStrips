@@ -482,6 +482,21 @@ export const JOURNAL_POSTS = [
       "Everything above requires review by a qualified professional before it can be published as a claim.",
     ],
   },
+  {
+    slug: "the-case-against-more",
+    kicker: "Dose",
+    title: "The case against more",
+    excerpt:
+      "Why a smaller dose of the right thing beats a larger dose of nearly the right thing.",
+    readTime: "5 min",
+    brief: "morning light on linen",
+    body: [
+      "Placeholder article. Supplement labels compete on quantity because quantity is easy to print. It is a poor proxy for whether anything works.",
+      "Melatonin is the clearest case: the useful range is far below what most products contain, and the excess does not deepen the effect — it outlasts the night.",
+      "The harder claim to make, and the one worth making, is that a formulation was designed around absorption and timing rather than around a number on a box.",
+      "None of the above is approved copy, and every figure it implies needs substantiating first.",
+    ],
+  },
 ] as const;
 
 export type JournalPost = (typeof JOURNAL_POSTS)[number];

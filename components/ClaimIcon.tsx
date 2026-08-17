@@ -5,7 +5,13 @@
  * dependency, and these carry the brand's hairline weight exactly.
  */
 
-export type ClaimIconName = "tongue" | "nowater" | "moon" | "leaf";
+export type ClaimIconName =
+  | "tongue"
+  | "nowater"
+  | "moon"
+  | "leaf"
+  | "nosugar"
+  | "dose";
 
 const PATHS: Record<ClaimIconName, React.ReactNode> = {
   // A strip settling onto an open tongue
@@ -26,6 +32,21 @@ const PATHS: Record<ClaimIconName, React.ReactNode> = {
   ),
   // Crescent
   moon: <path d="M12 3.6a6.2 6.2 0 0 0 8.8 8.8A8.4 8.4 0 1 1 12 3.6Z" />,
+  // A sugar cube, struck through
+  nosugar: (
+    <>
+      <path d="M6.4 6.4h11.2v11.2H6.4z" />
+      <path d="M5.4 18.6 18.6 5.4" />
+    </>
+  ),
+  // A small measure — a low dose
+  dose: (
+    <>
+      <path d="M5 12h14" />
+      <path d="M8.2 12v4.6a3.8 3.8 0 0 0 7.6 0V12" />
+      <path d="M12 5.2v3.4" />
+    </>
+  ),
   leaf: (
     <>
       <path d="M11 19.4a6.6 6.6 0 0 1-1.1-13.1C15.2 5.3 16.6 4.8 18.4 2.6c.9 1.9 1.9 3.9 1.9 7.5 0 5.1-4.4 9.3-9.3 9.3Z" />

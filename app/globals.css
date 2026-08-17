@@ -22,14 +22,19 @@
   /* Held in reserve — Volt Lime, used only at small sizes */
   --color-volt: #c7e64b;
 
-  /* Neutrals — the page lives here.
-     Paper is a near-white with a faint warm cast, matched to the reference
-     the client supplied rather than the earlier cream. */
-  --color-bone: #f8f7f2;
-  --color-bone-deep: #efeee7;
+  /* Neutrals.
+     Measured off the reference the client supplied: the page is a perfectly
+     NEUTRAL near-white, not a warm one — the earlier warm value is what made
+     it read as cream. Raised surfaces are lighter than the page here, not
+     darker, so `bone-deep` means "one step up off the page", not one down. */
+  --color-bone: #f5f5f5;
+  --color-bone-deep: #ffffff;
   --color-ink: #16130f;
   --color-ink-soft: #4a4540;
-  --color-hairline: #e4e2d8;
+  --color-hairline: #e5e5e5;
+
+  /* The warm sand band used by the blog row, taken from its reference */
+  --color-sand: #edebe4;
 
   /* Type.
      Headlines are set in a grotesque sans, matching the reference site

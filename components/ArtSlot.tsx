@@ -38,11 +38,11 @@ const FIELDS: Record<Variant, (tint: string) => string> = {
 
   // Close, bright, clinical — a strip against bone
   macro: (tint) =>
-    `radial-gradient(75% 60% at 62% 42%, color-mix(in srgb, #F7F4EF 90%, ${tint}) 0%, color-mix(in srgb, #F7F4EF 62%, ${tint}) 55%, color-mix(in srgb, #EFE9E0 88%, ${tint}) 100%)`,
+    `radial-gradient(75% 60% at 62% 42%, color-mix(in srgb, #F5F5F5 90%, ${tint}) 0%, color-mix(in srgb, #F5F5F5 62%, ${tint}) 55%, color-mix(in srgb, #EBEBEB 88%, ${tint}) 100%)`,
 
   // Raking daylight across a surface
   still: (tint) =>
-    `linear-gradient(104deg, color-mix(in srgb, #EFE9E0 92%, ${tint}) 0%, color-mix(in srgb, #F7F4EF 94%, ${tint}) 42%, color-mix(in srgb, ${tint} 55%, transparent) 100%)`,
+    `linear-gradient(104deg, color-mix(in srgb, #EBEBEB 92%, ${tint}) 0%, color-mix(in srgb, #F5F5F5 94%, ${tint}) 42%, color-mix(in srgb, ${tint} 55%, transparent) 100%)`,
 };
 
 export function ArtSlot({

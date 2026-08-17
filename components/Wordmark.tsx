@@ -29,8 +29,12 @@ export function Wordmark({
       aria-label={label}
     >
       <span aria-hidden="true">NODA</span>
+      {/* Nudged up so it centres on the cap height rather than the line box,
+          which is what made it read as sitting low and small */}
       <Mark
-        className={`ml-[0.16em] h-[0.5em] w-[0.5em] ${mono ? "" : markClassName}`}
+        className={`ml-[0.14em] h-[0.72em] w-[0.72em] -translate-y-[0.06em] ${
+          mono ? "" : markClassName
+        }`}
       />
     </span>
   );

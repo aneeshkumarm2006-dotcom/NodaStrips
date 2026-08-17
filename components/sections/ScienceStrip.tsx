@@ -1,6 +1,10 @@
 import { ArtSlot } from "@/components/ArtSlot";
+import { ClaimIcon, type ClaimIconName } from "@/components/ClaimIcon";
 import { Reveal } from "@/components/Reveal";
 import { SCIENCE_STRIP as S } from "@/lib/brand";
+
+/** One glyph per badge, in the order the badges are declared. */
+const BADGE_ICONS: ClaimIconName[] = ["leaf", "nowater", "nosugar", "dose"];
 
 /**
  * Science in a strip.
@@ -24,9 +28,11 @@ export function ScienceStrip() {
           <Reveal>
             <h2
               id="science-strip-heading"
-              className="display text-[clamp(2.5rem,6vw,4.5rem)] lowercase"
+              className="display text-[clamp(2.75rem,7vw,5.25rem)] font-semibold uppercase leading-[0.95]"
             >
-              {S.heading}
+              science
+              <br />
+              in a strip
             </h2>
           </Reveal>
           <Reveal delay={100}>
@@ -37,11 +43,15 @@ export function ScienceStrip() {
         {/* Feature badges */}
         <Reveal delay={150}>
           <ul className="mt-12 flex flex-wrap gap-x-3 gap-y-3 border-t border-hairline pt-10">
-            {S.badges.map((badge) => (
+            {S.badges.map((badge, i) => (
               <li
                 key={badge}
-                className="micro rounded-full border border-hairline bg-bone-deep px-4 py-2.5 text-ink-soft"
+                className="micro flex items-center gap-2.5 rounded-full border border-hairline bg-bone-deep px-4 py-2.5 text-ink-soft"
               >
+                <ClaimIcon
+                  name={BADGE_ICONS[i] ?? "leaf"}
+                  className="h-6 w-6 border-0"
+                />
                 {badge}
               </li>
             ))}

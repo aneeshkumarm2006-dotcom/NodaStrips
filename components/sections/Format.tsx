@@ -15,7 +15,7 @@ export function Format() {
   const right = FORMAT.callouts.filter((c) => c.side === "right");
 
   return (
-    <section className="relative isolate overflow-hidden py-20 lg:py-28">
+    <section className="relative isolate flex min-h-[720px] items-center overflow-hidden py-16 lg:py-20">
       {/* Full-bleed photographic ground */}
       <div className="absolute inset-0 -z-20">
         {/* A bright ground on purpose: the light card only reads as frosted
@@ -30,11 +30,14 @@ export function Format() {
       </div>
       {/* Very light scrim only — the point of this section is that you can
           see the photograph */}
-      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-bone/20" />
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-ink/10" />
 
       <div className="mx-auto max-w-[1600px] px-6 lg:px-10">
         <Reveal>
-          <div className="rounded-3xl border border-bone/40 bg-bone/55 p-8 text-ink backdrop-blur-xl lg:p-14">
+          {/* Measured off the reference: 32px radius, a ~35% translucent veil
+              and a heavy blur, so the photograph behind stays clearly legible.
+              A more opaque card is what was milking the image out. */}
+          <div className="rounded-[2rem] bg-brand-deep/30 p-8 text-bone backdrop-blur-[38px] lg:p-14">
             <h2 className="display max-w-2xl text-[clamp(1.9rem,3.6vw,3rem)]">
               {FORMAT.title}
             </h2>
@@ -45,13 +48,13 @@ export function Format() {
                 {left.map((c) => (
                   <li key={c.title} className="lg:text-right">
                     <h3 className="micro">{c.title}</h3>
-                    <p className="mt-2.5 text-sm leading-relaxed text-ink-soft">
+                    <p className="mt-2.5 text-sm leading-relaxed text-bone/75">
                       {c.body}
                     </p>
                     {/* Connector — hairline running toward the diagram */}
                     <span
                       aria-hidden="true"
-                      className="mt-4 hidden h-px w-16 bg-ink/20 lg:ml-auto lg:block"
+                      className="mt-4 hidden h-px w-16 bg-bone/35 lg:ml-auto lg:block"
                     />
                   </li>
                 ))}
@@ -84,12 +87,12 @@ export function Format() {
                 {right.map((c) => (
                   <li key={c.title}>
                     <h3 className="micro">{c.title}</h3>
-                    <p className="mt-2.5 text-sm leading-relaxed text-ink-soft">
+                    <p className="mt-2.5 text-sm leading-relaxed text-bone/75">
                       {c.body}
                     </p>
                     <span
                       aria-hidden="true"
-                      className="mt-4 hidden h-px w-16 bg-ink/20 lg:block"
+                      className="mt-4 hidden h-px w-16 bg-bone/35 lg:block"
                     />
                   </li>
                 ))}

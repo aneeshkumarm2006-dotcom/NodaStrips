@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/PageHeader";
 import { ProductBuy } from "@/components/ProductBuy";
 import { Compare } from "@/components/sections/Compare";
-import { Inside } from "@/components/sections/Inside";
+import { ScienceStrip } from "@/components/sections/ScienceStrip";
 
 export const metadata: Metadata = {
   title: "The strip — NODA",
@@ -25,7 +25,7 @@ export default function ShopPage() {
         intro="We sell one thing. Everything on this page is about that one thing — what is in it, how it is taken, and why the format is the argument."
       />
       <ProductBuy />
-      <Inside />
+      <ScienceStrip />
       <Compare />
     </>
   );

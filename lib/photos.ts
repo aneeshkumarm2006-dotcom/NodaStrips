@@ -136,6 +136,29 @@ export const PHOTOS: Record<string, Photo | null> = {
     alt: "Oatmeal linen lit by a single warm lamp out of frame",
   },
 
+
+  // ---- Comparison bar fills --------------------------------------------
+  "format fill — oral strip": {
+    src: "/photos/fmt-strip-stack.jpg",
+    alt: "Dissolvable film strips overlapping, close up",
+  },
+  "format fill — powder": {
+    src: "/photos/fmt-powder-granules.jpg",
+    alt: "A mound of fine white supplement powder",
+  },
+  "format fill — gummy": {
+    src: "/photos/fmt-gummy-pile.jpg",
+    alt: "A pile of sugar-dusted gummies",
+  },
+  "format fill — capsule": {
+    src: "/photos/fmt-capsule-pile.jpg",
+    alt: "A pile of plain off-white capsules",
+  },
+  "format fill — tablet": {
+    src: "/photos/fmt-tablet-pile.jpg",
+    alt: "A stack of plain white tablets",
+  },
+
   // ---- Closing cards ---------------------------------------------------
   "landscape, dusk, wide": {
     src: "/photos/dusk-landscape.jpg",

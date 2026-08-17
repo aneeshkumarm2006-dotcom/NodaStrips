@@ -45,6 +45,19 @@ const BOX =
 const STRIP =
   "an ultra-thin translucent dissolvable film strip about 2cm by 3cm, faintly iridescent, delicate as a petal";
 
+
+/**
+ * Bar fills need the opposite of the house style: the product must fill the
+ * frame edge to edge. Using STYLE here left every product small with a large
+ * empty background, and the bar crop then showed mostly background.
+ */
+const FILL = [
+  "Tightly cropped overhead macro product photography.",
+  "The subject completely fills the entire frame edge to edge, with no background visible and no empty space.",
+  "Soft even diffused lighting, shallow depth of field, fine detail.",
+  "No packaging, no text, no lettering, no logos, no watermarks.",
+].join(" ");
+
 /** file → the brief it satisfies in lib/photos.ts */
 const SHOTS = [
   // ---- Hero -----------------------------------------------------------
@@ -106,6 +119,22 @@ const SHOTS = [
     prompt: `A single clear glass of water on a warm bone surface, a long soft evening shadow stretching across the frame, deep teal tint in the shadow. Minimal, still. ${STYLE}` },
   { file: "linen-lamplight.jpg", brief: "linen and lamplight, wide",
     prompt: `A wide quiet interior detail: oatmeal linen lit by a single warm lamp just out of frame, deep shadow to one side, nobody present. ${STYLE}` },
+
+  // ---- Comparison bar fills -------------------------------------------
+  // Each bar in the comparison chart is a window onto a photograph of that
+  // format, cropped to a tall narrow shape — so these use FILL, not STYLE.
+  { file: "fmt-strip-stack.jpg", brief: "format fill — oral strip",
+    prompt: `Dozens of ultra-thin translucent dissolvable film strips stacked and overlapping in a dense layered mass, completely filling the frame. Faint iridescent sheen, delicate translucent edges catching the light. ${FILL}` },
+  // "fine white powder" trips a false-positive drug filter, so this is
+  // described as a milled supplement instead
+  { file: "fmt-powder-granules.jpg", brief: "format fill — powder",
+    prompt: `A dense heap of finely milled cream-coloured nutritional supplement completely filling the frame, soft peaks and ridges, fine grains and a light dusting throughout. ${FILL}` },
+  { file: "fmt-gummy-pile.jpg", brief: "format fill — gummy",
+    prompt: `Dozens of plump round sugar-coated gummy sweets in deep red, piled densely so they completely fill the frame with no gaps. Glossy sugar crystals catching the light. ${FILL}` },
+  { file: "fmt-capsule-pile.jpg", brief: "format fill — capsule",
+    prompt: `Dozens of large plain matte off-white supplement capsules piled densely so they completely fill the frame with no gaps. Smooth unmarked shells, each capsule clearly readable in shape. ${FILL}` },
+  { file: "fmt-tablet-pile.jpg", brief: "format fill — tablet",
+    prompt: `Dozens of large plain round matte white tablets piled densely so they completely fill the frame with no gaps. Smooth unmarked faces, each tablet clearly readable in shape. ${FILL}` },
 
   // ---- Closing cards --------------------------------------------------
   { file: "dusk-landscape.jpg", brief: "landscape, dusk, wide",

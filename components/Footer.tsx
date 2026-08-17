@@ -54,8 +54,6 @@ export function Footer() {
         </div>
 
         <div className="mt-20 flex flex-col gap-6 border-t border-bone/15 pt-8 lg:flex-row lg:items-center lg:justify-between">
-          <p className="micro opacity-40">{BRAND.estd}</p>
-
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
             <LocaleSelect />
             <span className="micro opacity-40">

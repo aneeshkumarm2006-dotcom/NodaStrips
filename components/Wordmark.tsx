@@ -1,56 +1,36 @@
+import { Mark } from "./Mark";
+
 /**
- * The NODA wordmark — the supplied serif lockup, with the sunburst in the O.
+ * The NODA wordmark: the name set in type, with the sunburst following it —
+ * the lockup pattern on the reference site, rather than the mark sitting
+ * inside the O.
  *
- * The artwork ships as a flattened PNG, so it is split into two masks
- * (letters and burst) that are stacked and filled with CSS colour. That keeps
- * the drawing exactly as supplied while letting the lockup sit on any
- * background and take any colourway — including a single colour, which the
- * brand direction requires.
- *
- * Size it by height; the width follows from the artwork's aspect ratio.
- *   <Wordmark className="h-6" />
+ * Size it with a font-size class; the mark scales from that in `em`, so the
+ * pair always stays in proportion.
+ *   <Wordmark className="text-[1.5rem]" />
  */
-
-const maskStyle = (url: string) =>
-  ({
-    maskImage: `url(${url})`,
-    WebkitMaskImage: `url(${url})`,
-    maskSize: "contain",
-    WebkitMaskSize: "contain",
-    maskRepeat: "no-repeat",
-    WebkitMaskRepeat: "no-repeat",
-    maskPosition: "center",
-    WebkitMaskPosition: "center",
-  }) as React.CSSProperties;
-
 export function Wordmark({
   className = "",
-  /** Tailwind background colour for the sunburst */
-  burstClassName = "bg-ignite",
-  /** Draw the whole lockup in one colour */
+  /** Tailwind text colour for the sunburst */
+  markClassName = "text-ignite",
+  /** Draw the mark in the same colour as the name */
   mono = false,
   label = "NODA",
 }: {
   className?: string;
-  burstClassName?: string;
+  markClassName?: string;
   mono?: boolean;
   label?: string;
 }) {
   return (
     <span
-      className={`relative inline-block aspect-[1243/372] ${className}`}
+      className={`display inline-flex items-center leading-none tracking-[-0.02em] ${className}`}
       role="img"
       aria-label={label}
     >
-      <span
-        aria-hidden="true"
-        className="absolute inset-0 bg-current"
-        style={maskStyle("/brand/lockup-text-mask.png")}
-      />
-      <span
-        aria-hidden="true"
-        className={`absolute inset-0 ${mono ? "bg-current" : burstClassName}`}
-        style={maskStyle("/brand/lockup-burst-mask.png")}
+      <span aria-hidden="true">NODA</span>
+      <Mark
+        className={`ml-[0.16em] h-[0.5em] w-[0.5em] ${mono ? "" : markClassName}`}
       />
     </span>
   );

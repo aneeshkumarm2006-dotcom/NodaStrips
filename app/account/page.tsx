@@ -13,14 +13,14 @@ export const metadata: Metadata = { title: "Sign in — NODA" };
 export default function AccountPage() {
   return (
     <section className="bg-bone" aria-labelledby="account-title">
-      <div className="mx-auto grid min-h-[calc(100svh-7.25rem)] max-w-[1600px] grid-cols-1 items-center gap-14 px-6 py-20 lg:grid-cols-2 lg:gap-24 lg:px-10">
+      <div className="mx-auto grid min-h-[calc(100svh-5rem)] max-w-[1600px] grid-cols-1 items-center gap-14 px-6 py-20 lg:grid-cols-2 lg:gap-24 lg:px-10">
         <Reveal className="max-w-md">
           <p className="micro text-ink-soft">Account</p>
           <h1 id="account-title" className="display mt-7 text-[clamp(2.25rem,4.5vw,3.5rem)]">
             Sign in
           </h1>
           <p className="prose-quiet mt-6 text-ink-soft">
-            Manage your subscription, move a delivery, or stop it entirely.
+            See your orders and manage your details.
           </p>
 
           <form className="mt-11 flex flex-col gap-6">

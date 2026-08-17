@@ -18,19 +18,23 @@ export function Format() {
     <section className="relative isolate overflow-hidden py-20 lg:py-28">
       {/* Full-bleed photographic ground */}
       <div className="absolute inset-0 -z-20">
+        {/* A bright ground on purpose: the light card only reads as frosted
+            glass over a luminous photograph, not over a dark one */}
         <ArtSlot
-          variant="dusk"
-          brief="macro of the film, backlit"
+          variant="still"
+          brief="a strip against a bright window"
           showCaption={false}
           showMark={false}
           className="h-full w-full"
         />
       </div>
-      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-ink/25" />
+      {/* Very light scrim only — the point of this section is that you can
+          see the photograph */}
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-bone/20" />
 
       <div className="mx-auto max-w-[1600px] px-6 lg:px-10">
         <Reveal>
-          <div className="rounded-3xl border border-bone/15 bg-brand-deep/70 p-8 text-bone backdrop-blur-xl lg:p-14">
+          <div className="rounded-3xl border border-bone/40 bg-bone/55 p-8 text-ink backdrop-blur-xl lg:p-14">
             <h2 className="display max-w-2xl text-[clamp(1.9rem,3.6vw,3rem)]">
               {FORMAT.title}
             </h2>
@@ -41,13 +45,13 @@ export function Format() {
                 {left.map((c) => (
                   <li key={c.title} className="lg:text-right">
                     <h3 className="micro">{c.title}</h3>
-                    <p className="mt-2.5 text-sm leading-relaxed text-bone/65">
+                    <p className="mt-2.5 text-sm leading-relaxed text-ink-soft">
                       {c.body}
                     </p>
                     {/* Connector — hairline running toward the diagram */}
                     <span
                       aria-hidden="true"
-                      className="mt-4 hidden h-px w-16 bg-bone/25 lg:ml-auto lg:block"
+                      className="mt-4 hidden h-px w-16 bg-ink/20 lg:ml-auto lg:block"
                     />
                   </li>
                 ))}
@@ -64,10 +68,12 @@ export function Format() {
                 />
 
                 {/* Hero statistic */}
-                <div className="absolute -bottom-3 left-1/2 flex -translate-x-1/2 items-baseline gap-2 whitespace-nowrap rounded-full bg-ink px-7 py-3.5">
+                {/* The card is light now, so the pill has to set its own
+                    text colour rather than inherit ink on ink */}
+                <div className="absolute -bottom-3 left-1/2 flex -translate-x-1/2 items-baseline gap-2 whitespace-nowrap rounded-full bg-ink px-7 py-3.5 text-bone">
                   <span className="text-3xl leading-none">{FORMAT.stat.figure}</span>
                   <span className="micro">{FORMAT.stat.unit}</span>
-                  <span className="micro ml-1 text-bone/55">
+                  <span className="micro ml-1 text-bone/70">
                     {FORMAT.stat.label}
                   </span>
                 </div>
@@ -78,12 +84,12 @@ export function Format() {
                 {right.map((c) => (
                   <li key={c.title}>
                     <h3 className="micro">{c.title}</h3>
-                    <p className="mt-2.5 text-sm leading-relaxed text-bone/65">
+                    <p className="mt-2.5 text-sm leading-relaxed text-ink-soft">
                       {c.body}
                     </p>
                     <span
                       aria-hidden="true"
-                      className="mt-4 hidden h-px w-16 bg-bone/25 lg:block"
+                      className="mt-4 hidden h-px w-16 bg-ink/20 lg:block"
                     />
                   </li>
                 ))}

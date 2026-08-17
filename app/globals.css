@@ -22,12 +22,14 @@
   /* Held in reserve — Volt Lime, used only at small sizes */
   --color-volt: #c7e64b;
 
-  /* Neutrals — the page lives here */
-  --color-bone: #f7f4ef;
-  --color-bone-deep: #efe9e0;
+  /* Neutrals — the page lives here.
+     Paper is a near-white with a faint warm cast, matched to the reference
+     the client supplied rather than the earlier cream. */
+  --color-bone: #f8f7f2;
+  --color-bone-deep: #efeee7;
   --color-ink: #16130f;
   --color-ink-soft: #4a4540;
-  --color-hairline: #e2dbd0;
+  --color-hairline: #e4e2d8;
 
   /* Type.
      Headlines are set in a grotesque sans, matching the reference site

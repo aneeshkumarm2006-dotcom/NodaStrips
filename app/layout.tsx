@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Archivo } from "next/font/google";
+import { Announcement } from "@/components/Announcement";
 import { CartProvider } from "@/components/CartProvider";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
@@ -44,10 +45,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col">
         <CartProvider>
+          {/* Announcement sits above the sticky header and scrolls away */}
+          <Announcement />
           <Header />
-          {/* The header is fixed, so content clears it here. The hero pulls
-              itself back up underneath — see components/sections/Hero.tsx. */}
-          <main className="flex-1 pt-[7.25rem]">{children}</main>
+          <main className="flex-1">{children}</main>
           <Footer />
         </CartProvider>
       </body>

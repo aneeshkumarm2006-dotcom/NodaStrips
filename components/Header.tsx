@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { ANNOUNCEMENT, LANGUAGES, NAV, type Language } from "@/lib/brand";
+import { LANGUAGES, NAV, type Language } from "@/lib/brand";
 import { useCart } from "./CartProvider";
 import { Wordmark } from "./Wordmark";
 
@@ -49,24 +49,10 @@ export function Header() {
   ].join(" ");
 
   return (
-    // Fixed rather than sticky, so the bar can float on top of the hero
-    // photograph the way the reference site's does.
-    <header className="fixed inset-x-0 top-0 z-50">
-      {/* Announcement — Volt Lime from the deck, which is also the register
-          the reference site uses for this bar */}
-      <div className="bg-volt text-ink">
-        <div className="mx-auto flex h-9 max-w-[1600px] items-center justify-center px-6">
-          <Link
-            href="/subscription"
-            className="micro link-quiet whitespace-nowrap opacity-90"
-          >
-            {/* Trimmed on small screens so the bar stays one line */}
-            <span className="sm:hidden">Free shipping on subscriptions</span>
-            <span className="hidden sm:inline">{ANNOUNCEMENT}</span>
-          </Link>
-        </div>
-      </div>
-
+    // Sticky, not fixed: the announcement bar above it scrolls away and only
+    // the header follows, which is the behaviour on the reference site. The
+    // hero pulls itself up underneath so the capsules float on the photo.
+    <header className="sticky top-0 z-50">
       <div
         className={[
           "transition-[background-color,border-color,color] duration-700",
@@ -95,7 +81,7 @@ export function Header() {
             </button>
 
             <Link href="/" className="shrink-0" aria-label="NODA — home">
-              <Wordmark className="h-6" />
+              <Wordmark className="text-[1.4rem]" />
             </Link>
 
             <nav className="hidden gap-8 lg:flex" aria-label="Main">

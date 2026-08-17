@@ -24,18 +24,21 @@ export const PRODUCT = {
     "A fast-dissolving vegan strip for the end of the day. No water. No pills.",
   price: "£28",
   unit: "30 strips · one month",
-  subscription: "£24 on subscription",
   slug: "sleep",
 } as const;
 
+/**
+ * Subscription is hidden for now — not offered yet, planned for later.
+ * Restore the { label: "Subscription", href: "/subscription" } entry and
+ * rename app/_subscription back to app/subscription to bring it back.
+ */
 export const NAV = [
   { label: "The strip", href: "/shop" },
   { label: "Science", href: "/science" },
   { label: "Sleep Journal", href: "/sleep-journal" },
-  { label: "Subscription", href: "/subscription" },
 ] as const;
 
-export const ANNOUNCEMENT = "Free shipping on every subscription";
+export const ANNOUNCEMENT = "Be First to Discover the Future of Sleep";
 
 export const PRIMARY_CTA = { label: "Shop the sleep strip", href: "/shop" } as const;
 
@@ -130,7 +133,7 @@ export type Dataset = {
   axis: string;
   unit: string;
   /** Higher is better in both datasets, so bar height always reads the same way */
-  bars: { format: string; value: number; ours?: boolean }[];
+  bars: { format: string; value: number; ours?: boolean; fill: string }[];
 };
 
 export const COMPARISON: Dataset[] = [
@@ -140,11 +143,11 @@ export const COMPARISON: Dataset[] = [
     axis: "Absorbed within 30 minutes",
     unit: "%",
     bars: [
-      { format: "Oral strip", value: 92, ours: true },
-      { format: "Powder", value: 68 },
-      { format: "Gummy", value: 54 },
-      { format: "Capsule", value: 41 },
-      { format: "Tablet", value: 35 },
+      { format: "Oral strip", value: 92, ours: true, fill: "format fill — oral strip" },
+      { format: "Powder", value: 68, fill: "format fill — powder" },
+      { format: "Gummy", value: 54, fill: "format fill — gummy" },
+      { format: "Capsule", value: 41, fill: "format fill — capsule" },
+      { format: "Tablet", value: 35, fill: "format fill — tablet" },
     ],
   },
   {
@@ -153,27 +156,30 @@ export const COMPARISON: Dataset[] = [
     axis: "Still taken as directed after 60 nights",
     unit: "%",
     bars: [
-      { format: "Oral strip", value: 88, ours: true },
-      { format: "Gummy", value: 71, },
-      { format: "Capsule", value: 62 },
-      { format: "Tablet", value: 58 },
-      { format: "Powder", value: 46 },
+      { format: "Oral strip", value: 88, ours: true, fill: "format fill — oral strip" },
+      { format: "Gummy", value: 71, fill: "format fill — gummy" },
+      { format: "Capsule", value: 62, fill: "format fill — capsule" },
+      { format: "Tablet", value: 58, fill: "format fill — tablet" },
+      { format: "Powder", value: 46, fill: "format fill — powder" },
     ],
   },
 ];
 
 export const COMPARISON_CLAIMS = [
   {
+    icon: "tongue" as const,
     title: "It absorbs where you put it",
     body: "A film dissolves on the tongue. There is no shell to break down and nothing to survive first.",
   },
   {
+    icon: "nowater" as const,
     title: "No water, no swallowing",
     body: "Which means it works at the bedside, on a plane, or anywhere a glass isn’t.",
   },
   {
+    icon: "moon" as const,
     title: "A ritual you’ll actually keep",
-    body: "The best formula is the one still in use in two months. Format decides that.",
+    body: "Fast, simple, and effective — because the best wellness fits your life.",
   },
 ] as const;
 
@@ -340,7 +346,6 @@ export const FOOTER_COLUMNS = [
     title: "Product",
     links: [
       { label: "The strip", href: "/shop" },
-      { label: "Subscription", href: "/subscription" },
       { label: "Ingredients", href: "/#ingredients" },
     ],
   },
@@ -517,33 +522,29 @@ export const SUBSCRIPTION_STEPS = [
   },
 ] as const;
 
+/**
+ * Pack sizes, not billing cadences — subscription is not offered yet, so
+ * both of these are one-off purchases. When subscription launches these
+ * become selling plans on the same product.
+ */
 export const PLANS = [
+  {
+    id: "trial",
+    name: "3 Days Strip",
+    price: "£6",
+    cadence: "one pack",
+    note: "3 strips, to try it",
+    perks: ["No commitment", "Standard shipping", "For a first night"],
+    featured: false,
+  },
   {
     id: "monthly",
     name: "Monthly",
-    price: "£24",
-    cadence: "per month",
-    note: "30 strips, every month",
-    perks: ["Free shipping", "Skip or pause anytime", "Cancel in two clicks"],
-    featured: true,
-  },
-  {
-    id: "quarterly",
-    name: "Quarterly",
-    price: "£21",
-    cadence: "per month",
-    note: "90 strips, every three months",
-    perks: ["Free shipping", "Best price per strip", "One delivery a quarter"],
-    featured: false,
-  },
-  {
-    id: "once",
-    name: "One time",
     price: "£28",
     cadence: "one box",
-    note: "30 strips, no subscription",
-    perks: ["No commitment", "Standard shipping", "For trying it first"],
-    featured: false,
+    note: "30 strips, one month",
+    perks: ["Free shipping", "Best price per strip", "The full ritual"],
+    featured: true,
   },
 ] as const;
 
@@ -561,3 +562,56 @@ export const SUBSCRIPTION_FAQS = [
     a: "Placeholder answer. No. Cancel whenever, including before the first renewal.",
   },
 ] as const;
+
+
+/* ----------------------------------------------------- science in a strip
+   Built to the structure of the reference the client supplied: a display
+   heading, one intro line, four badges, then ingredient cards each with
+   benefit tags and a mechanism sentence.
+
+   Replaces the old ingredients table. Every dose and claim is placeholder
+   and needs regulatory review.                                            */
+
+export const SCIENCE_STRIP = {
+  heading: "science in a strip",
+  intro:
+    "One thin film on the tongue, dissolved in under a minute — a low-dose sleep formula that starts absorbing where you put it, with nothing to swallow.",
+  badges: ["Vegan formula", "No water needed", "Zero sugar", "Low-dose melatonin"],
+  ingredients: [
+    {
+      name: "Melatonin",
+      dose: "0.5 mg",
+      tags: ["Timing", "Onset"],
+      body: "A timing signal rather than a sedative. Deliberately low, because past a small dose the extra lingers into the morning.",
+      brief: "the strip, edge on, macro",
+    },
+    {
+      name: "L-Theanine",
+      dose: "100 mg",
+      tags: ["Calm", "Quiet mind"],
+      body: "Promotes alpha wave activity, easing mental chatter without the weight of a sedative.",
+      brief: "a strip against a bright window",
+    },
+    {
+      name: "Magnesium bisglycinate",
+      dose: "60 mg",
+      tags: ["Relaxation", "Recovery"],
+      body: "The gentle, well-absorbed form. Supports muscle relaxation through the night.",
+      brief: "cross-section of the strip",
+    },
+    {
+      name: "Lemon balm extract",
+      dose: "80 mg",
+      tags: ["Settling", "Mood"],
+      body: "Long used before rest to settle the mind, with a mild calming action.",
+      brief: "macro of the film, backlit",
+    },
+    {
+      name: "Vegan film base",
+      dose: "—",
+      tags: ["Delivery", "Absorption"],
+      body: "Plant cellulose that dissolves on contact. No gelatin, no sugar, no artificial colour.",
+      brief: "a single strip on a pale surface",
+    },
+  ],
+} as const;

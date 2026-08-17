@@ -12,10 +12,10 @@ import { PRODUCT } from "@/lib/brand";
  */
 export function Hero() {
   return (
-    // Pulled up under the fixed header and inset from the page edges, so the
-    // photograph reads as a rounded panel with the header floating on it.
+    // Pulled up under the sticky header (5rem tall) so the capsules float
+    // on the photograph. The announcement bar above stays in flow.
     <section
-      className="relative isolate -mt-[7.25rem] overflow-hidden rounded-b-[2rem] text-brand-deep"
+      className="relative isolate -mt-20 overflow-hidden rounded-b-[2rem] text-brand-deep"
       aria-labelledby="hero-heading"
     >
       {/* The photograph. ArtSlot positions itself, so it is wrapped rather
@@ -35,7 +35,7 @@ export function Hero() {
         className="absolute inset-0 -z-10 bg-gradient-to-r from-bone via-bone/70 to-transparent lg:via-bone/45"
       />
 
-      <div className="mx-auto flex min-h-svh max-w-[1600px] flex-col justify-center px-6 pb-28 pt-[calc(7.25rem+4rem)] lg:px-10">
+      <div className="mx-auto flex min-h-svh max-w-[1600px] flex-col justify-center px-6 pb-28 pt-[calc(5rem+4rem)] lg:px-10">
         <div className="max-w-2xl">
           <h1
             id="hero-heading"

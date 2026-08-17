@@ -4,7 +4,7 @@ import { NAV } from "@/lib/brand";
 export default function NotFound() {
   return (
     <section className="bg-bone" aria-labelledby="nf-title">
-      <div className="mx-auto flex min-h-[calc(100svh-7.25rem)] max-w-[1600px] flex-col justify-center px-6 py-24 lg:px-10">
+      <div className="mx-auto flex min-h-[calc(100svh-5rem)] max-w-[1600px] flex-col justify-center px-6 py-24 lg:px-10">
         <p className="micro text-ink-soft">404</p>
         <h1 id="nf-title" className="display mt-7 max-w-3xl text-[clamp(2.5rem,6vw,4.5rem)]">
           This page is still asleep.

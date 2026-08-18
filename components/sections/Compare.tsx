@@ -47,7 +47,10 @@ export function Compare() {
 
   return (
     <section
-      className="bg-brand-deep py-24 text-bone lg:py-32"
+      // overflow-x-clip, not hidden: the hover tooltips on the outer bars
+      // extend past the card and were widening the page by a few px on a
+      // phone. Clipping x only leaves the tooltips free to rise vertically.
+      className="overflow-x-clip bg-brand-deep py-24 text-bone lg:py-32"
       aria-labelledby="compare-heading"
     >
       <div className="mx-auto max-w-[1600px] px-6 lg:px-10">

@@ -81,7 +81,7 @@ export function Header() {
             </button>
 
             <Link href="/" className="shrink-0" aria-label="NODA — home">
-              <Wordmark className="text-[1.4rem]" />
+              <Wordmark className="text-[1.55rem] sm:text-[1.8rem] lg:text-[2rem]" />
             </Link>
 
             <nav className="hidden gap-8 lg:flex" aria-label="Main">

@@ -3,9 +3,9 @@
 /* ---------------------------------------------------------------
    NODA — brand foundation
 
-   One product, one brand colour, one accent. The page is mostly warm
-   bone; Deep Teal is spent deliberately, on the hero and two or three
-   full-bleed moments. That ratio is what reads as premium — not the hex.
+   One product, one brand colour, one accent. The page is mostly paper;
+   Deep Teal is spent deliberately, on the hero and two or three full-bleed
+   moments. That ratio is what reads as premium — not the hex.
    --------------------------------------------------------------- */
 
 @theme {
@@ -23,11 +23,11 @@
   --color-volt: #c7e64b;
 
   /* Neutrals.
-     Measured off the reference the client supplied: the page is a perfectly
-     NEUTRAL near-white, not a warm one — the earlier warm value is what made
-     it read as cream. Raised surfaces are lighter than the page here, not
-     darker, so `bone-deep` means "one step up off the page", not one down. */
-  --color-bone: #f5f5f5;
+     Paper is the exact hex the client specified: #F9F8F5. (Measuring
+     Cymbiotika gave #F5F5F5, a colder neutral — their number wins.)
+     Raised surfaces are LIGHTER than the page here, not darker, so
+     `bone-deep` means "one step up off the page", not one down. */
+  --color-bone: #f9f8f5;
   --color-bone-deep: #ffffff;
   --color-ink: #16130f;
   --color-ink-soft: #4a4540;

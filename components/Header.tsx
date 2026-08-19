@@ -60,7 +60,7 @@ export function Header() {
           // The hero photograph is high-key, so the header sits transparent
           // over it in dark type rather than reversing out of a colour band.
           floating
-            ? "border-b border-transparent bg-transparent pt-3 text-brand-deep"
+            ? "border-b border-transparent bg-transparent text-brand-deep"
             : "border-b border-hairline bg-bone/85 text-ink backdrop-blur-md",
         ].join(" ")}
       >

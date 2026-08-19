@@ -29,12 +29,12 @@ export function Wordmark({
       aria-label={label}
     >
       <span aria-hidden="true">NODA</span>
-      {/* Deliberately larger than the letterforms — it overhangs the cap
-          height top and bottom. 0.72em then 0.95em both still read as too
-          small, so the symbol now leads the lockup rather than sitting
-          inside it. */}
+      {/* Matched to the cap height of the letters, per the client: 0.6875em
+          of a 32px lockup is 22px, which is exactly the height of the "A".
+          The translate lifts it onto the cap-height centre rather than the
+          line-box centre, which otherwise makes it sit low. */}
       <Mark
-        className={`ml-[0.2em] h-[1.25em] w-[1.25em] -translate-y-[0.06em] ${
+        className={`ml-[0.2em] h-[0.6875em] w-[0.6875em] -translate-y-[0.09em] ${
           mono ? "" : markClassName
         }`}
       />

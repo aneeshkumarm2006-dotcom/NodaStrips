@@ -137,6 +137,28 @@ export const PHOTOS: Record<string, Photo | null> = {
   },
 
 
+  // ---- Ingredient cards: the ingredient itself, as the reference does --
+  "ingredient — tart cherry": {
+    src: "/photos/ing-melatonin.jpg",
+    alt: "Fresh tart cherries on a pale surface",
+  },
+  "ingredient — green tea leaf": {
+    src: "/photos/ing-theanine.jpg",
+    alt: "Fresh green tea leaves on a pale surface",
+  },
+  "ingredient — magnesium mineral": {
+    src: "/photos/ing-magnesium.jpg",
+    alt: "Pale mineral crystals on a pale surface",
+  },
+  "ingredient — lemon balm": {
+    src: "/photos/ing-lemonbalm.jpg",
+    alt: "Sprigs of fresh lemon balm on a pale surface",
+  },
+  "ingredient — the film": {
+    src: "/photos/ing-film.jpg",
+    alt: "Two translucent dissolvable film squares on a pale surface",
+  },
+
   // ---- Comparison bar fills --------------------------------------------
   "format fill — oral strip": {
     src: "/photos/fmt-strip-stack.jpg",

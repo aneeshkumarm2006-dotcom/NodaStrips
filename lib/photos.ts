@@ -35,11 +35,11 @@ export type Photo = {
 export const PHOTOS: Record<string, Photo | null> = {
   // ---- Hero ------------------------------------------------------------
   "the strips on a bedside table, low evening light": {
-    src: "/photos/hero-table.jpg",
-    alt: "NODA boxes on a wooden table in a bright room, garden foliage behind",
-    // Weighted low so the boxes stay whole when the square source is
-    // cropped to a wide hero
-    position: "center 72%",
+    // Higgsfield, 2752×1536. The alternative lifestyle take is
+    // hero-bedroom.jpg — swap the src to use it.
+    src: "/photos/hero-plinth.jpg",
+    alt: "Two NODA boxes on a stone plinth in soft raking light",
+    position: "center center",
   },
 
   // ---- Product ---------------------------------------------------------

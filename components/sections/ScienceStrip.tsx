@@ -12,16 +12,20 @@ const BADGE_ICONS: ClaimIconName[] = ["leaf", "nowater", "nosugar", "dose"];
 /**
  * Science in a strip.
  *
- * Laid out like the reference the client supplied, which is two columns
- * rather than stacked bands:
+ * Built to measurements taken off the reference's science page, not from a
+ * screenshot:
  *
- *   LEFT   heading set large on two lines, one intro paragraph beneath it,
- *          then the feature badges in a 2×2 grid with icons
- *   RIGHT  the ingredient cards as a horizontal rail that runs off the
- *          edge — image on top, then name, benefit tags and mechanism
+ *   LEFT COLUMN  ~405px. Heading 70px / 700 / uppercase with a 66px line
+ *                height, so it sets closed-up. The intro sits well down the
+ *                column rather than tight under the heading. Badges 2×2.
  *
- * The earlier version stacked these full width, which is what the client
- * marked as not matching.
+ *   RIGHT COLUMN cards 435×519. Photograph on top, then a #F5F5F5 panel
+ *                with 20px padding and a 0 0 10px 10px radius, carrying a
+ *                40px bold uppercase name, white pill tags (14px, radius
+ *                30px, 5px/15px padding) and a 14px description.
+ *
+ * The reference has two product cards because it sells two products. We have
+ * one product and five ingredients, so the same card runs as a rail.
  */
 export function ScienceStrip() {
   const rail = useRef<HTMLUListElement>(null);
@@ -30,7 +34,7 @@ export function ScienceStrip() {
     const el = rail.current;
     if (!el) return;
     const card = el.querySelector("li");
-    const step = card ? card.clientWidth + 20 : el.clientWidth * 0.8;
+    const step = card ? card.clientWidth + 24 : el.clientWidth * 0.8;
     el.scrollBy({ left: step * dir, behavior: "smooth" });
   };
 
@@ -40,34 +44,38 @@ export function ScienceStrip() {
       className="overflow-hidden bg-bone py-24 lg:py-32"
       aria-labelledby="science-strip-heading"
     >
-      <div className="mx-auto grid max-w-[1600px] grid-cols-1 gap-12 px-6 lg:grid-cols-[minmax(20rem,26rem)_1fr] lg:gap-14 lg:px-10">
+      <div className="mx-auto grid max-w-[1600px] grid-cols-1 gap-12 px-6 lg:grid-cols-[25.5rem_1fr] lg:gap-14 lg:px-10">
         {/* ------------------------------------------- left column */}
-        <Reveal className="lg:pt-2">
+        <Reveal className="flex flex-col">
           <h2
             id="science-strip-heading"
-            className="display text-[clamp(2.5rem,5vw,3.75rem)] font-semibold uppercase leading-[0.95]"
+            className="display text-[clamp(3rem,5.6vw,4.375rem)] font-bold uppercase leading-[0.94] tracking-[-0.02em]"
           >
             science
             <br />
             in a strip
           </h2>
 
-          <p className="mt-7 max-w-sm leading-relaxed text-ink-soft">{S.intro}</p>
+          {/* The reference drops the intro well below the heading rather
+              than setting it tight underneath */}
+          <p className="mt-14 max-w-[25rem] text-[1.0625rem] leading-relaxed text-ink-soft lg:mt-auto">
+            {S.intro}
+          </p>
 
-          {/* Badges, 2×2 as the reference has them */}
-          <ul className="mt-10 grid grid-cols-2 gap-x-6 gap-y-5">
+          <ul className="mt-9 grid grid-cols-2 gap-x-6 gap-y-5">
             {S.badges.map((badge, i) => (
-              <li key={badge} className="flex items-center gap-3 text-ink-soft">
+              <li key={badge} className="flex items-center gap-3">
                 <ClaimIcon
                   name={BADGE_ICONS[i] ?? "leaf"}
-                  className="h-7 w-7 border-0"
+                  className="h-6 w-6 shrink-0 border-0"
                 />
-                <span className="micro leading-tight">{badge}</span>
+                <span className="text-[0.8125rem] font-medium uppercase leading-tight tracking-[0.04em]">
+                  {badge}
+                </span>
               </li>
             ))}
           </ul>
 
-          {/* Rail controls */}
           <div className="mt-10 hidden gap-3 lg:flex">
             <button
               type="button"
@@ -92,45 +100,47 @@ export function ScienceStrip() {
         <Reveal delay={120} className="min-w-0">
           <ul
             ref={rail}
-            className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className="flex snap-x snap-mandatory items-stretch gap-6 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             {S.ingredients.map((ing, i) => (
               <li
                 key={ing.name}
-                className="w-[74vw] shrink-0 snap-start sm:w-[20rem] lg:w-[17.5rem]"
+                className="w-[82vw] shrink-0 snap-start sm:w-[24rem] lg:w-[27rem]"
               >
-                <article className="flex h-full flex-col overflow-hidden rounded-xl border border-hairline bg-bone-deep">
+                <article className="flex h-full flex-col overflow-hidden rounded-[10px]">
                   <ArtSlot
                     variant={i % 2 === 0 ? "macro" : "field"}
                     onDark={i % 2 !== 0}
                     showCaption={false}
                     showMark={false}
                     brief={ing.brief}
-                    className="aspect-4/3 w-full"
+                    className="h-[18.75rem] w-full shrink-0"
                   />
 
-                  <div className="flex flex-1 flex-col p-5">
-                    <div className="flex items-baseline justify-between gap-3">
-                      <h3 className="micro text-[0.8125rem] tracking-[0.12em]">
+                  {/* The reference's panel: #F5F5F5, 20px, rounded only at
+                      the foot so it reads as one piece with the photograph */}
+                  <div className="flex flex-1 flex-col rounded-b-[10px] bg-[#F5F5F5] p-5">
+                    <div className="flex items-start justify-between gap-4">
+                      <h3 className="display text-[2.5rem] font-bold uppercase leading-[0.94] tracking-[-0.02em]">
                         {ing.name}
                       </h3>
-                      <span className="micro tabular-nums text-ink-soft">
+                      <span className="micro shrink-0 pt-2 tabular-nums text-ink-soft">
                         {ing.dose}
                       </span>
                     </div>
 
-                    <ul className="mt-3 flex flex-wrap gap-x-3 gap-y-1">
+                    <ul className="mt-4 flex flex-wrap gap-2">
                       {ing.tags.map((tag) => (
                         <li
                           key={tag}
-                          className="micro text-[0.5625rem] text-ink-soft"
+                          className="rounded-[30px] bg-white px-[15px] py-[5px] text-[0.875rem] uppercase leading-none tracking-[0.02em]"
                         >
                           {tag}
                         </li>
                       ))}
                     </ul>
 
-                    <p className="mt-4 flex-1 text-sm leading-relaxed text-ink-soft">
+                    <p className="mt-4 flex-1 text-[0.875rem] leading-relaxed text-ink-soft">
                       {ing.body}
                     </p>
                   </div>

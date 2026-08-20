@@ -53,6 +53,7 @@ export function ArtSlot({
   onDark = true,
   showCaption = true,
   showMark = true,
+  sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px",
 }: {
   variant?: Variant;
   tint?: string;
@@ -64,6 +65,12 @@ export function ArtSlot({
   /** Hide the caption where it would sit under overlaid copy */
   showCaption?: boolean;
   showMark?: boolean;
+  /**
+   * What width this slot actually occupies. The default suits the card
+   * grids; full-bleed slots must say so or the browser is told the image
+   * is 800px wide and picks a candidate far too small for it.
+   */
+  sizes?: string;
 }) {
   const photo = getPhoto(brief);
 
@@ -79,7 +86,7 @@ export function ArtSlot({
           src={photo.src}
           alt={photo.alt}
           fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
+          sizes={sizes}
           className="object-cover"
           style={{ objectPosition: photo.position ?? "center" }}
         />

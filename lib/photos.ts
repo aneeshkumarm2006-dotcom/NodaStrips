@@ -35,11 +35,17 @@ export type Photo = {
 export const PHOTOS: Record<string, Photo | null> = {
   // ---- Hero ------------------------------------------------------------
   "the strips on a bedside table, low evening light": {
-    // Higgsfield, 2752×1536. The alternative lifestyle take is
-    // hero-bedroom.jpg — swap the src to use it.
-    src: "/photos/hero-plinth.jpg",
-    alt: "Two NODA boxes on a stone plinth in soft raking light",
-    position: "center center",
+    // Night, on purpose: the strip is taken half an hour before bed, and a
+    // bright daylight hero was arguing against the product. One warm lamp
+    // against cool dusk in the window, with the strip backlit so it glows —
+    // the format is the whole argument, so it has to be the brightest thing
+    // in the frame. hero-plinth.jpg is the daylight alternative.
+    src: "/photos/hero-night.jpg",
+    alt: "A NODA carton on a bedside table at night, a frosted strip glowing beside it",
+    // Biased right, toward the product. On a wide screen the slot matches
+    // the frame's aspect so this does nothing; on a phone the sides are
+    // cropped hard, and centring would leave only an empty table on screen.
+    position: "68% center",
   },
 
   // ---- Product ---------------------------------------------------------

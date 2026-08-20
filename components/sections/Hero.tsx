@@ -3,7 +3,7 @@ import { ArtSlot } from "@/components/ArtSlot";
 import { PRODUCT } from "@/lib/brand";
 
 /**
- * 01 — Hero, on the reference site's model: a high-key photograph with the
+ * 01 — Hero, on the reference site’s model: a high-key shot with the
  * product right of centre, and the copy set in dark type over the bright,
  * empty left third. One filled pill plus one underlined text link.
  *
@@ -15,7 +15,7 @@ export function Hero() {
     // Pulled up under the sticky header (5rem tall) so the capsules float
     // on the photograph. The announcement bar above stays in flow.
     <section
-      className="relative isolate -mt-20 overflow-hidden rounded-b-[2rem] text-brand-deep"
+      className="relative isolate -mt-20 overflow-hidden rounded-b-[2rem] text-bone"
       aria-labelledby="hero-heading"
     >
       {/* The photograph. ArtSlot positions itself, so it is wrapped rather
@@ -25,14 +25,17 @@ export function Hero() {
           variant="still"
           brief="the strips on a bedside table, low evening light"
           showCaption={false}
+          sizes="100vw"
           className="h-full w-full"
         />
       </div>
 
-      {/* Scrim — light, not dark, so dark type reads over a high-key image */}
+      {/* Scrim — dark, so pale type reads over the lamplit bedroom. The
+          left of the photograph is soft bed linen catching lamp spill, which
+          is bright enough to swallow cream type without this. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-gradient-to-r from-bone via-bone/70 to-transparent lg:via-bone/45"
+        className="absolute inset-0 -z-10 bg-gradient-to-r from-ink/90 via-ink/65 to-transparent lg:via-ink/40"
       />
 
       <div className="mx-auto flex min-h-svh max-w-[1600px] flex-col justify-center px-6 pb-28 pt-[calc(5rem+4rem)] lg:px-10">
@@ -46,14 +49,14 @@ export function Hero() {
             around how you absorb.
           </h1>
 
-          <p className="prose-quiet mt-7 max-w-md text-ink-soft">
+          <p className="prose-quiet mt-7 max-w-md text-bone/75">
             {PRODUCT.subtitle} One strip, thirty minutes before bed.
           </p>
 
           <div className="mt-11 flex flex-wrap items-center gap-x-9 gap-y-4">
             <Link
               href="/shop"
-              className="inline-flex items-center rounded-full bg-brand-deep px-9 py-4 text-[0.9375rem] text-bone transition-colors duration-500 [transition-timing-function:var(--ease-quiet)] hover:bg-ink"
+              className="inline-flex items-center rounded-full bg-bone px-9 py-4 text-[0.9375rem] text-brand-deep transition-colors duration-500 [transition-timing-function:var(--ease-quiet)] hover:bg-white"
             >
               Shop the strip
             </Link>

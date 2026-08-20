@@ -40,10 +40,13 @@ const STYLE = [
 ].join(" ");
 
 /** The product, described identically every time so it stays consistent. */
+// Canonical wording — see docs/PRODUCT-PROMPT.md. Do not paraphrase: every
+// freehand variation invents different packaging.
 const BOX =
-  "a slim matte carton box in deep teal, the size of a pack of playing cards, uncoated matte finish, completely blank with no printing";
+  "a slim flat matte carton in deep teal, about the size of a pack of playing cards, uncoated matte board, softly rounded corners, completely blank with no printing of any kind";
+// "iridescent" produces a holographic card rather than a film — see the doc
 const STRIP =
-  "an ultra-thin translucent dissolvable film strip about 2cm by 3cm, faintly iridescent, delicate as a petal";
+  "an ultra-thin translucent film square about 2cm by 3cm, frosted and matte like fine rice paper, softly opaque";
 
 
 /**
@@ -60,11 +63,8 @@ const FILL = [
 
 /** file → the brief it satisfies in lib/photos.ts */
 const SHOTS = [
-  // ---- Hero -----------------------------------------------------------
-  // The box is deliberately turned away and kept small here: given a
-  // front-facing box face, the model invents brand typography on it.
-  { file: "hero-table.jpg", brief: "the strips on a bedside table, low evening light",
-    prompt: `Photographed on a 50mm lens at f/1.8, very shallow depth of field. Low camera angle at table height. Four slim boxes in solid deep teal, of two heights, grouped close together on a warm walnut table that fills the lower right of the frame in sharp focus — each box is one flat unbroken colour, smooth and entirely unmarked with no printing of any kind. Behind them a window with green garden foliage thrown far out of focus into soft bokeh, and a pale linen armchair. Warm natural morning light, lived-in and inviting. The left third of the frame is soft, bright and empty. Rich realistic photography, not a render. ${STYLE}` },
+  // The hero is generated with Higgsfield rather than here — see
+  // docs/PRODUCT-PROMPT.md for the wording to reuse.
 
   // ---- Product --------------------------------------------------------
   { file: "box-front.jpg", brief: "the box, straight on",

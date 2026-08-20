@@ -43,8 +43,10 @@ export function Header() {
   const group = [
     "flex items-center gap-3 transition-all duration-700 sm:gap-5",
     "[transition-timing-function:var(--ease-quiet)]",
+    // Smoked rather than frosted: the hero photograph is a dark bedroom, so
+    // a pale capsule would punch a hole in it.
     floating
-      ? "sm:rounded-full sm:bg-bone/55 sm:px-5 sm:py-2 sm:backdrop-blur-xl"
+      ? "sm:rounded-full sm:bg-ink/25 sm:px-5 sm:py-2 sm:backdrop-blur-xl"
       : "",
   ].join(" ");
 
@@ -57,10 +59,10 @@ export function Header() {
         className={[
           "transition-[background-color,border-color,color] duration-700",
           "[transition-timing-function:var(--ease-quiet)]",
-          // The hero photograph is high-key, so the header sits transparent
-          // over it in dark type rather than reversing out of a colour band.
+          // Over the hero the header reverses out in cream; once scrolled it
+          // lands on bone and goes back to ink.
           floating
-            ? "border-b border-transparent bg-transparent text-brand-deep"
+            ? "border-b border-transparent bg-transparent text-bone"
             : "border-b border-hairline bg-bone/85 text-ink backdrop-blur-md",
         ].join(" ")}
       >
@@ -109,7 +111,13 @@ export function Header() {
             </Link>
             <Link
               href="/shop"
-              className="micro whitespace-nowrap rounded-full bg-brand-deep px-4 py-2.5 text-bone transition-colors duration-500 [transition-timing-function:var(--ease-quiet)] hover:bg-ink sm:-mr-1.5 sm:px-5 sm:py-3"
+              className={[
+                "micro whitespace-nowrap rounded-full px-4 py-2.5 sm:-mr-1.5 sm:px-5 sm:py-3",
+                "transition-colors duration-500 [transition-timing-function:var(--ease-quiet)]",
+                floating
+                  ? "bg-bone text-brand-deep hover:bg-white"
+                  : "bg-brand-deep text-bone hover:bg-ink",
+              ].join(" ")}
             >
               Shop now
             </Link>

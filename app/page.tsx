@@ -11,8 +11,14 @@ import { Testimonials } from "@/components/sections/Testimonials";
  * The main page.
  *
  *   01 Photo hero with overlaid copy and two CTAs
- *   02 Full-bleed annotated product card
- *   03 Science in a strip — the formula, with tags and mechanisms
+ *   02 Science in a strip — the formula, with tags and mechanisms
+ *   03 Full-bleed annotated product card
+ *
+ * Science sits between the hero and the format card deliberately. Both of
+ * those are full-bleed photographs carrying a large statement, and back to
+ * back they flattened each other — the second read as a second hero. A light
+ * typographic band between them restores the rhythm, and it is the better
+ * order anyway: what is in it, then how it works.
  *   04 How it compares — the chart
  *   05 Science teaser with illustration
  *   06 Member story carousel
@@ -28,8 +34,8 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <Format />
       <ScienceStrip />
+      <Format />
       <Compare />
       <ScienceTeaser />
       <Testimonials />

@@ -171,19 +171,19 @@ export const PHOTOS: Record<string, Photo | null> = {
     alt: "Dissolvable film strips overlapping, close up",
   },
   "format fill — powder": {
-    src: "/photos/fmt-powder-granules.jpg",
-    alt: "A mound of fine white supplement powder",
+    src: "/photos/Powder.png",
+    alt: "A steep mountain of fine white supplement powder, raked by low light",
   },
   "format fill — gummy": {
-    src: "/photos/fmt-gummy-pile.jpg",
+    src: "/photos/gummies.png",
     alt: "A pile of sugar-dusted gummies",
   },
   "format fill — capsule": {
-    src: "/photos/fmt-capsule-pile.jpg",
+    src: "/photos/Capsules.png",
     alt: "A pile of plain off-white capsules",
   },
   "format fill — tablet": {
-    src: "/photos/fmt-tablet-pile.jpg",
+    src: "/photos/Tablets.png",
     alt: "A stack of plain white tablets",
   },
 

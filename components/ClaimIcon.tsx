@@ -11,7 +11,14 @@ export type ClaimIconName =
   | "moon"
   | "leaf"
   | "nosugar"
-  | "dose";
+  | "dose"
+  | "sun"
+  | "bolt"
+  | "layers"
+  | "bag"
+  | "pill"
+  | "gummy"
+  | "cup";
 
 const PATHS: Record<ClaimIconName, React.ReactNode> = {
   // A strip settling onto an open tongue
@@ -51,6 +58,48 @@ const PATHS: Record<ClaimIconName, React.ReactNode> = {
     <>
       <path d="M11 19.4a6.6 6.6 0 0 1-1.1-13.1C15.2 5.3 16.6 4.8 18.4 2.6c.9 1.9 1.9 3.9 1.9 7.5 0 5.1-4.4 9.3-9.3 9.3Z" />
       <path d="M3.4 20.6c0-2.8 1.7-5 3.5-6.3" />
+    </>
+  ),
+  // A low sun — daytime, for Energy
+  sun: (
+    <>
+      <circle cx="12" cy="12" r="3.6" />
+      <path d="M12 3.4v2.2M12 18.4v2.2M3.4 12h2.2M18.4 12h2.2M5.9 5.9l1.6 1.6M16.5 16.5l1.6 1.6M5.9 18.1l1.6-1.6M16.5 7.5l1.6-1.6" />
+    </>
+  ),
+  // Targeted support — a bolt
+  bolt: <path d="M13.2 3.4 6.4 13.2h5.2l-1 7.4 6.8-9.8h-5.2l1-7.4Z" />,
+  // A thin film, in layers
+  layers: (
+    <>
+      <path d="m12 4.4 8 4.1-8 4.1-8-4.1 8-4.1Z" />
+      <path d="m4 12 8 4.1 8-4.1" />
+      <path d="m4 15.5 8 4.1 8-4.1" />
+    </>
+  ),
+  // Portable — a small bag
+  bag: (
+    <>
+      <path d="M5.2 8.6h13.6l-.9 10.6H6.1L5.2 8.6Z" />
+      <path d="M9.2 8.6V7.2a2.8 2.8 0 0 1 5.6 0v1.4" />
+    </>
+  ),
+  // A capsule
+  pill: (
+    <>
+      <rect x="3.6" y="8.6" width="16.8" height="6.8" rx="3.4" transform="rotate(-35 12 12)" />
+      <path d="m10.1 9.3 3.8 5.4" />
+    </>
+  ),
+  // A gummy
+  gummy: (
+    <path d="M8.2 6.4c-1.6 0-2.6 1.3-2.4 2.7.1.8.5 1.3.5 1.8 0 .6-.9 1.3-.9 2.9 0 2.4 2.6 4.6 6.6 4.6s6.6-2.2 6.6-4.6c0-1.6-.9-2.3-.9-2.9 0-.5.4-1 .5-1.8.2-1.4-.8-2.7-2.4-2.7-1.3 0-1.9.9-3.8.9s-2.5-.9-3.8-.9Z" />
+  ),
+  // A glass to mix in
+  cup: (
+    <>
+      <path d="M6.6 5.4h10.8l-1.4 13.2H8L6.6 5.4Z" />
+      <path d="M7.2 10.2h9.6" />
     </>
   ),
 };

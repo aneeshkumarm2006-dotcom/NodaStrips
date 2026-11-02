@@ -36,12 +36,28 @@
   /* The warm sand band used by the blog row, taken from its reference */
   --color-sand: #edebe4;
 
+  /* Nov 2026 redesign.
+     Cream is Arrae's header colour, measured off their live site:
+     oklch(0.9959 0.0093 99.98). Cocoa is the text that sits on it,
+     oklch(0.2171 0.0232 69.07). Oat is the Ralf button fill, and tan the
+     ground behind the product cards before their photograph loads. */
+  --color-cream: oklch(0.9959 0.0093 99.98);
+  --color-cocoa: oklch(0.2171 0.0232 69.07);
+  --color-oat: #f6eee2;
+  --color-tan: oklch(0.7324 0.0049 78.29);
+
   /* Type.
      Headlines are set in a grotesque sans, matching the reference site
      rather than the deck's TAN Ashiord serif — see the note in the README.
      Archivo carries both roles, so the page uses one family throughout. */
   --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+
+  /* The Ralf reference sets its hero in a light, high-contrast Garamond.
+     Cormorant Garamond is the closest open face. Mono stands in for Seed
+     Sans Mono on the FlashRelease label. */
+  --font-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 
   /* Motion — slow, quiet, deliberate */
   --ease-quiet: cubic-bezier(0.16, 1, 0.3, 1);
@@ -94,6 +110,26 @@ body {
     font-size: 0.6875rem;
     font-weight: 500;
     letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  /* Ralf's extended, very widely tracked caps — buttons and the location
+     line under the hero. Archivo's width axis does the extending. */
+  .caps-wide {
+    font-family: var(--font-body);
+    font-stretch: 125%;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+  }
+
+  /* Header links, set as the client's mockup: medium caps, open tracking */
+  .nav-caps {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
   }
 

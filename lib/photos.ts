@@ -33,6 +33,56 @@ export type Photo = {
 };
 
 export const PHOTOS: Record<string, Photo | null> = {
+  // ---- Nov 2026 redesign (Higgsfield, GPT Image 2.5) --------------------
+  // Generated stand-ins for the shoot. The cartons follow the client's
+  // mockup — navy for Sleep, amber for Energy — and are invented artwork.
+  "hero — warm wall, leaf shadow, sleep carton": {
+    src: "/photos/hero.jpg",
+    alt: "A navy NODA Sleep carton and a glass of water on a travertine side table against a warm wall dappled with leaf shadows",
+    // Keep the carton in frame as the viewport narrows
+    position: "82% center",
+  },
+  "product card — sleep": {
+    src: "/photos/card-sleep.jpg",
+    alt: "The navy NODA Sleep carton with two translucent strips on a warm beige ground",
+  },
+  "product card — energy": {
+    src: "/photos/card-energy.jpg",
+    alt: "The amber NODA Energy carton with two translucent strips on a warm beige ground",
+  },
+  "the sleep carton at the bedside": {
+    src: "/photos/life-sleep.jpg",
+    alt: "The NODA Sleep carton on a bedside table beside a glowing lamp",
+  },
+  "the energy carton on a desk, morning": {
+    src: "/photos/life-energy.jpg",
+    alt: "The NODA Energy carton on a sunlit desk beside a coffee cup",
+  },
+  "sleep — dusk dunes": {
+    src: "/photos/dunes-sleep.jpg",
+    alt: "",
+  },
+  "energy — golden dunes": {
+    src: "/photos/dunes-energy.jpg",
+    alt: "",
+  },
+  "flashrelease — floating strips": {
+    src: "/photos/flash-bg.jpg",
+    alt: "",
+  },
+  "ingredient — green coffee bean": {
+    src: "/photos/ing-coffee.jpg",
+    alt: "Raw green coffee beans on pale linen",
+  },
+  "ingredient — ginseng root": {
+    src: "/photos/ing-ginseng.jpg",
+    alt: "Two fresh ginseng roots on pale linen",
+  },
+  "ingredient — vitamin b12": {
+    src: "/photos/ing-b12.jpg",
+    alt: "A small mound of deep red vitamin B12 powder",
+  },
+
   // ---- Hero ------------------------------------------------------------
   "the strips on a bedside table, low evening light": {
     // Night, on purpose: the strip is taken half an hour before bed, and a

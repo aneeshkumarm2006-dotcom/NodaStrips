@@ -13,12 +13,8 @@ export function Footer() {
       <div className="mx-auto max-w-[1600px] px-6 py-20 lg:px-10 lg:py-24">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-[1fr_1.25fr] lg:gap-20">
           <div>
-            <div className="flex items-center gap-3">
-              <Mark className="h-8 w-8 text-ignite" title="NODA" />
-              <span className="display text-[1.5rem] tracking-tight">
-                {BRAND.name}
-              </span>
-            </div>
+            {/* The N on its own — the sunburst mark was retired */}
+            <Mark className="h-11" title={BRAND.name} />
 
             <p className="prose-quiet mt-8 max-w-md opacity-75">
               {FOOTER_STATEMENT}

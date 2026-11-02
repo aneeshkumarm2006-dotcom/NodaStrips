@@ -3,24 +3,46 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { LANGUAGES, NAV, type Language } from "@/lib/brand";
+import { CURRENCIES, NAV, SECONDARY_NAV, type Currency } from "@/lib/brand";
 import { useCart } from "./CartProvider";
 import { Wordmark } from "./Wordmark";
 
 /**
- * Clean, minimal header modelled on Seed, carrying Cymbiotika's utilities:
- * country / language, account, cart. Deliberately no search.
+ * The header, laid out exactly as the client's mockup: the two product
+ * links on the left, the custom NODA wordmark centred, and currency,
+ * account and cart on the right.
+ *
+ * Behaviour is Arrae's, measured off their live site:
+ *   · over the hero it is transparent, with cream type;
+ *   · scrolling down slides it away (translateY(-100%));
+ *   · scrolling back up brings it back as a solid cream bar —
+ *     oklch(0.9959 0.0093 99.98) — with cocoa type;
+ *   · transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), background and colour
+ *     0.25s — their exact timings.
+ *
+ * Off the home page there is no hero to float over, so it starts solid.
  */
+const ARRAE_TRANSITION =
+  "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s, color 0.25s, border-color 0.25s";
+
 export function Header() {
   const pathname = usePathname();
-  /** Over the full-colour hero the header floats; elsewhere it sits on bone. */
   const overHero = pathname === "/";
 
-  const [scrolled, setScrolled] = useState(false);
+  const [atTop, setAtTop] = useState(true);
+  const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const lastY = useRef(0);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => {
+      const y = window.scrollY;
+      setAtTop(y < 10);
+      // A few pixels of slack so trackpad jitter doesn't flicker it
+      if (y > lastY.current + 4 && y > 120) setHidden(true);
+      else if (y < lastY.current - 4 || y < 120) setHidden(false);
+      lastY.current = y;
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -33,65 +55,46 @@ export function Header() {
     };
   }, [menuOpen]);
 
-  const floating = overHero && !scrolled;
-
-  /**
-   * Frosted capsule over the hero photograph; a plain row once scrolled.
-   * The capsule is desktop-only — on a phone the row is already full and
-   * the extra padding pushes the CTA off the edge.
-   */
-  const group = [
-    "flex items-center gap-3 transition-all duration-700 sm:gap-5",
-    "[transition-timing-function:var(--ease-quiet)]",
-    // Smoked rather than frosted: the hero photograph is a dark bedroom, so
-    // a pale capsule would punch a hole in it.
-    floating
-      ? "sm:rounded-full sm:bg-ink/25 sm:px-5 sm:py-2 sm:backdrop-blur-xl"
-      : "",
-  ].join(" ");
+  const transparent = overHero && atTop;
 
   return (
-    // Sticky, not fixed: the announcement bar above it scrolls away and only
-    // the header follows, which is the behaviour on the reference site. The
-    // hero pulls itself up underneath so the capsules float on the photo.
-    <header className="sticky top-0 z-50">
-      <div
+    <>
+      <header
         className={[
-          "transition-[background-color,border-color,color] duration-700",
-          "[transition-timing-function:var(--ease-quiet)]",
-          // Over the hero the header reverses out in cream; once scrolled it
-          // lands on bone and goes back to ink.
-          floating
-            ? "border-b border-transparent bg-transparent text-bone"
-            : "border-b border-hairline bg-bone/85 text-ink backdrop-blur-md",
+          "fixed inset-x-0 top-0 z-50",
+          transparent
+            ? "bg-transparent text-cream"
+            : "bg-cream text-cocoa",
         ].join(" ")}
+        // Inline transform, not a translate utility: Tailwind v4 utilities
+        // set the `translate` property, which Arrae's `transform` timing
+        // would not animate.
+        style={{
+          transition: ARRAE_TRANSITION,
+          transform: hidden && !menuOpen ? "translateY(-100%)" : "translateY(0)",
+        }}
       >
-        <div className="mx-auto flex h-20 max-w-[1600px] items-center justify-between gap-4 px-4 lg:px-6">
-          {/* Over the photograph the two groups become frosted capsules, as
-              the reference does; on a solid bar they are plain rows. */}
-          <div className={group}>
+        <div className="mx-auto grid h-[4.5rem] max-w-[1600px] grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 lg:h-20 lg:px-10">
+          {/* Left — the two product links */}
+          <div className="flex items-center">
             <button
               type="button"
               onClick={() => setMenuOpen(true)}
               aria-label="Open menu"
               aria-expanded={menuOpen}
-              className="-ml-1 p-2 lg:hidden"
+              className="-ml-2 p-2 lg:hidden"
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
-                <path d="M3 7h18M3 15h18" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" strokeWidth="1.4" />
               </svg>
             </button>
 
-            <Link href="/" className="shrink-0" aria-label="NODA — home">
-              <Wordmark className="text-[1.55rem] sm:text-[1.8rem] lg:text-[2rem]" />
-            </Link>
-
-            <nav className="hidden gap-8 lg:flex" aria-label="Main">
+            <nav className="hidden items-center gap-11 lg:flex" aria-label="Main">
               {NAV.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="micro link-quiet whitespace-nowrap"
+                  className="nav-caps link-quiet whitespace-nowrap"
                 >
                   {item.label}
                 </Link>
@@ -99,49 +102,86 @@ export function Header() {
             </nav>
           </div>
 
-          {/* Utilities, then the one filled CTA. No search, by design. */}
-          <div className={group}>
-            {/* On a phone the locale lives in the drawer — the row is full */}
-            <span className="hidden sm:block">
-              <LanguageSelector />
+          {/* Centre — the wordmark */}
+          <Link href="/" aria-label="NODA — home" className="justify-self-center">
+            <Wordmark className="h-7 lg:h-9" />
+          </Link>
+
+          {/* Right — currency, account, cart */}
+          <div className="flex items-center justify-end gap-5 lg:gap-9">
+            <span className="hidden lg:block">
+              <CurrencySelector />
             </span>
-            <CartLink />
-            <Link href="/account" className="micro link-quiet hidden sm:inline">
-              Sign in
-            </Link>
             <Link
-              href="/shop"
-              className={[
-                "micro whitespace-nowrap rounded-full px-4 py-2.5 sm:-mr-1.5 sm:px-5 sm:py-3",
-                "transition-colors duration-500 [transition-timing-function:var(--ease-quiet)]",
-                floating
-                  ? "bg-bone text-brand-deep hover:bg-white"
-                  : "bg-brand-deep text-bone hover:bg-ink",
-              ].join(" ")}
+              href="/account"
+              aria-label="Account"
+              className="hidden opacity-90 transition-opacity hover:opacity-100 sm:block"
             >
-              Shop now
+              <AccountIcon />
             </Link>
+            <CartLink onHero={transparent} />
           </div>
         </div>
-      </div>
+      </header>
+
+      {/* Off the home page the content starts below the bar, not under it */}
+      {!overHero && <div aria-hidden="true" className="h-[4.5rem] lg:h-20" />}
 
       <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
-    </header>
+    </>
   );
 }
 
-function CartLink() {
+function AccountIcon() {
+  return (
+    <svg
+      viewBox="0 0 28 28"
+      className="h-[1.6rem] w-[1.6rem]"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.3"
+      aria-hidden="true"
+    >
+      <circle cx="14" cy="14" r="12.6" />
+      <circle cx="14" cy="11.2" r="4.1" />
+      <path d="M6.6 22.4c1.5-3.3 4.3-5 7.4-5s5.9 1.7 7.4 5" />
+    </svg>
+  );
+}
+
+function CartLink({ onHero }: { onHero: boolean }) {
   const { count } = useCart();
   return (
-    <Link href="/cart" className="micro link-quiet whitespace-nowrap">
-      Cart <span aria-label={`${count} items in cart`}>({count})</span>
+    <Link
+      href="/cart"
+      aria-label={`Cart, ${count} ${count === 1 ? "item" : "items"}`}
+      className="relative opacity-90 transition-opacity hover:opacity-100"
+    >
+      <svg
+        viewBox="0 0 28 28"
+        className="h-[1.65rem] w-[1.65rem]"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M5.2 9.4h17.6l-1.3 15.1H6.5L5.2 9.4Z" />
+        <path d="M10.2 12V7.6a3.8 3.8 0 0 1 7.6 0V12" />
+      </svg>
+      {count > 0 && (
+        <span className="absolute -right-2 -top-1.5 flex h-[1.05rem] min-w-[1.05rem] items-center justify-center rounded-full bg-current px-1 text-[0.625rem] leading-none tabular-nums">
+          {/* Inverted against whichever colour the bar currently is */}
+          <span className={onHero ? "text-cocoa" : "text-cream"}>{count}</span>
+        </span>
+      )}
     </Link>
   );
 }
 
-function LanguageSelector() {
+function CurrencySelector() {
   const [open, setOpen] = useState(false);
-  const [current, setCurrent] = useState<Language>(LANGUAGES[0]);
+  const [current, setCurrent] = useState<Currency>(CURRENCIES[0]);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -165,35 +205,34 @@ function LanguageSelector() {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-haspopup="listbox"
-        className="micro flex items-center gap-1.5 whitespace-nowrap"
+        aria-label={`Currency: ${current}`}
+        className="nav-caps flex h-10 min-w-[7.25rem] items-center justify-between gap-4 rounded-[4px] border border-current/45 px-4 tracking-[0.08em] transition-colors duration-300 hover:border-current"
       >
-        <span aria-hidden="true" className="text-sm leading-none">
-          {current.flag}
-        </span>
-        {current.code}
+        {current}
+        <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" aria-hidden="true">
+          <path d="M2 4.2 6 8l4-3.8" fill="none" stroke="currentColor" strokeWidth="1.2" />
+        </svg>
       </button>
 
       {open && (
         <ul
           role="listbox"
-          aria-label="Country and language"
-          className="absolute right-0 top-[calc(100%+14px)] w-56 border border-hairline bg-bone py-2 text-ink shadow-[0_20px_50px_-20px_rgba(22,19,15,0.35)]"
+          aria-label="Currency"
+          className="absolute right-0 top-[calc(100%+10px)] w-full overflow-hidden rounded-[4px] border border-cocoa/10 bg-cream py-1 text-cocoa shadow-[0_18px_40px_-18px_rgba(32,26,19,0.35)]"
         >
-          {LANGUAGES.map((lang) => (
-            <li key={`${lang.code}-${lang.country}`}>
+          {CURRENCIES.map((code) => (
+            <li key={code}>
               <button
                 type="button"
                 role="option"
-                aria-selected={lang === current}
+                aria-selected={code === current}
                 onClick={() => {
-                  setCurrent(lang);
+                  setCurrent(code);
                   setOpen(false);
                 }}
-                className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition-colors duration-300 hover:bg-bone-deep"
+                className="nav-caps w-full px-4 py-2.5 text-left tracking-[0.08em] transition-colors duration-200 hover:bg-cocoa/5"
               >
-                <span aria-hidden="true">{lang.flag}</span>
-                <span className="flex-1">{lang.country}</span>
-                <span className="micro opacity-50">{lang.code}</span>
+                {code}
               </button>
             </li>
           ))}
@@ -207,7 +246,7 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
   return (
     <div
       className={[
-        "fixed inset-0 z-50 lg:hidden",
+        "fixed inset-0 z-[60] lg:hidden",
         open ? "pointer-events-auto" : "pointer-events-none",
       ].join(" ")}
       aria-hidden={!open}
@@ -215,14 +254,14 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
       <div
         onClick={onClose}
         className={[
-          "absolute inset-0 bg-ink/30 transition-opacity duration-700",
+          "absolute inset-0 bg-cocoa/30 transition-opacity duration-700",
           "[transition-timing-function:var(--ease-quiet)]",
           open ? "opacity-100" : "opacity-0",
         ].join(" ")}
       />
       <div
         className={[
-          "absolute inset-y-0 left-0 flex w-[86%] max-w-sm flex-col bg-bone px-7 pb-10 pt-7",
+          "absolute inset-y-0 left-0 flex w-[86%] max-w-sm flex-col bg-cream px-7 pb-10 pt-6 text-cocoa",
           "transition-transform duration-700 [transition-timing-function:var(--ease-quiet)]",
           open ? "translate-x-0" : "-translate-x-full",
         ].join(" ")}
@@ -231,19 +270,34 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
           type="button"
           onClick={onClose}
           aria-label="Close menu"
-          className="-ml-2 mb-14 w-fit p-2"
+          className="-ml-2 mb-12 w-fit p-2"
+          tabIndex={open ? 0 : -1}
         >
           <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
-            <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.5" />
+            <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.4" />
           </svg>
         </button>
 
-        <nav className="flex flex-col gap-7" aria-label="Main">
+        <nav className="flex flex-col gap-6" aria-label="Main">
           {NAV.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="display text-[2.1rem]"
+              className="font-serif text-[2.25rem] font-light uppercase leading-none tracking-[0.04em]"
+              tabIndex={open ? 0 : -1}
+              onClick={onClose}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
+        <nav className="mt-10 flex flex-col gap-4 border-t border-cocoa/10 pt-8" aria-label="More">
+          {SECONDARY_NAV.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="nav-caps"
               tabIndex={open ? 0 : -1}
               onClick={onClose}
             >
@@ -253,23 +307,14 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
         </nav>
 
         <div className="mt-auto flex flex-col items-start gap-5 pt-12">
-          {/* The locale utility lives here on phones */}
-          <LanguageSelector />
+          <CurrencySelector />
           <Link
             href="/account"
-            className="micro"
+            className="nav-caps"
             tabIndex={open ? 0 : -1}
             onClick={onClose}
           >
-            Sign in
-          </Link>
-          <Link
-            href="/cart"
-            className="micro"
-            tabIndex={open ? 0 : -1}
-            onClick={onClose}
-          >
-            Cart
+            Account
           </Link>
         </div>
       </div>

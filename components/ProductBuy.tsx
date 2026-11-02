@@ -3,39 +3,40 @@
 import { useState } from "react";
 import { ArtSlot } from "@/components/ArtSlot";
 import { useCart } from "@/components/CartProvider";
-import { PLANS, PRODUCT, PRODUCT_FACTS, PRODUCT_GALLERY } from "@/lib/brand";
+import type { Product } from "@/lib/brand";
 
 /**
  * The buying block: gallery on the left, plan choice and add-to-cart on the
  * right. Client-side because it holds the selected image and plan.
  *
  * On Shopify this becomes the product form — the plan radios are selling
- * plans on the one product, so the structure carries over directly.
+ * plans on the product, so the structure carries over directly.
  */
-export function ProductBuy() {
-  type PlanId = (typeof PLANS)[number]["id"];
+export function ProductBuy({ product }: { product: Product }) {
+  const { plans, gallery, facts } = product;
+  type PlanId = (typeof plans)[number]["id"];
 
   const [shot, setShot] = useState(0);
-  const [plan, setPlan] = useState<PlanId>(PLANS[0].id);
+  const [plan, setPlan] = useState<PlanId>(plans[plans.length - 1].id);
   const { add } = useCart();
 
-  const chosen = PLANS.find((p) => p.id === plan) ?? PLANS[0];
+  const chosen = plans.find((p) => p.id === plan) ?? plans[0];
 
   return (
-    <section className="bg-bone pb-24 lg:pb-32" aria-label="Buy the sleep strip">
+    <section className="bg-bone pb-24 pt-10 lg:pb-32 lg:pt-14" aria-label={`Buy ${product.title}`}>
       <div className="mx-auto max-w-[1600px] px-6 lg:px-10">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-20">
           {/* ------------------------------------------------ gallery */}
           <div>
             <ArtSlot
               variant="field"
-              brief={PRODUCT_GALLERY[shot]}
+              brief={gallery[shot]}
               showCaption={false}
               className="aspect-4/5 w-full rounded-2xl"
             />
 
             <ul className="mt-4 grid grid-cols-4 gap-4">
-              {PRODUCT_GALLERY.map((brief, i) => (
+              {gallery.map((brief, i) => (
                 <li key={brief}>
                   <button
                     type="button"
@@ -61,20 +62,24 @@ export function ProductBuy() {
 
           {/* --------------------------------------------------- form */}
           <div className="flex flex-col justify-center">
-            <p className="micro text-ink-soft">SL-01 · Sleep</p>
-            <h2 className="display mt-6 text-[clamp(2.25rem,4.5vw,3.5rem)]">
-              {PRODUCT.line}
-            </h2>
+            <p className="micro text-ink-soft">
+              {product.code} · {product.name}
+            </p>
+            <h1 className="display mt-6 text-[clamp(2.25rem,4.5vw,3.5rem)]">
+              {product.title}
+            </h1>
+            <p className="mt-3 font-serif text-[1.6rem] leading-tight text-ink-soft">
+              {product.line}
+            </p>
             <p className="prose-quiet mt-6 max-w-md text-ink-soft">
-              {PRODUCT.subtitle} One strip, thirty minutes before bed, and the
-              night takes it from there.
+              {product.description}
             </p>
 
             {/* Plan choice */}
             <fieldset className="mt-10">
               <legend className="micro text-ink-soft">How often</legend>
               <div className="mt-5 flex flex-col gap-3">
-                {PLANS.map((p) => {
+                {plans.map((p) => {
                   const active = p.id === plan;
                   return (
                     <label
@@ -127,7 +132,7 @@ export function ProductBuy() {
             <button
               type="button"
               onClick={() =>
-                add({ slug: `${PRODUCT.slug}-${chosen.id}`, name: `Sleep — ${chosen.name}` })
+                add({ slug: `${product.slug}-${chosen.id}`, name: `${product.name} — ${chosen.name}` })
               }
               className="micro mt-8 inline-flex h-14 items-center justify-center rounded-full bg-brand-deep px-9 text-bone transition-colors duration-500 [transition-timing-function:var(--ease-quiet)] hover:bg-ink"
             >
@@ -135,7 +140,7 @@ export function ProductBuy() {
             </button>
 
             <dl className="mt-12 border-t border-hairline">
-              {PRODUCT_FACTS.map((fact) => (
+              {facts.map((fact) => (
                 <div
                   key={fact.label}
                   className="flex items-baseline justify-between gap-6 border-b border-hairline py-4"

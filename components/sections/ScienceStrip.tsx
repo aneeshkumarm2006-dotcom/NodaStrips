@@ -2,12 +2,9 @@
 
 import { useRef } from "react";
 import { ArtSlot } from "@/components/ArtSlot";
-import { ClaimIcon, type ClaimIconName } from "@/components/ClaimIcon";
+import { ClaimIcon } from "@/components/ClaimIcon";
 import { Reveal } from "@/components/Reveal";
-import { SCIENCE_STRIP as S } from "@/lib/brand";
-
-/** One glyph per badge, in the order the badges are declared. */
-const BADGE_ICONS: ClaimIconName[] = ["leaf", "nowater", "nosugar", "dose"];
+import type { Product } from "@/lib/brand";
 
 /**
  * Science in a strip.
@@ -24,10 +21,14 @@ const BADGE_ICONS: ClaimIconName[] = ["leaf", "nowater", "nosugar", "dose"];
  *                40px bold uppercase name, white pill tags (14px, radius
  *                30px, 5px/15px padding) and a 14px description.
  *
- * The reference has two product cards because it sells two products. We have
- * one product and five ingredients, so the same card runs as a rail.
+ * The reference has two product cards because it sells two products. Each
+ * of ours has five ingredients, so the same card runs as a rail.
+ *
+ * Moved off the main page onto each product page in Nov 2026, so it takes
+ * the formula of the product it sits on.
  */
-export function ScienceStrip() {
+export function ScienceStrip({ product }: { product: Product }) {
+  const S = product.science;
   const rail = useRef<HTMLUListElement>(null);
 
   const nudge = (dir: 1 | -1) => {
@@ -63,14 +64,14 @@ export function ScienceStrip() {
           </p>
 
           <ul className="mt-9 grid grid-cols-2 gap-x-6 gap-y-5">
-            {S.badges.map((badge, i) => (
-              <li key={badge} className="flex items-center gap-3">
+            {S.badges.map((badge) => (
+              <li key={badge.label} className="flex items-center gap-3">
                 <ClaimIcon
-                  name={BADGE_ICONS[i] ?? "leaf"}
+                  name={badge.icon}
                   className="h-6 w-6 shrink-0 border-0"
                 />
                 <span className="text-[0.8125rem] font-medium uppercase leading-tight tracking-[0.04em]">
-                  {badge}
+                  {badge.label}
                 </span>
               </li>
             ))}

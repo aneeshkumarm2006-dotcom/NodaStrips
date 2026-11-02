@@ -11,7 +11,6 @@
  */
 import Image from "next/image";
 import { getPhoto } from "@/lib/photos";
-import { Mark } from "./Mark";
 
 type Variant = "sun" | "field" | "dusk" | "macro" | "still";
 
@@ -52,7 +51,6 @@ export function ArtSlot({
   className = "",
   onDark = true,
   showCaption = true,
-  showMark = true,
   sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px",
 }: {
   variant?: Variant;
@@ -64,6 +62,7 @@ export function ArtSlot({
   onDark?: boolean;
   /** Hide the caption where it would sit under overlaid copy */
   showCaption?: boolean;
+  /** No longer drawn — the sunburst was retired. Kept so callers compile. */
   showMark?: boolean;
   /**
    * What width this slot actually occupies. The default suits the card
@@ -107,15 +106,6 @@ export function ArtSlot({
         className="pointer-events-none absolute inset-0 mix-blend-overlay opacity-[0.35]"
         style={{ backgroundImage: "var(--grain)" }}
       />
-
-      {/* The mark, rising out of the bottom edge */}
-      {showMark && (variant === "sun" || variant === "field" || variant === "dusk") && (
-        <Mark
-          className={`pointer-events-none absolute bottom-[-26%] left-1/2 aspect-square w-[62%] -translate-x-1/2 ${
-            onDark ? "text-bone/15" : "text-ink/12"
-          }`}
-        />
-      )}
 
       {showCaption && (
         <span

@@ -16,31 +16,42 @@ export const BRAND = {
   estd: "Estd. 2026 · Located in Canada",
 } as const;
 
-/** The one product. */
-export const PRODUCT = {
-  name: "Sleep",
-  line: "Melt into rest",
-  subtitle:
-    "A fast-dissolving vegan strip for the end of the day. No water. No pills.",
-  price: "£28",
-  unit: "30 strips · one month",
-  slug: "sleep",
-} as const;
-
 /**
+ * The header carries exactly the two product links from the client's
+ * mockup, nothing else. Science and the journal live in the mobile drawer
+ * and the footer.
+ *
  * Subscription is hidden for now — not offered yet, planned for later.
- * Restore the { label: "Subscription", href: "/subscription" } entry and
- * rename app/_subscription back to app/subscription to bring it back.
+ * Rename app/_subscription back to app/subscription to bring it back.
  */
 export const NAV = [
-  { label: "The strip", href: "/shop" },
+  { label: "Sleep strips", href: "/shop/sleep" },
+  { label: "Energy strips", href: "/shop/energy" },
+] as const;
+
+export const SECONDARY_NAV = [
+  { label: "Shop all", href: "/shop" },
   { label: "Science", href: "/science" },
   { label: "Sleep Journal", href: "/sleep-journal" },
 ] as const;
 
-export const ANNOUNCEMENT = "Be First to Discover the Future of Sleep";
+/** The header's currency selector, per the mockup. Display only for now. */
+export const CURRENCIES = ["CAD", "USD"] as const;
 
-export const PRIMARY_CTA = { label: "Shop the sleep strip", href: "/shop" } as const;
+export type Currency = (typeof CURRENCIES)[number];
+
+/* ----------------------------------------------------------------- 01
+   Hero. The copy is the client's; the type follows the Ralf reference —
+   the tagline in the face of "The Comfort of Home…", the headline built
+   like "BIENVENUE", only smaller.                                        */
+
+export const HERO = {
+  tagline: "Not a pill. Not a gummy.",
+  title: ["Wellness takes", "a new form"],
+  cta: "Shop our products",
+  eyebrow: "Wellness in a strip",
+  more: "Discover more",
+} as const;
 
 export const LANGUAGES = [
   { code: "EN", country: "Canada", flag: "🇨🇦" },
@@ -165,23 +176,50 @@ export const COMPARISON: Dataset[] = [
   },
 ];
 
-export const COMPARISON_CLAIMS = [
+/** The same chart for Energy — only the adherence measure is reworded for daytime. */
+export const COMPARISON_ENERGY: Dataset[] = COMPARISON.map((set) =>
+  set.id === "adherence"
+    ? { ...set, label: "Kept up daily", axis: "Still taken as directed after 60 days" }
+    : set,
+);
+
+export type Claim = {
+  icon: "tongue" | "nowater" | "moon" | "sun";
+  title: string;
+  body: string;
+};
+
+export const COMPARISON_CLAIMS: Claim[] = [
   {
-    icon: "tongue" as const,
+    icon: "tongue",
     title: "It absorbs where you put it",
     body: "A film dissolves on the tongue. There is no shell to break down and nothing to survive first.",
   },
   {
-    icon: "nowater" as const,
+    icon: "nowater",
     title: "No water, no swallowing",
     body: "Which means it works at the bedside, on a plane, or anywhere a glass isn’t.",
   },
   {
-    icon: "moon" as const,
+    icon: "moon",
     title: "A ritual you’ll actually keep",
     body: "Fast, simple, and effective — because the best wellness fits your life.",
   },
-] as const;
+];
+
+export const COMPARISON_CLAIMS_ENERGY: Claim[] = [
+  COMPARISON_CLAIMS[0],
+  {
+    icon: "nowater",
+    title: "No water, no swallowing",
+    body: "Which means it works at your desk, on a commute, or anywhere a glass isn’t.",
+  },
+  {
+    icon: "sun",
+    title: "A ritual you’ll actually keep",
+    body: "Fast, simple, and effective — because the best wellness fits your day.",
+  },
+];
 
 export const COMPARISON_FOOTNOTE =
   "Placeholder figures for layout only. Nothing here has been measured, sourced or substantiated. Real claims require third-party testing and regulatory review before this section can go live.";
@@ -244,28 +282,94 @@ export const BUNDLE = {
   ],
 } as const;
 
-/* ----------------------------------------------------------------- 04
-   The format. Seed's annotated DS-01 capsule diagram, adapted: an
-   annotated cross-section of the strip.                                 */
+/* ----------------------------------------------------------------- 03
+   FlashRelease® — built to Seed's ViaCap® section, element for element,
+   with the client's copy. The ViaCap label, the DS-01 badge and the
+   probiotic wording are gone; the stat is 10x.                          */
 
-export const FORMAT = {
-  title: "Most sleep aids make you wait. A strip doesn’t.",
-  stat: { figure: "30", unit: "sec", label: "to fully dissolve" },
-  callouts: [
+export const FLASH_RELEASE = {
+  label: "FlashRelease® Technology",
+  title: "Most sleep and energy supplements make you wait. We don’t.",
+  stat: { label: "Faster absorption for effective support", figure: "10", unit: "x" },
+  footnote: "°Placeholder figure — requires third-party testing before launch.",
+  outer: {
+    title: "Outer strip",
+    body: "Designed to minimize exposure to stomach acid through oral absorption, while delivering a consistent, precise dose of active ingredients in a fast-dissolving strip.",
+  },
+  inner: {
+    title: "Inner strip",
+    body: "Contains precisely dosed active ingredients formulated to deliver targeted wellness benefits.",
+  },
+} as const;
+
+/* ----------------------------------------------------------------- 04
+   Why strips — replaces the absorption chart on the main page, built to
+   the client's supplied layout. The chart itself now lives on each
+   product page.                                                         */
+
+export const WHY_STRIPS = {
+  eyebrow: "04 — The science of the strip",
+  /** The bold words in the reference are marked with ** */
+  title: "Not every wellness **need calls** for the same format.",
+  body: "For sleep and energy, timing, convenience, and simplicity matter. That’s why we chose oral dissolvable strips — a targeted delivery format designed to fit seamlessly into the moments you need support.",
+  moments: [
     {
-      title: "Outer film",
-      body: "Plant cellulose. Dissolves on contact with saliva — no shell, no coating.",
-      side: "left",
+      kicker: "Sleep",
+      title: "When it’s time to slow down.",
+      body: "No water, no pills, no complicated bedtime routine. Just a dissolvable strip designed to make sleep support effortless.",
+      brief: "sleep — dusk dunes",
+      href: "/shop/sleep",
     },
     {
-      title: "Active layer",
-      body: "Melatonin, L-theanine and magnesium held in a single even film.",
-      side: "right",
+      kicker: "Energy",
+      title: "When it’s time to power up.",
+      body: "No mixing, no preparation, no drink required. Just convenient, precisely portioned energy support that goes wherever you do.",
+      brief: "energy — golden dunes",
+      href: "/shop/energy",
+    },
+  ],
+  tabs: [
+    {
+      id: "strips",
+      label: "Why strips",
+      items: [
+        {
+          icon: "bolt",
+          title: "Designed for targeted support",
+          body: "Formulated for specific needs, from winding down at night to supporting alertness during the day.",
+        },
+        {
+          icon: "layers",
+          title: "Dissolves in your mouth",
+          body: "A thin oral film releases its ingredients quickly and effortlessly, without water or swallowing a pill.",
+        },
+        {
+          icon: "bag",
+          title: "Simple by design",
+          body: "Individually portioned, portable, and easy to incorporate into your routine — at home, at work, or on the go.",
+        },
+      ],
     },
     {
-      title: "No filler",
-      body: "Nothing added to bulk out a tablet, because there is no tablet.",
-      side: "left",
+      id: "other",
+      label: "Other formats",
+      items: [
+        {
+          icon: "pill",
+          title: "Pills and capsules",
+          body: "Need water and a swallow, then have to break down in the stomach before anything begins.",
+        },
+        {
+          icon: "gummy",
+          title: "Gummies",
+          body: "Often carry added sugar and fillers to make the dose palatable.",
+        },
+        {
+          icon: "cup",
+          title: "Powders and drinks",
+          body: "Need mixing, a glass and a moment — the thing a busy day rarely has.",
+        },
+      ],
     },
   ],
 } as const;
@@ -343,16 +447,18 @@ export const TWO_UP = [
 
 export const FOOTER_COLUMNS = [
   {
-    title: "Product",
+    title: "Shop",
     links: [
-      { label: "The strip", href: "/shop" },
-      { label: "Ingredients", href: "/#ingredients" },
+      { label: "Sleep strips", href: "/shop/sleep" },
+      { label: "Energy strips", href: "/shop/energy" },
+      { label: "Shop all", href: "/shop" },
     ],
   },
   {
     title: "About",
     links: [
       { label: "Science", href: "/science" },
+      { label: "Sleep Journal", href: "/sleep-journal" },
       { label: "Sustainability", href: "/sustainability" },
       { label: "NODA Labs", href: "/labs" },
     ],
@@ -385,7 +491,7 @@ export const FOOTER_COLUMNS = [
 ] as const;
 
 export const FOOTER_STATEMENT =
-  "Vegan oral strips for rest, made for people who would rather not swallow anything. Canada, since 2026.";
+  "Vegan oral strips for sleep and energy, made for people who would rather not swallow anything. Canada, since 2026.";
 
 /* ---------------------------------------------------------------- 07 */
 
@@ -501,22 +607,6 @@ export const JOURNAL_POSTS = [
 
 export type JournalPost = (typeof JOURNAL_POSTS)[number];
 
-/* --------------------------------------------------------- product page */
-
-export const PRODUCT_GALLERY = [
-  "the box, straight on",
-  "the box, lid lifted, from above",
-  "a single strip on a pale surface",
-  "the box on a bedside table",
-] as const;
-
-export const PRODUCT_FACTS = [
-  { label: "Format", value: "Dissolvable oral film" },
-  { label: "Count", value: "30 strips, one month" },
-  { label: "Take", value: "One strip, 30 minutes before bed" },
-  { label: "Suitable for", value: "Vegan. No gelatin, sugar or dye" },
-] as const;
-
 /* -------------------------------------------------------- subscription */
 
 export const SUBSCRIPTION_STEPS = [
@@ -546,7 +636,7 @@ export const PLANS = [
   {
     id: "trial",
     name: "3 Days Strip",
-    price: "£6",
+    price: "$9",
     cadence: "one pack",
     note: "3 strips, to try it",
     perks: ["No commitment", "Standard shipping", "For a first night"],
@@ -555,7 +645,7 @@ export const PLANS = [
   {
     id: "monthly",
     name: "Monthly",
-    price: "£28",
+    price: "$34",
     cadence: "one box",
     note: "30 strips, one month",
     perks: ["Free shipping", "Best price per strip", "The full ritual"],
@@ -579,54 +669,207 @@ export const SUBSCRIPTION_FAQS = [
 ] as const;
 
 
-/* ----------------------------------------------------- science in a strip
-   Built to the structure of the reference the client supplied: a display
-   heading, one intro line, four badges, then ingredient cards each with
-   benefit tags and a mechanism sentence.
+/* -------------------------------------------------------------- products
+   Two products now — Sleep and Energy. Each carries its own card,
+   gallery, plans, and its own "Science in a strip" formula, which moved
+   from the main page onto each product page on the client's instruction.
 
-   Replaces the old ingredients table. Every dose and claim is placeholder
-   and needs regulatory review.                                            */
+   Every dose, price and claim is placeholder and needs regulatory review. */
 
-export const SCIENCE_STRIP = {
-  heading: "science in a strip",
-  intro:
-    "One thin film on the tongue, dissolved in under a minute — a low-dose sleep formula that starts absorbing where you put it, with nothing to swallow.",
-  badges: ["Vegan formula", "No water needed", "Zero sugar", "Low-dose melatonin"],
-  ingredients: [
-    {
-      name: "Melatonin",
-      dose: "0.5 mg",
-      tags: ["Timing", "Onset"],
-      body: "A timing signal rather than a sedative. Deliberately low, because past a small dose the extra lingers into the morning.",
-      brief: "ingredient — tart cherry",
+export type BadgeIcon = "leaf" | "nowater" | "nosugar" | "dose" | "sun";
+
+export type Ingredient = {
+  name: string;
+  dose: string;
+  tags: readonly string[];
+  body: string;
+  brief: string;
+};
+
+export type ProductPlan = {
+  id: "trial" | "monthly";
+  name: string;
+  price: string;
+  cadence: string;
+  note: string;
+};
+
+export type Product = {
+  slug: "sleep" | "energy";
+  code: string;
+  name: string;
+  title: string;
+  /** One line under the title on the card, as Arrae sets it */
+  subtitle: string;
+  line: string;
+  description: string;
+  flavour: { name: string; swatch: string };
+  from: string;
+  unit: string;
+  card: string;
+  gallery: readonly string[];
+  plans: readonly ProductPlan[];
+  facts: readonly { label: string; value: string }[];
+  science: {
+    intro: string;
+    badges: readonly { label: string; icon: BadgeIcon }[];
+    ingredients: readonly Ingredient[];
+  };
+};
+
+const FILM_BASE: Ingredient = {
+  name: "Vegan film base",
+  dose: "—",
+  tags: ["Delivery", "Absorption"],
+  body: "Plant cellulose that dissolves on contact. No gelatin, no sugar, no artificial colour.",
+  brief: "ingredient — the film",
+};
+
+export const PRODUCTS: readonly Product[] = [
+  {
+    slug: "sleep",
+    code: "SL-01",
+    name: "Sleep",
+    title: "Sleep Strips",
+    subtitle: "Fast-dissolving support for winding down*",
+    line: "Melt into rest",
+    description:
+      "A fast-dissolving vegan strip for the end of the day. No water, no pills — one strip thirty minutes before bed, and the night takes it from there.",
+    flavour: { name: "Mint", swatch: "#9ccfbd" },
+    from: "$34.00",
+    unit: "30 strips · one month",
+    card: "product card — sleep",
+    gallery: [
+      "product card — sleep",
+      "the sleep carton at the bedside",
+      "a single strip on a pale surface",
+      "macro of the film, backlit",
+    ],
+    plans: [
+      { id: "trial", name: "3 Days Strip", price: "$9", cadence: "one pack", note: "3 strips, to try it" },
+      { id: "monthly", name: "Monthly", price: "$34", cadence: "one box", note: "30 strips, one month" },
+    ],
+    facts: [
+      { label: "Format", value: "Dissolvable oral film" },
+      { label: "Count", value: "30 strips, one month" },
+      { label: "Take", value: "One strip, 30 minutes before bed" },
+      { label: "Suitable for", value: "Vegan. No gelatin, sugar or dye" },
+    ],
+    science: {
+      intro:
+        "One thin film on the tongue, dissolved in under a minute — a low-dose sleep formula that starts absorbing where you put it, with nothing to swallow.",
+      badges: [
+        { label: "Vegan formula", icon: "leaf" },
+        { label: "No water needed", icon: "nowater" },
+        { label: "Zero sugar", icon: "nosugar" },
+        { label: "Low-dose melatonin", icon: "dose" },
+      ],
+      ingredients: [
+        {
+          name: "Melatonin",
+          dose: "0.5 mg",
+          tags: ["Timing", "Onset"],
+          body: "A timing signal rather than a sedative. Deliberately low, because past a small dose the extra lingers into the morning.",
+          brief: "ingredient — tart cherry",
+        },
+        {
+          name: "L-Theanine",
+          dose: "100 mg",
+          tags: ["Calm", "Quiet mind"],
+          body: "Promotes alpha wave activity, easing mental chatter without the weight of a sedative.",
+          brief: "ingredient — green tea leaf",
+        },
+        {
+          name: "Magnesium bisglycinate",
+          dose: "60 mg",
+          tags: ["Relaxation", "Recovery"],
+          body: "The gentle, well-absorbed form. Supports muscle relaxation through the night.",
+          brief: "ingredient — magnesium mineral",
+        },
+        {
+          name: "Lemon balm extract",
+          dose: "80 mg",
+          tags: ["Settling", "Mood"],
+          body: "Long used before rest to settle the mind, with a mild calming action.",
+          brief: "ingredient — lemon balm",
+        },
+        FILM_BASE,
+      ],
     },
-    {
-      name: "L-Theanine",
-      dose: "100 mg",
-      tags: ["Calm", "Quiet mind"],
-      body: "Promotes alpha wave activity, easing mental chatter without the weight of a sedative.",
-      brief: "ingredient — green tea leaf",
+  },
+  {
+    slug: "energy",
+    code: "EN-01",
+    name: "Energy",
+    title: "Energy Strips",
+    subtitle: "Clean, focused energy without the crash*",
+    line: "Power up, gently",
+    description:
+      "A fast-dissolving vegan strip for the middle of the day. No mixing, no can, no crash — one strip whenever you need to switch on.",
+    flavour: { name: "Citrus", swatch: "#f2b544" },
+    from: "$34.00",
+    unit: "30 strips · one month",
+    card: "product card — energy",
+    gallery: [
+      "product card — energy",
+      "the energy carton on a desk, morning",
+      "a single strip on a pale surface",
+      "macro of the film, backlit",
+    ],
+    plans: [
+      { id: "trial", name: "3 Days Strip", price: "$9", cadence: "one pack", note: "3 strips, to try it" },
+      { id: "monthly", name: "Monthly", price: "$34", cadence: "one box", note: "30 strips, one month" },
+    ],
+    facts: [
+      { label: "Format", value: "Dissolvable oral film" },
+      { label: "Count", value: "30 strips, one month" },
+      { label: "Take", value: "One strip, when you need a lift" },
+      { label: "Suitable for", value: "Vegan. No gelatin, sugar or dye" },
+    ],
+    science: {
+      intro:
+        "One thin film on the tongue, dissolved in under a minute — a measured energy formula that starts absorbing where you put it, with no can, no mixing and no crash.",
+      badges: [
+        { label: "Vegan formula", icon: "leaf" },
+        { label: "No water needed", icon: "nowater" },
+        { label: "Zero sugar", icon: "nosugar" },
+        { label: "Measured caffeine", icon: "sun" },
+      ],
+      ingredients: [
+        {
+          name: "Natural caffeine",
+          dose: "50 mg",
+          tags: ["Alertness", "Focus"],
+          body: "From green coffee beans. A measured dose — about half a cup — so the lift arrives without the jitters.",
+          brief: "ingredient — green coffee bean",
+        },
+        {
+          name: "L-Theanine",
+          dose: "100 mg",
+          tags: ["Smooth", "Calm focus"],
+          body: "Paired with caffeine to round off its edges, for steady attention rather than a spike.",
+          brief: "ingredient — green tea leaf",
+        },
+        {
+          name: "Panax ginseng",
+          dose: "100 mg",
+          tags: ["Stamina", "Clarity"],
+          body: "A traditional adaptogen, long used to support mental performance and resilience to fatigue.",
+          brief: "ingredient — ginseng root",
+        },
+        {
+          name: "Vitamin B12",
+          dose: "250 mcg",
+          tags: ["Energy", "Metabolism"],
+          body: "Contributes to normal energy-yielding metabolism and the reduction of tiredness.",
+          brief: "ingredient — vitamin b12",
+        },
+        FILM_BASE,
+      ],
     },
-    {
-      name: "Magnesium bisglycinate",
-      dose: "60 mg",
-      tags: ["Relaxation", "Recovery"],
-      body: "The gentle, well-absorbed form. Supports muscle relaxation through the night.",
-      brief: "ingredient — magnesium mineral",
-    },
-    {
-      name: "Lemon balm extract",
-      dose: "80 mg",
-      tags: ["Settling", "Mood"],
-      body: "Long used before rest to settle the mind, with a mild calming action.",
-      brief: "ingredient — lemon balm",
-    },
-    {
-      name: "Vegan film base",
-      dose: "—",
-      tags: ["Delivery", "Absorption"],
-      body: "Plant cellulose that dissolves on contact. No gelatin, no sugar, no artificial colour.",
-      brief: "ingredient — the film",
-    },
-  ],
-} as const;
+  },
+];
+
+export function getProduct(slug: string): Product | undefined {
+  return PRODUCTS.find((p) => p.slug === slug);
+}

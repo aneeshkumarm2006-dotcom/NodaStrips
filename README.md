@@ -57,11 +57,33 @@ what makes this straightforward to rebuild as a Liquid section.
   Adding a sixth outcome is one entry in `CATEGORIES`; the grid and the footer
   pick it up with no layout change.
 - **Tokens, type classes, motion** — [app/globals.css](app/globals.css).
-- **The mark** — [components/Mark.tsx](components/Mark.tsx). The supplied
-  sunburst.
+- **The mark** — [components/Mark.tsx](components/Mark.tsx). The N alone,
+  cut from the custom serif lockup. Also the favicon (`app/icon.png`,
+  `app/apple-icon.png`) and share image (`public/brand/og-n.png`).
 - **The wordmark** — [components/Wordmark.tsx](components/Wordmark.tsx). The
-  supplied serif lockup, sunburst in the O. Size it by height (`h-6`); the
-  width follows the artwork's aspect ratio.
+  custom serif lockup, with the sunburst O replaced by an O built from the
+  lockup's own D. Size it by height (`h-7`).
+
+**Nov 2026:** the sunburst was retired everywhere on the client's notes. The
+old `mark*.png`, `lockup-*.png` and `logo-card-*.png` files were removed;
+they are in git history. The masks are regenerated from
+`Logos/Black and White Minimalist Business Logo.png`.
+
+## Nov 2026 redesign
+
+- **Hero** after the Ralf reference (Cormorant Garamond), with the client's
+  mockup copy. The CTA plays a square "strip doorway" transition —
+  [components/StripDoorway.tsx](components/StripDoorway.tsx).
+- **Header** per the mockup; scroll behaviour and cream
+  `oklch(0.9959 0.0093 99.98)` measured off arrae.com.
+- **Our Supplements** — Sleep and Energy, on Arrae's card spec.
+- **FlashRelease®** — a replica of Seed's ViaCap® section. Its capsule
+  animation (`public/photos/placeholder-viacap.gif`) is **Seed's artwork, a
+  placeholder only** — replace before launch.
+- **Why strips** replaces the absorption chart on the main page; the chart
+  and "Science in a strip" now live on each product page (`/shop/[slug]`).
+- New photography is generated (Higgsfield, GPT Image 2.5) — stand-ins for
+  a shoot; the cartons are invented artwork.
 
 ## Brand assets
 

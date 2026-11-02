@@ -4,7 +4,7 @@ import { ArtSlot } from "@/components/ArtSlot";
 import { PageHeader } from "@/components/PageHeader";
 import { Reveal } from "@/components/Reveal";
 import { Compare } from "@/components/sections/Compare";
-import { Format } from "@/components/sections/Format";
+import { FlashRelease } from "@/components/sections/FlashRelease";
 import { STEPS } from "@/lib/brand";
 
 export const metadata: Metadata = {
@@ -71,7 +71,7 @@ export default function SciencePage() {
         </div>
       </section>
 
-      <Format />
+      <FlashRelease />
       <Compare />
 
       {/* Evidence — the honest bit */}

@@ -1,32 +1,13 @@
 import type { Metadata } from "next";
-import { PageHeader } from "@/components/PageHeader";
-import { ProductBuy } from "@/components/ProductBuy";
-import { Compare } from "@/components/sections/Compare";
-import { ScienceStrip } from "@/components/sections/ScienceStrip";
+import { OurSupplements } from "@/components/sections/OurSupplements";
 
 export const metadata: Metadata = {
-  title: "The strip — NODA",
+  title: "Shop — NODA",
   description:
-    "A fast-dissolving vegan sleep strip. No water, no pills. One strip, thirty minutes before bed.",
+    "Sleep and Energy — fast-dissolving vegan oral strips. No water, no pills, nothing to swallow.",
 };
 
+/** Shop all: the same two-card grid as the main page. */
 export default function ShopPage() {
-  return (
-    <>
-      <PageHeader
-        index="The strip"
-        title={
-          <>
-            One product.
-            <br />
-            Made properly.
-          </>
-        }
-        intro="We sell one thing. Everything on this page is about that one thing — what is in it, how it is taken, and why the format is the argument."
-      />
-      <ProductBuy />
-      <ScienceStrip />
-      <Compare />
-    </>
-  );
+  return <OurSupplements heading="Shop all" id="shop" />;
 }

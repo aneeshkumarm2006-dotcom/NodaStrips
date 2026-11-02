@@ -1,82 +1,90 @@
-import Link from "next/link";
 import { ArtSlot } from "@/components/ArtSlot";
-import { PRODUCT } from "@/lib/brand";
+import { StripDoorway } from "@/components/StripDoorway";
+import { HERO } from "@/lib/brand";
 
 /**
- * 01 — Hero, on the reference site’s model: a high-key shot with the
- * product right of centre, and the copy set in dark type over the bright,
- * empty left third. One filled pill plus one underlined text link.
+ * 01 — Hero, after the Ralf reference: a full-bleed photograph, the
+ * header floating over it, and one centred column of type.
  *
- * A soft bone scrim sits over the left so the type stays legible whatever
- * photograph lands here later.
+ * The information is laid out as the client's mockup has it; the type is
+ * Ralf's:
+ *   · "Not a pill. Not a gummy." — the face and size of Ralf's
+ *     "The Comfort of Home. The Luxury of Elsewhere." (a light Garamond);
+ *   · "Wellness takes a new form" — built like Ralf's "BIENVENUE": light
+ *     serif capitals, wide open tracking — but smaller, as asked;
+ *   · the button and the line beneath it in Ralf's extended, widely
+ *     tracked caps, and "Discover more ↓" in small serif capitals.
+ *
+ * The button opens the strip doorway (see StripDoorway) and lands on the
+ * products.
  */
 export function Hero() {
   return (
-    // Pulled up under the sticky header (5rem tall) so the capsules float
-    // on the photograph. The announcement bar above stays in flow.
     <section
-      className="relative isolate -mt-20 overflow-hidden rounded-b-[2rem] text-bone"
+      className="relative isolate overflow-hidden text-cream"
       aria-labelledby="hero-heading"
     >
-      {/* The photograph. ArtSlot positions itself, so it is wrapped rather
-          than given an `absolute` that would collide with its own class. */}
       <div className="absolute inset-0 -z-20">
         <ArtSlot
           variant="still"
-          brief="the strips on a bedside table, low evening light"
+          brief="hero — warm wall, leaf shadow, sleep carton"
           showCaption={false}
           sizes="100vw"
           className="h-full w-full"
         />
       </div>
 
-      {/* Scrim — dark, so pale type reads over the lamplit bedroom. The
-          left of the photograph is soft bed linen catching lamp spill, which
-          is bright enough to swallow cream type without this. */}
+      {/* A soft, warm darkening behind the column, and a little at the top
+          for the header — the wall is bright enough to swallow cream type
+          without it. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-gradient-to-r from-ink/90 via-ink/65 to-transparent lg:via-ink/40"
+        className="absolute inset-0 -z-10"
+        style={{
+          background:
+            "radial-gradient(60% 55% at 46% 48%, rgba(60,38,20,0.32) 0%, rgba(60,38,20,0.12) 60%, transparent 100%), linear-gradient(180deg, rgba(40,26,14,0.28) 0%, transparent 22%, transparent 78%, rgba(40,26,14,0.22) 100%)",
+        }}
       />
 
-      <div className="mx-auto flex min-h-svh max-w-[1600px] flex-col justify-center px-6 pb-28 pt-[calc(5rem+4rem)] lg:px-10">
-        <div className="max-w-2xl">
-          <h1
-            id="hero-heading"
-            className="display text-[clamp(2.5rem,5vw,4.25rem)]"
-          >
-            A better night, built
-            <br />
-            around how you absorb.
-          </h1>
-
-          <p className="prose-quiet mt-7 max-w-md text-bone/75">
-            {PRODUCT.subtitle} One strip, thirty minutes before bed.
+      <div className="mx-auto flex min-h-svh max-w-[1600px] flex-col items-center px-6 pb-10 pt-[calc(5rem+3rem)] text-center lg:px-10">
+        <div className="flex flex-1 flex-col items-center justify-center">
+          <p className="font-serif text-[clamp(1.375rem,2.05vw,2.125rem)] font-normal leading-tight tracking-[0.01em] [text-shadow:0_1px_18px_rgba(40,24,10,0.25)]">
+            {HERO.tagline}
           </p>
 
-          <div className="mt-11 flex flex-wrap items-center gap-x-9 gap-y-4">
-            <Link
-              href="/shop"
-              className="inline-flex items-center rounded-full bg-bone px-9 py-4 text-[0.9375rem] text-brand-deep transition-colors duration-500 [transition-timing-function:var(--ease-quiet)] hover:bg-white"
-            >
-              Shop the strip
-            </Link>
+          <h1
+            id="hero-heading"
+            className="mt-[clamp(0.9rem,1.6vw,1.6rem)] font-serif text-[clamp(2.15rem,5.6vw,5.75rem)] font-light uppercase leading-[0.98] tracking-[0.035em] [text-shadow:0_2px_30px_rgba(40,24,10,0.22)] sm:tracking-[0.06em]"
+          >
+            {HERO.title[0]}
+            <br />
+            {HERO.title[1]}
+          </h1>
 
-            <Link
-              href="/science"
-              className="group inline-flex items-center gap-2.5 text-[0.9375rem]"
-            >
-              <span className="underline decoration-1 underline-offset-[6px]">
-                How it works
-              </span>
-              <span
-                aria-hidden="true"
-                className="transition-transform duration-500 [transition-timing-function:var(--ease-quiet)] group-hover:translate-x-1"
-              >
-                →
-              </span>
-            </Link>
-          </div>
+          <StripDoorway
+            targetId="products"
+            className="caps-wide mt-[clamp(2.25rem,4vw,3.75rem)] inline-flex items-center justify-center border border-cocoa/70 bg-oat px-[clamp(2rem,3.4vw,3.25rem)] py-[1.15rem] text-cocoa transition-colors duration-500 [transition-timing-function:var(--ease-quiet)] hover:bg-cream"
+          >
+            {HERO.cta}
+          </StripDoorway>
         </div>
+
+        <p className="caps-wide mt-14 text-[0.8125rem] tracking-[0.45em]">
+          {HERO.eyebrow}
+        </p>
+
+        <a
+          href="#products"
+          className="group mt-7 flex flex-col items-center gap-2 font-serif text-[0.95rem] uppercase tracking-[0.2em] text-cream/85 transition-colors hover:text-cream"
+        >
+          {HERO.more}
+          <span
+            aria-hidden="true"
+            className="text-lg leading-none transition-transform duration-500 [transition-timing-function:var(--ease-quiet)] group-hover:translate-y-1"
+          >
+            ↓
+          </span>
+        </a>
       </div>
     </section>
   );

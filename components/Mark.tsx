@@ -1,16 +1,16 @@
 /**
- * The NODA mark — the sunburst supplied by the brand team.
+ * The NODA mark — the N alone, cut from the custom serif wordmark
+ * (Logos/Black and White Minimalist Business Logo.png).
  *
- * The artwork is a PNG, so it is applied as a CSS mask and filled with
- * `currentColor`. That keeps the supplied geometry exactly as drawn while
- * still letting it render in one colour anywhere — bone on brand, ink on
- * bone, or any category colour — from a single file.
+ * The client retired the sunburst in Nov 2026 ("remove this logo from
+ * everywhere… use the Noda image's N letter only"), so this is now the
+ * only standalone mark — footer, favicon and share image all use it.
  *
- * Where a fixed brand colour is wanted instead, the five colourways are in
- * public/brand/mark-*.png.
+ * Applied as a CSS mask filled with `currentColor`, so one file renders in
+ * any colour. Size it by height; the width follows the letter (0.776:1).
  */
 
-const MASK = "url(/brand/mark.png)";
+const MASK = "url(/brand/n-mark.png)";
 
 export function Mark({
   className,
@@ -21,7 +21,7 @@ export function Mark({
 }) {
   return (
     <span
-      className={`inline-block shrink-0 bg-current ${className ?? ""}`}
+      className={`inline-block aspect-[1062/1368] shrink-0 bg-current ${className ?? ""}`}
       role={title ? "img" : "presentation"}
       aria-label={title}
       aria-hidden={title ? undefined : true}

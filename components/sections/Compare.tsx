@@ -8,6 +8,8 @@ import {
   COMPARISON,
   COMPARISON_CLAIMS,
   COMPARISON_FOOTNOTE,
+  type Claim,
+  type Dataset,
 } from "@/lib/brand";
 import { getPhoto } from "@/lib/photos";
 
@@ -31,6 +33,9 @@ import { getPhoto } from "@/lib/photos";
  *
  * Comparators are formats, not brands. Naming competitors needs
  * substantiation; the argument lands just as hard without it.
+ *
+ * Moved off the main page onto each product page in Nov 2026, so it takes
+ * its datasets and claims from the product it sits on.
  */
 
 const DOMAIN_MAX = 100;
@@ -39,10 +44,18 @@ const PLOT_HEIGHT = "clamp(300px, 34vw, 440px)";
 /** Room above the plot so the tallest value label never clips. */
 const HEADROOM = "3rem";
 
-export function Compare() {
+export function Compare({
+  datasets = COMPARISON,
+  claims = COMPARISON_CLAIMS,
+  eyebrow = "The same dose, delivered differently",
+}: {
+  datasets?: Dataset[];
+  claims?: Claim[];
+  eyebrow?: string;
+}) {
   const [active, setActive] = useState(0);
   const tableId = useId();
-  const data = COMPARISON[active];
+  const data = datasets[active];
   const floor = Math.min(...data.bars.map((b) => b.value));
 
   return (
@@ -243,7 +256,7 @@ export function Compare() {
           {/* ------------------------------------------- the argument */}
           <Reveal delay={120} className="order-1 flex flex-col justify-center lg:order-2">
             <p className="micro text-bone/55">
-              05 — The same dose, delivered differently
+              {eyebrow}
             </p>
 
             <h2
@@ -259,7 +272,7 @@ export function Compare() {
               aria-label="Comparison measure"
               className="mt-9 inline-flex w-fit rounded-full border border-bone/25 p-1"
             >
-              {COMPARISON.map((set, i) => (
+              {datasets.map((set, i) => (
                 <button
                   key={set.id}
                   role="tab"
@@ -279,7 +292,7 @@ export function Compare() {
             </div>
 
             <dl className="mt-12 border-t border-bone/15">
-              {COMPARISON_CLAIMS.map((claim) => (
+              {claims.map((claim) => (
                 <div
                   key={claim.title}
                   className="flex items-start gap-6 border-b border-bone/15 py-7"

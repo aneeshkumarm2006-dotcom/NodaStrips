@@ -1,39 +1,55 @@
 import type { Metadata } from "next";
-import { Archivo } from "next/font/google";
-import { Announcement } from "@/components/Announcement";
+import { Archivo, Cormorant_Garamond, IBM_Plex_Mono } from "next/font/google";
 import { CartProvider } from "@/components/CartProvider";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import "./globals.css";
 
 /**
- * One family, both roles.
- *
- * Headlines were previously TAN Ashiord (stood in by Bodoni Moda), per the
- * direction document. The reference site sets its headlines in a grotesque
- * sans, so display now points at Archivo too — see app/globals.css.
- *
- * To go back to a serif display face, add it here with the variable name
- * `--font-display` consumed by the `.display` class.
+ * Archivo carries the interface and body. Its width axis is loaded so the
+ * Ralf-style extended caps (`.caps-wide`) come from the same family rather
+ * than a fourth face.
  */
 const archivo = Archivo({
   variable: "--font-archivo",
   subsets: ["latin"],
+  axes: ["wdth"],
   display: "swap",
 });
 
+/** The hero serif — the Ralf reference's light, high-contrast Garamond. */
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+  weight: ["300", "400"],
+  display: "swap",
+});
+
+/** Stands in for Seed Sans Mono on the FlashRelease label. */
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
+  subsets: ["latin"],
+  weight: ["300", "400"],
+  display: "swap",
+});
+
+/**
+ * The favicon (app/icon.png, app/apple-icon.png) and the share image are
+ * the N alone, cut from the custom NODA wordmark — the sunburst mark is
+ * no longer used anywhere, per the client's Nov 2026 notes.
+ */
 export const metadata: Metadata = {
   // Swap for the real domain at launch; needed to resolve social images.
   metadataBase: new URL("https://noda.example"),
-  title: "NODA — Vegan oral wellness strips",
+  title: "NODA — Sleep and energy, in a strip",
   description:
-    "Fast-dissolving vegan oral strips for daily wellness. No water, no pills — one strip straight into your system. Sleep leads the range.",
+    "Not a pill. Not a gummy. Fast-dissolving vegan oral strips for sleep and energy — no water, nothing to swallow.",
   openGraph: {
-    title: "NODA — Where better days begin",
+    title: "NODA — Wellness takes a new form",
     description:
-      "No water, no pills. One strip straight into your system. Melt into rest.",
+      "Not a pill. Not a gummy. Fast-dissolving vegan oral strips for sleep and energy.",
     type: "website",
-    images: [{ url: "/brand/logo-card-dark.png", width: 1600, height: 1600 }],
+    images: [{ url: "/brand/og-n.png", width: 1200, height: 630 }],
   },
 };
 
@@ -41,12 +57,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${archivo.variable} h-full antialiased`}
+      className={`${archivo.variable} ${cormorant.variable} ${plexMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <CartProvider>
-          {/* Announcement sits above the sticky header and scrolls away */}
-          <Announcement />
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />

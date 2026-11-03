@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRef } from "react";
 import { ArtSlot } from "@/components/ArtSlot";
 import { Reveal } from "@/components/Reveal";
-import { JOURNAL_POSTS } from "@/lib/brand";
+import { JOURNAL_NAME, JOURNAL_POSTS } from "@/lib/brand";
 
 /**
  * The closing blog row, built from the reference's measured DOM rather than
@@ -19,7 +19,9 @@ import { JOURNAL_POSTS } from "@/lib/brand";
  *      darkening it, so each panel picks up the photo behind it.
  *   4. the title and an outlined pill inside that panel
  *
- * Card is 5:7 at an 8px radius. The band is warm sand, as the reference has.
+ * Card is 5:7 at an 8px radius. The band was the reference's warm sand;
+ * it is white now, with the rest of the site. Titled "Noda Journal" (was
+ * "Get the scoop on the science") per the Nov 2026 doc.
  */
 export function BlogRow() {
   const rail = useRef<HTMLUListElement>(null);
@@ -41,9 +43,9 @@ export function BlogRow() {
       <Reveal className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-5 px-6 lg:px-10">
         <h2
           id="blog-row-heading"
-          className="display text-[clamp(2rem,4.4vw,3.5rem)] font-normal text-ink"
+          className="display text-[clamp(2.5rem,4.4vw,3.5rem)] text-ink"
         >
-          Get the scoop on the science
+          {JOURNAL_NAME}
         </h2>
 
         <Link
@@ -100,7 +102,7 @@ export function BlogRow() {
                        hard top edge. This is the reference's signature. */}
                 <div className="absolute inset-x-0 bottom-0 flex h-[35%] flex-col justify-center bg-white/15 px-6 backdrop-blur-[20px]">
                   {/* 4 — title and outlined pill inside the panel */}
-                  <h3 className="display text-[clamp(1.35rem,1.8vw,1.6rem)] leading-[1.15]">
+                  <h3 className="display text-[clamp(1.6rem,2vw,1.85rem)] leading-[1.1]">
                     {post.title}
                   </h3>
                   <span className="mt-4 flex h-[54px] items-center justify-center gap-2.5 rounded-full border border-bone text-[1.0625rem] transition-colors duration-500 [transition-timing-function:var(--ease-quiet)] group-hover:bg-bone/20">

@@ -1,21 +1,19 @@
 /**
- * The NODA wordmark — the client's custom serif lockup
- * (Logos/Black and White Minimalist Business Logo.png), "the middle Noda
- * file… a custom design, so use this one".
+ * The noda™ wordmark — the client's file, from the "NODA no BG" Drive
+ * folder linked in the Nov 2026 doc ("Noda name. Use this file for the
+ * name. We have a specific typography."). Originals, in black, purple and
+ * white, are in Logos/NODA no BG (Nov 2026)/.
  *
- * The sunburst that sat in the O was retired in Nov 2026, so the O here is
- * drawn from the lockup's own D — its bowl, mirrored — to keep all four
- * letters in the one custom face. A drawn O from the designer should
- * replace it when available.
+ * public/brand/wordmark-noda-tm.png is BLACK.png trimmed to the artwork
+ * and reduced to its alpha channel, then rendered as a CSS mask filled
+ * with `currentColor` — so the one file reverses out over the hero, sits
+ * dark on the white header and light on the green footer.
  *
- * Rendered as a single CSS mask in `currentColor`, so it reverses out to
- * cream over the hero and turns cocoa on the scrolled header.
- *
- * Size it by height; the width follows the artwork (3.47:1).
+ * Size it by height; the width follows the artwork (3.41:1).
  *   <Wordmark className="h-7" />
  */
 
-const MASK = "url(/brand/wordmark-noda.png)";
+const MASK = "url(/brand/wordmark-noda-tm.png)";
 
 export function Wordmark({
   className = "",
@@ -28,7 +26,7 @@ export function Wordmark({
     <span
       role="img"
       aria-label={label}
-      className={`inline-block aspect-[4746/1368] bg-current ${className}`}
+      className={`inline-block aspect-[1600/469] bg-current ${className}`}
       style={{
         maskImage: MASK,
         WebkitMaskImage: MASK,

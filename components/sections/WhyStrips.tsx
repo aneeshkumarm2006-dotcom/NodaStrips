@@ -4,20 +4,24 @@ import Link from "next/link";
 import { useState } from "react";
 import { ArtSlot } from "@/components/ArtSlot";
 import { ClaimIcon } from "@/components/ClaimIcon";
+import { Emphasised } from "@/components/Emphasised";
 import { Reveal } from "@/components/Reveal";
 import { WHY_STRIPS as W } from "@/lib/brand";
 
 /**
- * 04 — "Not every wellness need calls for the same format."
+ * The Right Format — "Not every wellness need calls for the same format."
+ * (Was "04 — The science of the strip"; renamed and un-numbered in the
+ * Nov 2026 doc, which also supplied all of the copy.)
  *
  * Replaces the absorption chart on the main page, built to the client's
  * supplied layout. The chart moved, unchanged, to each product page.
  *
- *   LEFT   a hairline card: eyebrow, the headline with "need calls" set
- *          heavier, one paragraph, then a Sleep and an Energy card, each
- *          a photograph over an eyebrow, a title and a line of copy.
+ *   LEFT   a hairline card: eyebrow, the headline with "need calls" in
+ *          the italic, one paragraph, then a Sleep and an Energy & Focus
+ *          card, each a photograph over an eyebrow, a title and copy.
  *   RIGHT  a two-way toggle — Why strips / Other formats — over three
- *          ruled rows, each a circled line icon, a title and a sentence.
+ *          ruled rows, each a circled line icon, a title and either a
+ *          sentence or, for the other formats, their trade-offs as points.
  *
  * Same deep green ground, hairlines and toggle as the chart it replaces,
  * so the page keeps its rhythm.
@@ -39,12 +43,12 @@ export function WhyStrips() {
 
             <h2
               id="why-strips-heading"
-              className="display mt-6 text-[clamp(2.1rem,3.7vw,3.5rem)] font-normal leading-[1.06]"
+              className="display mt-6 text-[clamp(2.25rem,3.9vw,3.75rem)]"
             >
               <Emphasised text={W.title} />
             </h2>
 
-            <p className="mt-6 max-w-[38rem] text-[1.0625rem] leading-relaxed text-bone/75">
+            <p className="mt-6 max-w-[38rem] text-[1.0625rem] font-light leading-relaxed text-bone/80">
               {W.body}
             </p>
 
@@ -64,10 +68,10 @@ export function WhyStrips() {
                     />
                     <div className="flex flex-1 flex-col p-6">
                       <p className="micro text-bone/70">{m.kicker}</p>
-                      <h3 className="display mt-3 text-[1.4rem] leading-tight">
+                      <h3 className="display mt-3 text-[1.65rem] leading-tight">
                         {m.title}
                       </h3>
-                      <p className="mt-3 leading-relaxed text-bone/65">{m.body}</p>
+                      <p className="mt-3 font-light leading-relaxed text-bone/70">{m.body}</p>
                     </div>
                   </Link>
                 </li>
@@ -116,11 +120,25 @@ export function WhyStrips() {
               >
                 <ClaimIcon name={item.icon} className="h-14 w-14" />
                 <div>
-                  <dt className="display text-[clamp(1.4rem,2vw,1.75rem)] leading-tight">
+                  <dt className="display text-[clamp(1.6rem,2.2vw,2rem)] leading-tight">
                     {item.title}
                   </dt>
-                  <dd className="mt-3 max-w-md text-[1.0625rem] leading-relaxed text-bone/65">
-                    {item.body}
+                  <dd className="mt-3 max-w-md text-[1.0625rem] font-light leading-relaxed text-bone/70">
+                    {typeof item.body === "string" ? (
+                      item.body
+                    ) : (
+                      <ul className="flex flex-col gap-2.5">
+                        {item.body.map((point) => (
+                          <li key={point} className="flex gap-3">
+                            <span
+                              aria-hidden="true"
+                              className="mt-[0.7em] h-1 w-1 shrink-0 rounded-full bg-bone/50"
+                            />
+                            <span>{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </dd>
                 </div>
               </div>
@@ -129,22 +147,5 @@ export function WhyStrips() {
         </Reveal>
       </div>
     </section>
-  );
-}
-
-/** Renders **marked** words heavier, as the reference sets "need calls". */
-function Emphasised({ text }: { text: string }) {
-  return (
-    <>
-      {text.split("**").map((part, i) =>
-        i % 2 === 1 ? (
-          <strong key={i} className="font-semibold">
-            {part}
-          </strong>
-        ) : (
-          <span key={i}>{part}</span>
-        ),
-      )}
-    </>
   );
 }

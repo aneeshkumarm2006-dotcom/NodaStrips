@@ -1,35 +1,31 @@
 import type { Metadata } from "next";
-import { Archivo, Cormorant_Garamond, IBM_Plex_Mono } from "next/font/google";
+import { Figtree, Instrument_Serif } from "next/font/google";
 import { CartProvider } from "@/components/CartProvider";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import "./globals.css";
 
 /**
- * Archivo carries the interface and body. Its width axis is loaded so the
- * Ralf-style extended caps (`.caps-wide`) come from the same family rather
- * than a fourth face.
+ * Two families, the way Arrae runs theirs — a serif for every heading and
+ * one sans for everything else (client, Nov 2026: "let's use consistent
+ * font choices… they have 2 font choices and it looks very cohesive and
+ * premium").
+ *
+ * Instrument Serif stands in for Arrae's Cardinal Fruit: condensed, high
+ * contrast, one weight, with an italic that does the emphasis.
  */
-const archivo = Archivo({
-  variable: "--font-archivo",
+const instrument = Instrument_Serif({
+  variable: "--font-instrument",
   subsets: ["latin"],
-  axes: ["wdth"],
+  weight: "400",
+  style: ["normal", "italic"],
   display: "swap",
 });
 
-/** The hero serif — the Ralf reference's light, high-contrast Garamond. */
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+/** Figtree stands in for Arrae's Proxima Nova — body, labels, buttons. */
+const figtree = Figtree({
+  variable: "--font-figtree",
   subsets: ["latin"],
-  weight: ["300", "400"],
-  display: "swap",
-});
-
-/** Stands in for Seed Sans Mono on the FlashRelease label. */
-const plexMono = IBM_Plex_Mono({
-  variable: "--font-plex-mono",
-  subsets: ["latin"],
-  weight: ["300", "400"],
   display: "swap",
 });
 
@@ -41,13 +37,13 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   // Swap for the real domain at launch; needed to resolve social images.
   metadataBase: new URL("https://noda.example"),
-  title: "NODA — Sleep and energy, in a strip",
+  title: "NODA — Sleep, energy & focus, in a strip",
   description:
-    "Not a pill. Not a gummy. Fast-dissolving vegan oral strips for sleep and energy — no water, nothing to swallow.",
+    "Not a pill. Not a gummy. Fast-dissolving vegan oral strips for sleep, and for energy & focus — no water, nothing to swallow.",
   openGraph: {
     title: "NODA — Wellness takes a new form",
     description:
-      "Not a pill. Not a gummy. Fast-dissolving vegan oral strips for sleep and energy.",
+      "Not a pill. Not a gummy. Fast-dissolving vegan oral strips for sleep, and for energy & focus.",
     type: "website",
     images: [{ url: "/brand/og-n.png", width: 1200, height: 630 }],
   },
@@ -57,7 +53,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${archivo.variable} ${cormorant.variable} ${plexMono.variable} h-full antialiased`}
+      // Keeps the smooth in-page scroll for anchors, but lets route changes
+      // (the hero CTA now goes to /shop) jump straight to the top.
+      data-scroll-behavior="smooth"
+      className={`${instrument.variable} ${figtree.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <CartProvider>

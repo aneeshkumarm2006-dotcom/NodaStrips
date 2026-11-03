@@ -1,8 +1,9 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Mark } from "./Mark";
+import { Wordmark } from "./Wordmark";
 
 /**
  * The hero CTA, with Ralf's "See our rooms" doorway transition re-drawn
@@ -16,9 +17,12 @@ import { Mark } from "./Mark";
  *   1. a cream veil rises and the strip draws itself in      0–900ms
  *   2. the doors swing open onto a sunrise                  900–1700ms
  *   3. we push through the opening                         1700–2300ms
- *   4. the page has scrolled to the products underneath; the veil lifts
+ *   4. we land — on another page when given an `href` (the hero CTA goes
+ *      to /shop, its own page, per the client's Nov 2026 notes), or
+ *      scrolled to `targetId` on this one — and the veil lifts
  *
- * Reduced motion skips straight to a plain scroll.
+ * Reduced motion skips the animation and goes straight there. Modified
+ * clicks (new tab, new window) are left to the browser.
  */
 
 type Phase = "idle" | "veil" | "draw" | "open" | "through" | "out";
@@ -34,34 +38,50 @@ const TIMELINE: [Phase, number][] = [
 ];
 
 export function StripDoorway({
+  href,
   targetId,
   className = "",
   children,
 }: {
-  /** Element to land on once through the door */
-  targetId: string;
+  /** Page to land on once through the door */
+  href?: string;
+  /** Or an element on this page to land on */
+  targetId?: string;
   className?: string;
   children: React.ReactNode;
 }) {
   const [phase, setPhase] = useState<Phase>("idle");
   const timers = useRef<number[]>([]);
+  const router = useRouter();
 
   useEffect(() => () => timers.current.forEach(clearTimeout), []);
 
+  // Fetch the destination while the doors are still closed, so the page is
+  // ready the moment we step through.
+  useEffect(() => {
+    if (href) router.prefetch(href);
+  }, [href, router]);
+
   const land = useCallback(() => {
-    const el = document.getElementById(targetId);
+    if (href) {
+      router.push(href);
+      return;
+    }
+    const el = targetId ? document.getElementById(targetId) : null;
     if (!el) return;
     // Instant: the veil is covering the jump
     const top = el.getBoundingClientRect().top + window.scrollY;
     window.scrollTo({ top, behavior: "instant" as ScrollBehavior });
-  }, [targetId]);
+  }, [href, targetId, router]);
 
   const go = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
     e.preventDefault();
     if (phase !== "idle") return;
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth" });
+      if (href) router.push(href);
+      else if (targetId) document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth" });
       return;
     }
 
@@ -78,7 +98,7 @@ export function StripDoorway({
 
   return (
     <>
-      <a href={`#${targetId}`} onClick={go} className={className}>
+      <a href={href ?? `#${targetId ?? ""}`} onClick={go} className={className}>
         {children}
       </a>
 
@@ -236,12 +256,14 @@ function Doorway({ phase }: { phase: Phase }) {
           />
         </svg>
 
-        {/* The N, set in the top rail like a house name */}
-        <Mark
-          className={`absolute left-1/2 top-[2.6%] h-[5%] -translate-x-1/2 transition-opacity duration-700 ${
+        {/* The name, set in the top rail like a house name */}
+        <span
+          className={`absolute left-1/2 top-[2.4%] flex h-[5.4%] -translate-x-1/2 transition-opacity duration-700 ${
             drawn ? "opacity-80" : "opacity-0"
           }`}
-        />
+        >
+          <Wordmark className="h-full" />
+        </span>
       </div>
 
       <p

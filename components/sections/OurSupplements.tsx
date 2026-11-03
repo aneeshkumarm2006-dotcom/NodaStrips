@@ -19,7 +19,9 @@ import { getPhoto } from "@/lib/photos";
  *
  * Per the client: no star ratings or review counts, no category tabs
  * (Best Sellers, Hair Skin & Beauty…), and "Our Supplements" in place of
- * "Targeted Supplements" — two products, centred.
+ * "Targeted Supplements" — two products, centred. The gap above it was
+ * narrowed in Nov 2026 ("too much of a gap between the entrance image
+ * and the second section").
  */
 export function OurSupplements({
   heading = "Our Supplements",
@@ -31,20 +33,20 @@ export function OurSupplements({
   return (
     <section
       id={id}
-      className="scroll-mt-0 bg-cream pb-24 pt-20 lg:pb-32 lg:pt-28"
+      className="scroll-mt-0 bg-cream pb-20 pt-10 lg:pb-28 lg:pt-14"
       aria-labelledby={`${id}-heading`}
     >
       <div className="mx-auto max-w-[1600px] px-5 lg:px-10">
         <Reveal>
           <h2
             id={`${id}-heading`}
-            className="text-center font-serif text-[clamp(2.25rem,3.9vw,3.5rem)] font-normal leading-[1.05] tracking-[-0.01em] text-cocoa"
+            className="display text-center text-[clamp(2.25rem,3.9vw,3.5rem)] text-cocoa"
           >
             {heading}
           </h2>
         </Reveal>
 
-        <ul className="mx-auto mt-12 grid max-w-[57rem] grid-cols-1 gap-5 sm:grid-cols-2 lg:mt-14">
+        <ul className="mx-auto mt-8 grid max-w-[57rem] grid-cols-1 gap-5 sm:grid-cols-2 lg:mt-10">
           {PRODUCTS.map((product, i) => (
             <Reveal as="li" key={product.slug} delay={i * 120}>
               <ProductCard product={product} />
@@ -56,7 +58,14 @@ export function OurSupplements({
   );
 }
 
-function ProductCard({ product }: { product: Product }) {
+export function ProductCard({
+  product,
+  eager = false,
+}: {
+  product: Product;
+  /** Above the fold (the /shop grid) — load the photograph straight away */
+  eager?: boolean;
+}) {
   const photo = getPhoto(product.card);
   const href = `/shop/${product.slug}`;
 
@@ -68,6 +77,7 @@ function ProductCard({ product }: { product: Product }) {
             src={photo.src}
             alt={photo.alt}
             fill
+            loading={eager ? "eager" : undefined}
             sizes="(max-width: 640px) 100vw, 460px"
             className="object-cover transition-transform duration-[1200ms] [transition-timing-function:var(--ease-quiet)] group-hover:scale-[1.035]"
           />
@@ -107,20 +117,22 @@ function ProductCard({ product }: { product: Product }) {
           <span className="text-[0.8125rem] uppercase tracking-[0.06em] text-cocoa/60">
             {product.unit}
           </span>
-          <span className="text-cocoa/80">
-            from <span className="text-cocoa">{product.from}</span>
-          </span>
+          <span className="text-cocoa">{product.price}</span>
         </div>
       </div>
     </article>
   );
 }
 
-/** The 32px cream "+" in the corner — adds the monthly box directly. */
+/**
+ * The 32px cream "+" in the corner — adds one box, one-time purchase.
+ * Subscriptions are only ever chosen in the product's own purchase box,
+ * where their terms are shown.
+ */
 function QuickAdd({ product }: { product: Product }) {
   const { add } = useCart();
   const [added, setAdded] = useState(false);
-  const monthly = product.plans.find((p) => p.id === "monthly") ?? product.plans[0];
+  const once = product.plans.find((p) => p.id === "once") ?? product.plans[0];
 
   useEffect(() => {
     if (!added) return;
@@ -132,10 +144,10 @@ function QuickAdd({ product }: { product: Product }) {
     <button
       type="button"
       onClick={() => {
-        add({ slug: `${product.slug}-${monthly.id}`, name: `${product.name} — ${monthly.name}` });
+        add({ slug: `${product.slug}-${once.id}`, name: `${product.name} — ${once.name}` });
         setAdded(true);
       }}
-      aria-label={`Add ${product.title}, ${monthly.name}, to cart`}
+      aria-label={`Add ${product.title}, ${once.name}, to cart`}
       className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-[8px] bg-cream text-cocoa shadow-[0_2px_10px_-4px_rgba(32,26,19,0.3)] transition-transform duration-300 hover:scale-105"
     >
       <svg viewBox="0 0 16 16" className="h-4 w-4" aria-hidden="true">

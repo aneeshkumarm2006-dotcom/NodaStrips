@@ -21,6 +21,13 @@ import { Wordmark } from "./Wordmark";
  *     0.25s — their exact timings.
  *
  * Off the home page there is no hero to float over, so it starts solid.
+ *
+ * Sizes follow Arrae's header, measured off arrae.com (client, Nov 2026:
+ * "the section for the header for CAD, account, and shop is too big…
+ * replicate the size… for everything in the header"): a 64px bar with
+ * the site's 40px side margins, 12px / 500 caps links, a ~90px-wide wordmark,
+ * 22px icons and a compact currency control. The wordmark is set to the
+ * width of Arrae's (~100px).
  */
 const ARRAE_TRANSITION =
   "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s, color 0.25s, border-color 0.25s";
@@ -74,7 +81,7 @@ export function Header() {
           transform: hidden && !menuOpen ? "translateY(-100%)" : "translateY(0)",
         }}
       >
-        <div className="mx-auto grid h-[4.5rem] max-w-[1600px] grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 lg:h-20 lg:px-10">
+        <div className="mx-auto grid h-14 max-w-[1600px] grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 lg:h-16 lg:px-10">
           {/* Left — the two product links */}
           <div className="flex items-center">
             <button
@@ -89,7 +96,7 @@ export function Header() {
               </svg>
             </button>
 
-            <nav className="hidden items-center gap-11 lg:flex" aria-label="Main">
+            <nav className="hidden items-center gap-10 lg:flex" aria-label="Main">
               {NAV.map((item) => (
                 <Link
                   key={item.href}
@@ -104,11 +111,11 @@ export function Header() {
 
           {/* Centre — the wordmark */}
           <Link href="/" aria-label="NODA — home" className="justify-self-center">
-            <Wordmark className="h-7 lg:h-9" />
+            <Wordmark className="h-6 lg:h-[30px]" />
           </Link>
 
           {/* Right — currency, account, cart */}
-          <div className="flex items-center justify-end gap-5 lg:gap-9">
+          <div className="flex items-center justify-end gap-4 lg:gap-6">
             <span className="hidden lg:block">
               <CurrencySelector />
             </span>
@@ -125,7 +132,7 @@ export function Header() {
       </header>
 
       {/* Off the home page the content starts below the bar, not under it */}
-      {!overHero && <div aria-hidden="true" className="h-[4.5rem] lg:h-20" />}
+      {!overHero && <div aria-hidden="true" className="h-14 lg:h-16" />}
 
       <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
     </>
@@ -136,7 +143,7 @@ function AccountIcon() {
   return (
     <svg
       viewBox="0 0 28 28"
-      className="h-[1.6rem] w-[1.6rem]"
+      className="h-[22px] w-[22px]"
       fill="none"
       stroke="currentColor"
       strokeWidth="1.3"
@@ -159,7 +166,7 @@ function CartLink({ onHero }: { onHero: boolean }) {
     >
       <svg
         viewBox="0 0 28 28"
-        className="h-[1.65rem] w-[1.65rem]"
+        className="h-[22px] w-[22px]"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.3"
@@ -170,7 +177,7 @@ function CartLink({ onHero }: { onHero: boolean }) {
         <path d="M10.2 12V7.6a3.8 3.8 0 0 1 7.6 0V12" />
       </svg>
       {count > 0 && (
-        <span className="absolute -right-2 -top-1.5 flex h-[1.05rem] min-w-[1.05rem] items-center justify-center rounded-full bg-current px-1 text-[0.625rem] leading-none tabular-nums">
+        <span className="absolute -right-1.5 -top-1 flex h-[0.95rem] min-w-[0.95rem] items-center justify-center rounded-full bg-current px-1 text-[0.5625rem] leading-none tabular-nums">
           {/* Inverted against whichever colour the bar currently is */}
           <span className={onHero ? "text-cocoa" : "text-cream"}>{count}</span>
         </span>
@@ -206,10 +213,10 @@ function CurrencySelector() {
         aria-expanded={open}
         aria-haspopup="listbox"
         aria-label={`Currency: ${current}`}
-        className="nav-caps flex h-10 min-w-[7.25rem] items-center justify-between gap-4 rounded-[4px] border border-current/45 px-4 tracking-[0.08em] transition-colors duration-300 hover:border-current"
+        className="nav-caps flex h-7 items-center gap-2 rounded-[4px] border-[0.8px] border-current/45 pl-2.5 pr-2 transition-colors duration-300 hover:border-current"
       >
         {current}
-        <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" aria-hidden="true">
+        <svg viewBox="0 0 12 12" className="h-2 w-2" aria-hidden="true">
           <path d="M2 4.2 6 8l4-3.8" fill="none" stroke="currentColor" strokeWidth="1.2" />
         </svg>
       </button>
@@ -218,7 +225,7 @@ function CurrencySelector() {
         <ul
           role="listbox"
           aria-label="Currency"
-          className="absolute right-0 top-[calc(100%+10px)] w-full overflow-hidden rounded-[4px] border border-cocoa/10 bg-cream py-1 text-cocoa shadow-[0_18px_40px_-18px_rgba(32,26,19,0.35)]"
+          className="absolute right-0 top-[calc(100%+8px)] min-w-full overflow-hidden rounded-[4px] border border-cocoa/10 bg-cream py-1 text-cocoa shadow-[0_18px_40px_-18px_rgba(32,26,19,0.35)]"
         >
           {CURRENCIES.map((code) => (
             <li key={code}>
@@ -230,7 +237,7 @@ function CurrencySelector() {
                   setCurrent(code);
                   setOpen(false);
                 }}
-                className="nav-caps w-full px-4 py-2.5 text-left tracking-[0.08em] transition-colors duration-200 hover:bg-cocoa/5"
+                className="nav-caps w-full px-2.5 py-2 text-left transition-colors duration-200 hover:bg-cocoa/5"
               >
                 {code}
               </button>
@@ -283,7 +290,7 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
             <Link
               key={item.href}
               href={item.href}
-              className="font-serif text-[2.25rem] font-light uppercase leading-none tracking-[0.04em]"
+              className="font-serif text-[2.25rem] leading-none tracking-[-0.01em]"
               tabIndex={open ? 0 : -1}
               onClick={onClose}
             >

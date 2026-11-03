@@ -1,27 +1,24 @@
 import { BlogRow } from "@/components/sections/BlogRow";
+import { Community } from "@/components/sections/Community";
 import { FlashRelease } from "@/components/sections/FlashRelease";
 import { Hero } from "@/components/sections/Hero";
 import { OurSupplements } from "@/components/sections/OurSupplements";
-import { ScienceTeaser } from "@/components/sections/ScienceTeaser";
-import { Stories } from "@/components/sections/Stories";
-import { Testimonials } from "@/components/sections/Testimonials";
 import { WhyStrips } from "@/components/sections/WhyStrips";
 
 /**
- * The main page, restructured on the client's Nov 2026 notes.
+ * The main page, after the client's second Nov 2026 doc.
  *
- *   01 Hero — Ralf's first look, the client's mockup's information
- *   02 Our Supplements — Sleep and Energy, straight after, as Arrae does
- *   03 FlashRelease® — Seed's ViaCap section, replicated
- *   04 Why strips — replaces the absorption chart
- *   05 Science teaser with illustration
- *   06 Member story carousel
- *   07 Stories mosaic with press quote
- *   08 Blog row
- *      Footer
+ *   Hero — "Shop our products" opens /shop, its own page
+ *   Our Supplements — Sleep, and Energy & Focus
+ *   FlashRelease® — Seed's ViaCap section, replicated
+ *   The Right Format — why strips, and the other formats
+ *   Noda Community — creator posts on Arrae's structure
+ *   Noda Journal — the blog row
+ *   Footer
  *
- * "Science in a strip" and the absorption chart moved to each product
- * page (app/shop/[slug]).
+ * No section numbers anywhere on the page. The science teaser ("You don't
+ * have a sleep problem…") and the member stories ("Better nights…") moved
+ * to the Sleep page; the Stories mosaic became Noda Community.
  */
 export default function HomePage() {
   return (
@@ -30,9 +27,7 @@ export default function HomePage() {
       <OurSupplements />
       <FlashRelease />
       <WhyStrips />
-      <ScienceTeaser />
-      <Testimonials />
-      <Stories />
+      <Community />
       <BlogRow />
     </>
   );

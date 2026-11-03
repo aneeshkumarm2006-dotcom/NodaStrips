@@ -57,12 +57,14 @@ what makes this straightforward to rebuild as a Liquid section.
   Adding a sixth outcome is one entry in `CATEGORIES`; the grid and the footer
   pick it up with no layout change.
 - **Tokens, type classes, motion** — [app/globals.css](app/globals.css).
-- **The mark** — [components/Mark.tsx](components/Mark.tsx). The N alone,
-  cut from the custom serif lockup. Also the favicon (`app/icon.png`,
-  `app/apple-icon.png`) and share image (`public/brand/og-n.png`).
 - **The wordmark** — [components/Wordmark.tsx](components/Wordmark.tsx). The
-  custom serif lockup, with the sunburst O replaced by an O built from the
-  lockup's own D. Size it by height (`h-7`).
+  client's lowercase **noda™** file from the Nov 2026 doc's Drive folder
+  ("NODA no BG"; originals in `Logos/NODA no BG (Nov 2026)/`), trimmed into
+  a mask at `public/brand/wordmark-noda-tm.png`. Header, footer and the hero
+  doorway all use it. Size it by height (`h-7`).
+- **Favicon and share image** (`app/icon.png`, `app/apple-icon.png`,
+  `public/brand/og-n.png`) are still the N from the old serif lockup —
+  swap them for the noda™ mark when one is supplied.
 
 **Nov 2026:** the sunburst was retired everywhere on the client's notes. The
 old `mark*.png`, `lockup-*.png` and `logo-card-*.png` files were removed;
@@ -84,6 +86,42 @@ they are in git history. The masks are regenerated from
   and "Science in a strip" now live on each product page (`/shop/[slug]`).
 - New photography is generated (Higgsfield, GPT Image 2.5) — stand-ins for
   a shoot; the cartons are invented artwork.
+
+## Nov 2026 — second doc ("Noda Website")
+
+- **Type: two families**, as Arrae runs (they use Cardinal Fruit + Proxima
+  Nova). Instrument Serif for every heading, Figtree for everything else.
+  Archivo, Cormorant and IBM Plex Mono are gone. One edit in
+  [app/layout.tsx](app/layout.tsx) swaps either face.
+- **White, not beige.** `bone`, `cream`, `sand` and `oat` are all `#fff`
+  now (after sipmondays.com); `bone-deep` is a neutral `#f4f4f2` for the few
+  surfaces that must still read as raised.
+- **The name** is the client's noda™ file (the doc's Drive link), in the
+  header, footer and hero doorway — replacing the serif NODA lockup.
+- **Header** resized to Arrae's measurements: 64px bar, 12px caps links,
+  ~100px wordmark, 22px icons, a compact currency control.
+- **"Energy" → "Energy & Focus"** wherever it names the product.
+- **Hero CTA → `/shop`**, its own page (Mondays' collection layout), still
+  through the strip doorway. The gap above Our Supplements is narrowed.
+- **The Right Format** (was "04 — The science of the strip") with the
+  client's copy; no section numbers anywhere on the main page.
+- **Moved to the Sleep page:** the "timing problem" teaser and the
+  "Better nights" member stories.
+- **Noda Community** replaces the Stories mosaic, on Arrae's "Trusted by…"
+  structure, with a "This could be you" creator card, a scroll arrow and a
+  light, frosted click-to-enlarge viewer. **Every post is a placeholder** —
+  add a `video` to a post in `COMMUNITY` (lib/brand.ts) and it plays.
+- **Noda Journal** — the blog row's new title; the journal is "Noda Journal"
+  everywhere (the route is still `/sleep-journal`).
+- **Purchase box** rebuilt to Arrae's: 3 Month (Best value, −30%), 1 Month
+  (−20%), 1 Time Purchase, with subscription benefits and struck prices, in
+  each product's carton colour (Sleep `#212d49`, Energy `#a15719`) —
+  exactly Arrae's three options, so the $9 trial pack is no longer offered.
+  **Subscription prices, discounts and benefits are placeholders.**
+- **Footer**: full noda™ wordmark; Shop / Learn / Support / Social (Legal
+  removed); "Sign up & get a mystery discount" on Arrae's form and Arrae's
+  consent wording with NODA's name (check against CASL before launch). The
+  journal page's sign-up band uses the same form.
 
 ## Brand assets
 

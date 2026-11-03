@@ -16,7 +16,8 @@ import { HERO } from "@/lib/brand";
  *     tracked caps, and "Discover more ↓" in small serif capitals.
  *
  * The button opens the strip doorway (see StripDoorway) and lands on the
- * products.
+ * shop — its own page, as Mondays' "Our Products" is, rather than the
+ * section under the hero (client, Nov 2026).
  */
 export function Hero() {
   return (
@@ -48,13 +49,13 @@ export function Hero() {
 
       <div className="mx-auto flex min-h-svh max-w-[1600px] flex-col items-center px-6 pb-10 pt-[calc(5rem+3rem)] text-center lg:px-10">
         <div className="flex flex-1 flex-col items-center justify-center">
-          <p className="font-serif text-[clamp(1.375rem,2.05vw,2.125rem)] font-normal leading-tight tracking-[0.01em] [text-shadow:0_1px_18px_rgba(40,24,10,0.25)]">
+          <p className="font-serif text-[clamp(1.5rem,2.3vw,2.375rem)] italic leading-tight [text-shadow:0_1px_18px_rgba(40,24,10,0.25)]">
             {HERO.tagline}
           </p>
 
           <h1
             id="hero-heading"
-            className="mt-[clamp(0.9rem,1.6vw,1.6rem)] font-serif text-[clamp(2.15rem,5.6vw,5.75rem)] font-light uppercase leading-[0.98] tracking-[0.035em] [text-shadow:0_2px_30px_rgba(40,24,10,0.22)] sm:tracking-[0.06em]"
+            className="mt-[clamp(0.9rem,1.6vw,1.6rem)] font-serif text-[clamp(2.15rem,5.6vw,5.75rem)] uppercase leading-[0.98] tracking-[0.03em] [text-shadow:0_2px_30px_rgba(40,24,10,0.22)] sm:tracking-[0.05em]"
           >
             {HERO.title[0]}
             <br />
@@ -62,8 +63,8 @@ export function Hero() {
           </h1>
 
           <StripDoorway
-            targetId="products"
-            className="caps-wide mt-[clamp(2.25rem,4vw,3.75rem)] inline-flex items-center justify-center border border-cocoa/70 bg-oat px-[clamp(2rem,3.4vw,3.25rem)] py-[1.15rem] text-cocoa transition-colors duration-500 [transition-timing-function:var(--ease-quiet)] hover:bg-cream"
+            href="/shop"
+            className="caps-wide mt-[clamp(2.25rem,4vw,3.75rem)] inline-flex items-center justify-center border border-cocoa/70 bg-oat px-[clamp(2rem,3.4vw,3.25rem)] py-[1.15rem] text-cocoa transition-colors duration-500 [transition-timing-function:var(--ease-quiet)] hover:bg-cocoa hover:text-cream"
           >
             {HERO.cta}
           </StripDoorway>
@@ -75,7 +76,7 @@ export function Hero() {
 
         <a
           href="#products"
-          className="group mt-7 flex flex-col items-center gap-2 font-serif text-[0.95rem] uppercase tracking-[0.2em] text-cream/85 transition-colors hover:text-cream"
+          className="caps-wide group mt-7 flex flex-col items-center gap-2 text-[0.6875rem] text-cream/85 transition-colors hover:text-cream"
         >
           {HERO.more}
           <span

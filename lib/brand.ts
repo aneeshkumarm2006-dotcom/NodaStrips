@@ -21,18 +21,25 @@ export const BRAND = {
  * mockup, nothing else. Science and the journal live in the mobile drawer
  * and the footer.
  *
- * Subscription is hidden for now — not offered yet, planned for later.
- * Rename app/_subscription back to app/subscription to bring it back.
+ * "Energy" is "Energy & Focus" wherever it names the product (client,
+ * Nov 2026: "wherever you see Energy add focus next to it as well").
+ *
+ * The standalone subscription page is still hidden; subscribe-and-save
+ * now lives in each product's purchase box instead. Rename
+ * app/_subscription back to app/subscription to bring the page back.
  */
 export const NAV = [
   { label: "Sleep strips", href: "/shop/sleep" },
-  { label: "Energy strips", href: "/shop/energy" },
+  { label: "Energy & Focus strips", href: "/shop/energy" },
 ] as const;
+
+/** The journal's public name. The route stays /sleep-journal. */
+export const JOURNAL_NAME = "Noda Journal";
 
 export const SECONDARY_NAV = [
   { label: "Shop all", href: "/shop" },
   { label: "Science", href: "/science" },
-  { label: "Sleep Journal", href: "/sleep-journal" },
+  { label: JOURNAL_NAME, href: "/sleep-journal" },
 ] as const;
 
 /** The header's currency selector, per the mockup. Display only for now. */
@@ -289,7 +296,7 @@ export const BUNDLE = {
 
 export const FLASH_RELEASE = {
   label: "FlashRelease® Technology",
-  title: "Most sleep and energy supplements make you wait. We don’t.",
+  title: "Most sleep, energy and focus supplements make you wait. We don’t.",
   stat: { label: "Faster absorption for effective support", figure: "10", unit: "x" },
   footnote: "°Placeholder figure — requires third-party testing before launch.",
   outer: {
@@ -302,28 +309,48 @@ export const FLASH_RELEASE = {
   },
 } as const;
 
-/* ----------------------------------------------------------------- 04
-   Why strips — replaces the absorption chart on the main page, built to
-   the client's supplied layout. The chart itself now lives on each
-   product page.                                                         */
+/* ----------------------------------------------------------------------
+   The Right Format — was "04 — The science of the strip". Renamed, the
+   section number dropped (the main page carries no numbering now), and
+   every line below is the client's copy from the Nov 2026 doc, verbatim.
+   The headline is unchanged; the doc gives no replacement for it.       */
 
-export const WHY_STRIPS = {
-  eyebrow: "04 — The science of the strip",
-  /** The bold words in the reference are marked with ** */
+export type FormatItem = {
+  icon: "bolt" | "layers" | "bag" | "pill" | "gummy" | "cup";
+  title: string;
+  /** One paragraph, or several points rendered as a list */
+  body: string | readonly string[];
+};
+
+export const WHY_STRIPS: {
+  eyebrow: string;
+  title: string;
+  body: string;
+  moments: readonly {
+    kicker: string;
+    title: string;
+    body: string;
+    brief: string;
+    href: string;
+  }[];
+  tabs: readonly { id: string; label: string; items: readonly FormatItem[] }[];
+} = {
+  eyebrow: "The Right Format",
+  /** Words marked with ** are set in the italic */
   title: "Not every wellness **need calls** for the same format.",
-  body: "For sleep and energy, timing, convenience, and simplicity matter. That’s why we chose oral dissolvable strips — a targeted delivery format designed to fit seamlessly into the moments you need support.",
+  body: "For sleep and energy, timing is everything. When you need support to kick in quickly, the format matters. That’s why we chose oral dissolvable strips for these needs: fast to take, easy to carry, and ready in the moment you need them.",
   moments: [
     {
       kicker: "Sleep",
       title: "When it’s time to slow down.",
-      body: "No water, no pills, no complicated bedtime routine. Just a dissolvable strip designed to make sleep support effortless.",
+      body: "Everything good starts with a good night’s sleep. It’s the foundation for how you feel, how you show up, and how confident you are. A fast-dissolving strip, so support starts when you’re ready to wind down, not an hour later. Made for your nightly wind-down, long travel days, and the night before a big exam.",
       brief: "sleep — dusk dunes",
       href: "/shop/sleep",
     },
     {
-      kicker: "Energy",
+      kicker: "Energy & Focus",
       title: "When it’s time to power up.",
-      body: "No mixing, no preparation, no drink required. Just convenient, precisely portioned energy support that goes wherever you do.",
+      body: "No chugging, no waiting on digestion. One measured dose that dissolves and gets to work. Made for active people and long days, from morning workouts to marathon exam sessions.",
       brief: "energy — golden dunes",
       href: "/shop/energy",
     },
@@ -335,18 +362,18 @@ export const WHY_STRIPS = {
       items: [
         {
           icon: "bolt",
-          title: "Designed for targeted support",
-          body: "Formulated for specific needs, from winding down at night to supporting alertness during the day.",
+          title: "Built for when timing matters.",
+          body: "Formulated for needs where you want support fast.",
         },
         {
           icon: "layers",
-          title: "Dissolves in your mouth",
-          body: "A thin oral film releases its ingredients quickly and effortlessly, without water or swallowing a pill.",
+          title: "Absorbed where it dissolves.",
+          body: "A thin oral film dissolves in your mouth and starts releasing its ingredients right away, instead of waiting on a pill or gummy to break down in your stomach.",
         },
         {
           icon: "bag",
-          title: "Simple by design",
-          body: "Individually portioned, portable, and easy to incorporate into your routine — at home, at work, or on the go.",
+          title: "Easy by design.",
+          body: "One measured dose, individually portioned, portable, and easy to incorporate into your routine. No leak, no mess.",
         },
       ],
     },
@@ -357,27 +384,39 @@ export const WHY_STRIPS = {
         {
           icon: "pill",
           title: "Pills and capsules",
-          body: "Need water and a swallow, then have to break down in the stomach before anything begins.",
+          body: [
+            "Well suited to higher doses and steady daily support, like magnesium supplements.",
+            "Less suited to moments when timing matters: they need to break down before anything begins.",
+          ],
         },
         {
           icon: "gummy",
           title: "Gummies",
-          body: "Often carry added sugar and fillers to make the dose palatable.",
+          body: [
+            "A familiar, enjoyable way to take a daily supplement.",
+            "The trade-off is added sugar, fillers, and artificial ingredients.",
+            "Plus, only so much fits in each gummy, and for sleep and energy, what fits has to be digested before it can start working.",
+          ],
         },
         {
           icon: "cup",
-          title: "Powders and drinks",
-          body: "Need mixing, a glass and a moment — the thing a busy day rarely has.",
+          title: "Powder",
+          body: [
+            "Great for larger servings like protein supplements.",
+            "The trade-off is mixing, a glass, and a moment a busy day rarely has, especially on the go.",
+            "Plus, drinking a full glass before bed can mean waking up for bathroom breaks, or one mid-workout. And for sleep and energy, the dose still has to be digested before it can start working.",
+          ],
         },
       ],
     },
   ],
-} as const;
+};
 
-/* ---------------------------------------------------------------- 07 */
+/* ----------------------------------------------------------------------
+   Science teaser — moved from the main page to the Sleep page. */
 
 export const SCIENCE_TEASER = {
-  label: "NODA 【01】",
+  label: "NODA",
   title: "You don’t have a sleep problem. You have a timing problem.",
   body: "Your body already knows how to fall asleep — it runs on a clock that light, screens and late evenings quietly push out of step. Take three minutes to learn what actually moves it back.",
   cta: "Discover",
@@ -399,28 +438,87 @@ export const TESTIMONIALS = [
   { name: "Placeholder member", tag: "On the format", brief: "curtains and early sun" },
 ] as const;
 
-/* ---------------------------------------------------------------- 09 */
+/* ----------------------------------------------------------------------
+   Noda Community — replaces the "Stories from scientists…" mosaic, on
+   Arrae's "Trusted by Millions of Women Worldwide" structure: a row of
+   creator videos with a quote and a handle under each.
 
-export const PRESS_QUOTE = {
-  quote:
-    "Placeholder pull quote from a publication, sitting in the mosaic exactly where Seed places theirs.",
-  source: "PUBLICATION",
-} as const;
+   There are no creator videos yet, so every post below is a placeholder:
+   a product still where the video goes, and a quote that says it is one.
+   Writing invented quotes under invented handles would be fabricated
+   social proof on a health product. Give a post a `video` (an .mp4 in
+   /public) and its card and lightbox play it, with sound controls.
 
-/**
- * Mosaic tiles. `shape` drives the crop, `span` the grid footprint — an
- * irregular collage rather than a tidy grid.
- */
-export const STORIES = [
-  { brief: "the strip, edge on, macro", shape: "circle", span: "tall" },
-  { brief: "the box, lid lifted, from above", shape: "rect", span: "wide" },
-  { brief: "a glass of water, evening shadow", shape: "rect", span: "normal" },
-  { brief: "the box on a bedside table", shape: "circle", span: "normal" },
-  { brief: "a strip against a bright window", shape: "rect", span: "tall" },
-  { brief: "morning light on linen", shape: "rect", span: "normal" },
-  { brief: "packaging detail, macro", shape: "circle", span: "normal" },
-  { brief: "linen and lamplight, wide", shape: "rect", span: "wide" },
-] as const;
+   The fourth card is the creator call-out, per the client: "something
+   like 'this could be you' so content creators… can contact us".       */
+
+export type CommunityPost = {
+  id: string;
+  /** A photo brief from lib/photos.ts — the poster frame */
+  brief: string;
+  /** Optional video file, e.g. "/videos/creator-1.mp4" */
+  video?: string;
+  quote: string;
+  handle: string;
+};
+
+export const COMMUNITY: {
+  title: { plain: string; italic: string };
+  note: string;
+  posts: readonly CommunityPost[];
+  /** Index in the row at which the creator card sits (0-based) */
+  ctaAt: number;
+  cta: { title: string; body: string; action: string; href: string };
+} = {
+  title: { plain: "Noda", italic: "Community" },
+  note: "Placeholder content — creator videos to follow.",
+  posts: [
+    {
+      id: "post-1",
+      brief: "the sleep carton at the bedside",
+      quote: "A creator’s first night with the strip, in their own words.",
+      handle: "@creator — placeholder",
+    },
+    {
+      id: "post-2",
+      brief: "the energy carton on a desk, morning",
+      quote: "How the strip fits a morning workout, or a long day at the desk.",
+      handle: "@creator — placeholder",
+    },
+    {
+      id: "post-3",
+      brief: "the box, opened",
+      quote: "Unboxing, and a first impression of the format.",
+      handle: "@creator — placeholder",
+    },
+    {
+      id: "post-4",
+      brief: "a strip against a bright window",
+      quote: "Taking it on the go — travel days, flights, early starts.",
+      handle: "@creator — placeholder",
+    },
+    {
+      id: "post-5",
+      brief: "the box on a bedside table",
+      quote: "Thirty nights in: what changed, and what didn’t.",
+      handle: "@creator — placeholder",
+    },
+    {
+      id: "post-6",
+      brief: "bedside, lamp low",
+      quote: "The wind-down routine the strip slots into.",
+      handle: "@creator — placeholder",
+    },
+  ],
+  ctaAt: 3,
+  /** Copy from the client's concept; only the look was to be elevated */
+  cta: {
+    title: "This could be you.",
+    body: "Share your NODA experience and receive a free gift to be featured on our page.",
+    action: "Contact us",
+    href: "/contact",
+  },
+};
 
 /* ---------------------------------------------------------------- 10 */
 
@@ -443,28 +541,28 @@ export const TWO_UP = [
   },
 ] as const;
 
-/* ------------------------------------------------------------- footer */
+/* ------------------------------------------------------------- footer
+   Per the Nov 2026 doc: About → Learn (Sustainability and NODA Labs
+   removed), Help → Support, and the Legal column removed completely. */
 
 export const FOOTER_COLUMNS = [
   {
     title: "Shop",
     links: [
       { label: "Sleep strips", href: "/shop/sleep" },
-      { label: "Energy strips", href: "/shop/energy" },
+      { label: "Energy & Focus strips", href: "/shop/energy" },
       { label: "Shop all", href: "/shop" },
     ],
   },
   {
-    title: "About",
+    title: "Learn",
     links: [
       { label: "Science", href: "/science" },
-      { label: "Sleep Journal", href: "/sleep-journal" },
-      { label: "Sustainability", href: "/sustainability" },
-      { label: "NODA Labs", href: "/labs" },
+      { label: JOURNAL_NAME, href: "/sleep-journal" },
     ],
   },
   {
-    title: "Help",
+    title: "Support",
     links: [
       { label: "Help centre", href: "/help" },
       { label: "Contact", href: "/contact" },
@@ -480,18 +578,30 @@ export const FOOTER_COLUMNS = [
       { label: "LinkedIn", href: "/social" },
     ],
   },
-  {
-    title: "Legal",
-    links: [
-      { label: "Terms", href: "/terms" },
-      { label: "Privacy", href: "/privacy" },
-      { label: "Accessibility", href: "/accessibility" },
-    ],
-  },
 ] as const;
 
 export const FOOTER_STATEMENT =
-  "Vegan oral strips for sleep and energy, made for people who would rather not swallow anything. Canada, since 2026.";
+  "Vegan oral strips for sleep, and for energy & focus, made for people who would rather not swallow anything. Canada, since 2026.";
+
+/**
+ * The sign-up, replacing "First access" — "sign up & get a mystery
+ * discount", with the structure of information the client supplied from
+ * Arrae: first name, email and phone in an outlined box, a pill Subscribe,
+ * then the consent line and the privacy link. Arrae's wording throughout,
+ * with NODA's name in it — have it checked against Canadian (CASL) rules
+ * before launch.
+ */
+export const SIGNUP = {
+  /** Words marked with ** are set in the italic */
+  title: "Sign up & get a **mystery** discount.",
+  body: "Enter your best email and phone number to get your mystery code.",
+  fields: { name: "First Name", email: "Email Address", phone: "Phone Number" },
+  action: "Subscribe",
+  done: "Thank you — your code is on its way.",
+  consent:
+    "By submitting, you agree to receive informational and marketing texts from NODA (incl. autodialer). Consent isn’t required for purchase. Msg & data rates may apply. Reply STOP to unsubscribe.",
+  privacy: { label: "Privacy Policy", href: "/privacy" },
+} as const;
 
 /* ---------------------------------------------------------------- 07 */
 
@@ -686,12 +796,30 @@ export type Ingredient = {
   brief: string;
 };
 
+/**
+ * One purchase option, on Arrae's model (arrae.com/products/mb-1-45):
+ * three options — a three-month subscription flagged "Best value", a
+ * monthly subscription, and a one-time purchase — each with a struck
+ * compare-at price and a per-month figure where it saves.
+ *
+ * ⚠️ The subscription prices and discounts are placeholders worked from
+ * the $34 box at Arrae's ratios (−20% monthly, −30% quarterly). Not
+ * approved.
+ */
 export type ProductPlan = {
-  id: "trial" | "monthly";
+  id: "quarterly" | "monthly" | "once";
   name: string;
-  price: string;
-  cadence: string;
   note: string;
+  price: string;
+  /** Struck through beside the price */
+  compareAt?: string;
+  /** "$24 / Month" under the price */
+  perMonth?: string;
+  /** The dark bar across the top of the card */
+  banner?: { strong: string; rest: string };
+  /** The small chip under the price */
+  save?: string;
+  subscription: boolean;
 };
 
 export type Product = {
@@ -704,11 +832,21 @@ export type Product = {
   line: string;
   description: string;
   flavour: { name: string; swatch: string };
-  from: string;
+  /** The one-time price, shown on the product cards */
+  price: string;
   unit: string;
+  /**
+   * The carton's colour, sampled off the product photograph. The purchase
+   * box uses it where it used to use brand green — the selected option,
+   * the "Best value" bar and Add to cart (client: "change it to the
+   * colour of the box"). White type passes AA on both.
+   */
+  accent: string;
   card: string;
   gallery: readonly string[];
   plans: readonly ProductPlan[];
+  /** Which option the purchase box opens on */
+  defaultPlan: ProductPlan["id"];
   facts: readonly { label: string; value: string }[];
   science: {
     intro: string;
@@ -716,6 +854,44 @@ export type Product = {
     ingredients: readonly Ingredient[];
   };
 };
+
+/** Arrae lists these under whichever subscription is selected. Placeholder. */
+export const SUBSCRIPTION_BENEFITS = [
+  "Free shipping on every order",
+  "Skip, pause or cancel anytime",
+  "Arrives before you run out",
+  "Early access to new formulas and perks",
+] as const;
+
+const PLANS_34: readonly ProductPlan[] = [
+  {
+    id: "quarterly",
+    name: "3 Month Delivery",
+    note: "3 month supply, delivered every 3 months",
+    price: "$72",
+    compareAt: "$102",
+    perMonth: "$24 / Month",
+    banner: { strong: "Best value", rest: "Save 30%" },
+    subscription: true,
+  },
+  {
+    id: "monthly",
+    name: "1 Month Delivery",
+    note: "1 month supply, delivered every 1 month",
+    price: "$27",
+    compareAt: "$34",
+    perMonth: "$27 / Month",
+    save: "Save 20%",
+    subscription: true,
+  },
+  {
+    id: "once",
+    name: "1 Time Purchase",
+    note: "1 month supply, delivered once",
+    price: "$34",
+    subscription: false,
+  },
+];
 
 const FILM_BASE: Ingredient = {
   name: "Vegan film base",
@@ -736,8 +912,9 @@ export const PRODUCTS: readonly Product[] = [
     description:
       "A fast-dissolving vegan strip for the end of the day. No water, no pills — one strip thirty minutes before bed, and the night takes it from there.",
     flavour: { name: "Mint", swatch: "#9ccfbd" },
-    from: "$34.00",
+    price: "$34.00",
     unit: "30 strips · one month",
+    accent: "#212d49",
     card: "product card — sleep",
     gallery: [
       "product card — sleep",
@@ -745,10 +922,8 @@ export const PRODUCTS: readonly Product[] = [
       "a single strip on a pale surface",
       "macro of the film, backlit",
     ],
-    plans: [
-      { id: "trial", name: "3 Days Strip", price: "$9", cadence: "one pack", note: "3 strips, to try it" },
-      { id: "monthly", name: "Monthly", price: "$34", cadence: "one box", note: "30 strips, one month" },
-    ],
+    plans: PLANS_34,
+    defaultPlan: "quarterly",
     facts: [
       { label: "Format", value: "Dissolvable oral film" },
       { label: "Count", value: "30 strips, one month" },
@@ -800,15 +975,16 @@ export const PRODUCTS: readonly Product[] = [
   {
     slug: "energy",
     code: "EN-01",
-    name: "Energy",
-    title: "Energy Strips",
+    name: "Energy & Focus",
+    title: "Energy & Focus Strips",
     subtitle: "Clean, focused energy without the crash*",
     line: "Power up, gently",
     description:
       "A fast-dissolving vegan strip for the middle of the day. No mixing, no can, no crash — one strip whenever you need to switch on.",
     flavour: { name: "Citrus", swatch: "#f2b544" },
-    from: "$34.00",
+    price: "$34.00",
     unit: "30 strips · one month",
+    accent: "#a15719",
     card: "product card — energy",
     gallery: [
       "product card — energy",
@@ -816,10 +992,8 @@ export const PRODUCTS: readonly Product[] = [
       "a single strip on a pale surface",
       "macro of the film, backlit",
     ],
-    plans: [
-      { id: "trial", name: "3 Days Strip", price: "$9", cadence: "one pack", note: "3 strips, to try it" },
-      { id: "monthly", name: "Monthly", price: "$34", cadence: "one box", note: "30 strips, one month" },
-    ],
+    plans: PLANS_34,
+    defaultPlan: "quarterly",
     facts: [
       { label: "Format", value: "Dissolvable oral film" },
       { label: "Count", value: "30 strips, one month" },
@@ -828,7 +1002,7 @@ export const PRODUCTS: readonly Product[] = [
     ],
     science: {
       intro:
-        "One thin film on the tongue, dissolved in under a minute — a measured energy formula that starts absorbing where you put it, with no can, no mixing and no crash.",
+        "One thin film on the tongue, dissolved in under a minute — a measured energy & focus formula that starts absorbing where you put it, with no can, no mixing and no crash.",
       badges: [
         { label: "Vegan formula", icon: "leaf" },
         { label: "No water needed", icon: "nowater" },

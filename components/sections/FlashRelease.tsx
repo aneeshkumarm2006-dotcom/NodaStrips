@@ -48,14 +48,14 @@ export function FlashRelease() {
         <div className="flex flex-col gap-8 rounded-[32px] bg-[rgba(87,94,85,0.35)] p-7 text-[rgb(252,252,247)] backdrop-blur-[37.5px] sm:p-12 lg:min-h-[560px] lg:flex-row lg:items-start lg:p-20">
           {/* ------------------------------------------------ left */}
           <div className="lg:w-[507px] lg:shrink-0">
-            <p className="flex items-center gap-2 font-mono text-xs font-light uppercase leading-[18px]">
+            <p className="flex items-center gap-2 font-sans text-xs font-normal uppercase leading-[18px] tracking-[0.08em]">
               <span aria-hidden="true" className="h-[7px] w-[7px] rounded-full bg-current" />
               {F.label}
             </p>
 
             <h2
               id="flash-heading"
-              className="mt-6 text-[clamp(1.75rem,2.8vw,2.5rem)] font-[350] leading-[1.1] tracking-[-0.01em]"
+              className="display mt-6 text-[clamp(2.125rem,3.3vw,3rem)]"
             >
               {F.title}
             </h2>

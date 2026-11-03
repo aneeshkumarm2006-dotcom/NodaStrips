@@ -6,7 +6,7 @@ import { Reveal } from "@/components/Reveal";
 import { TESTIMONIALS } from "@/lib/brand";
 
 /**
- * 08 — Member stories, on Seed's model: a centred heading and a horizontal
+ * Member stories (on the Sleep page since Nov 2026), on Seed's model: a centred heading and a horizontal
  * carousel of portrait cards with arrows beneath.
  *
  * Native scroll with snap points rather than a JS slider, so it stays

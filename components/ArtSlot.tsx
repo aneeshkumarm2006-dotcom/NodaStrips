@@ -52,6 +52,7 @@ export function ArtSlot({
   onDark = true,
   showCaption = true,
   sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px",
+  eager = false,
 }: {
   variant?: Variant;
   tint?: string;
@@ -70,6 +71,8 @@ export function ArtSlot({
    * is 800px wide and picks a candidate far too small for it.
    */
   sizes?: string;
+  /** Above the fold — load straight away rather than lazily */
+  eager?: boolean;
 }) {
   const photo = getPhoto(brief);
 
@@ -86,6 +89,7 @@ export function ArtSlot({
           alt={photo.alt}
           fill
           sizes={sizes}
+          loading={eager ? "eager" : undefined}
           className="object-cover"
           style={{ objectPosition: photo.position ?? "center" }}
         />

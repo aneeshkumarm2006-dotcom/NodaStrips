@@ -4,10 +4,10 @@ import { ArtSlot } from "@/components/ArtSlot";
 import { PageHeader } from "@/components/PageHeader";
 import { Reveal } from "@/components/Reveal";
 import { SubscribeForm } from "@/components/SubscribeForm";
-import { JOURNAL_POSTS } from "@/lib/brand";
+import { JOURNAL_NAME, JOURNAL_POSTS } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "Sleep Journal — NODA",
+  title: `${JOURNAL_NAME} — NODA`,
   description:
     "Notes on rest, ritual and the science of the night, from the people making the strip.",
 };
@@ -18,7 +18,7 @@ export default function JournalIndexPage() {
   return (
     <>
       <PageHeader
-        index="Sleep Journal"
+        index={JOURNAL_NAME}
         title="Notes on the night"
         intro="What we are reading, testing and arguing about internally. Written for people who want the reasoning, not the headline."
       />
@@ -109,7 +109,7 @@ export default function JournalIndexPage() {
         </div>
       </section>
 
-      {/* Sign-up */}
+      {/* Sign-up — the Nov 2026 mystery-discount form, as in the footer */}
       <section className="bg-brand-deep py-20 text-bone lg:py-24" aria-label="Newsletter">
         <div className="mx-auto grid max-w-[1600px] grid-cols-1 gap-10 px-6 lg:grid-cols-2 lg:gap-20 lg:px-10">
           <Reveal>

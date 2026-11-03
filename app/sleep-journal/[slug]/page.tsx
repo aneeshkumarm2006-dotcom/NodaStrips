@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArtSlot } from "@/components/ArtSlot";
 import { Reveal } from "@/components/Reveal";
-import { JOURNAL_POSTS } from "@/lib/brand";
+import { JOURNAL_NAME, JOURNAL_POSTS } from "@/lib/brand";
 
 /** Static routes for the placeholder entries. */
 export function generateStaticParams() {
@@ -34,7 +34,7 @@ export default async function JournalEntryPage({
       <header className="mx-auto max-w-[1600px] px-6 pb-14 pt-20 lg:px-10 lg:pt-28">
         <Reveal className="mx-auto max-w-3xl">
           <Link href="/sleep-journal" className="micro link-quiet text-ink-soft">
-            ← Sleep Journal
+            ← {JOURNAL_NAME}
           </Link>
 
           <div className="mt-10 flex items-center gap-3">

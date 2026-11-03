@@ -23,41 +23,40 @@
   --color-volt: #c7e64b;
 
   /* Neutrals.
-     Paper is the exact hex the client specified: #F9F8F5. (Measuring
-     Cymbiotika gave #F5F5F5, a colder neutral — their number wins.)
-     Raised surfaces are LIGHTER than the page here, not darker, so
-     `bone-deep` means "one step up off the page", not one down. */
-  --color-bone: #f9f8f5;
-  --color-bone-deep: #ffffff;
+     Nov 2026 (second doc): "instead of the current beige background
+     colour, let's use white where beige colour is used", after
+     sipmondays.com. So every paper tone — bone, cream, sand, oat — is now
+     white. `bone-deep` is the one surface that must still read as a step
+     off the page, so it is a neutral grey rather than a warm one. */
+  --color-bone: #ffffff;
+  --color-bone-deep: #f4f4f2;
   --color-ink: #16130f;
   --color-ink-soft: #4a4540;
   --color-hairline: #e5e5e5;
 
-  /* The warm sand band used by the blog row, taken from its reference */
-  --color-sand: #edebe4;
+  /* The blog row band — was warm sand, now white with the rest */
+  --color-sand: #ffffff;
 
-  /* Nov 2026 redesign.
-     Cream is Arrae's header colour, measured off their live site:
-     oklch(0.9959 0.0093 99.98). Cocoa is the text that sits on it,
-     oklch(0.2171 0.0232 69.07). Oat is the Ralf button fill, and tan the
-     ground behind the product cards before their photograph loads. */
-  --color-cream: oklch(0.9959 0.0093 99.98);
+  /* Cream was Arrae's header colour and oat the Ralf button fill; both
+     were beige, so both are white now. Cocoa is still the text that sits
+     on them, oklch(0.2171 0.0232 69.07), and tan the ground behind the
+     product cards before their photograph loads. */
+  --color-cream: #ffffff;
   --color-cocoa: oklch(0.2171 0.0232 69.07);
-  --color-oat: #f6eee2;
+  --color-oat: #ffffff;
   --color-tan: oklch(0.7324 0.0049 78.29);
 
-  /* Type.
-     Headlines are set in a grotesque sans, matching the reference site
-     rather than the deck's TAN Ashiord serif — see the note in the README.
-     Archivo carries both roles, so the page uses one family throughout. */
-  --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
-  --font-body: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
-
-  /* The Ralf reference sets its hero in a light, high-contrast Garamond.
-     Cormorant Garamond is the closest open face. Mono stands in for Seed
-     Sans Mono on the FlashRelease label. */
-  --font-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  /* Type — two families, as Arrae runs (client: "they have 2 font
+     choices and it looks very cohesive and premium").
+     Arrae sets headings in Cardinal Fruit, a condensed high-contrast
+     serif with a characterful italic, and everything else in Proxima
+     Nova. Neither is open, so: Instrument Serif for the first, Figtree
+     for the second. Every heading is the serif; every label, button,
+     paragraph and price is the sans. Nothing else is loaded. */
+  --font-display: var(--font-instrument), "Instrument Serif", Georgia, serif;
+  --font-body: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument), "Instrument Serif", Georgia, serif;
+  --font-sans: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
 
   /* Motion — slow, quiet, deliberate */
   --ease-quiet: cubic-bezier(0.16, 1, 0.3, 1);
@@ -93,50 +92,54 @@ body {
 }
 
 @layer components {
-  /* Display type: large, confident, tight and deliberate.
-     A sans needs more line-height and less negative tracking than the
-     serif did, or it sets too tight and reads cramped. */
+  /* Display type — the serif, set as Arrae sets Cardinal Fruit: regular
+     weight (the face has one), a hair under solid leading, and −0.03em
+     tracking. Emphasis inside a heading is the italic, never bold. */
   .display {
     font-family: var(--font-display);
-    font-weight: 500;
-    line-height: 1.04;
-    letter-spacing: -0.03em;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.02em;
     text-wrap: balance;
+  }
+
+  .display em,
+  .display i {
+    font-style: italic;
   }
 
   /* Small letterspaced caps — eyebrows, nav, labels, data */
   .micro {
     font-family: var(--font-body);
-    font-size: 0.6875rem;
-    font-weight: 500;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-  }
-
-  /* Ralf's extended, very widely tracked caps — buttons and the location
-     line under the hero. Archivo's width axis does the extending. */
-  .caps-wide {
-    font-family: var(--font-body);
-    font-stretch: 125%;
     font-size: 0.75rem;
     font-weight: 500;
-    letter-spacing: 0.32em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
-  /* Header links, set as the client's mockup: medium caps, open tracking */
+  /* Widely tracked caps — the hero button and the line under the hero */
+  .caps-wide {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+  }
+
+  /* Header links at Arrae's measured size: 12px, medium, 0.06em, caps */
   .nav-caps {
     font-family: var(--font-body);
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
     font-weight: 500;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
   }
 
   /* Body copy at a readable measure */
   .prose-quiet {
     font-size: 1.0625rem;
-    line-height: 1.7;
+    font-weight: 300;
+    line-height: 1.65;
   }
 }
 

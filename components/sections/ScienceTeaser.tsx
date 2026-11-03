@@ -4,7 +4,7 @@ import { Reveal } from "@/components/Reveal";
 import { SCIENCE_TEASER as T } from "@/lib/brand";
 
 /**
- * 07 — Science teaser, on Seed's "You are more than human" model: a bracketed
+ * Science teaser (on the Sleep page since Nov 2026), on Seed's "You are more than human" model: a bracketed
  * brand label, a large claim, a short paragraph, a pill CTA, and a scientific
  * illustration in a panel on the right.
  */

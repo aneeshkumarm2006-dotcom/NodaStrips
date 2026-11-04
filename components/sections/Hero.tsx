@@ -8,8 +8,10 @@ import { HERO } from "@/lib/brand";
  *
  * The information is laid out as the client's mockup has it; the type is
  * Ralf's:
- *   · "Not a pill. Not a gummy." — the face and size of Ralf's
- *     "The Comfort of Home. The Luxury of Elsewhere." (a light Garamond);
+ *   · "Not a pill. Not a gummy." — the size of Ralf's "The Comfort of
+ *     Home. The Luxury of Elsewhere.", set in STIX Two Text italic, per
+ *     the client's Nov 2026 typography note (a touch smaller than the
+ *     serif it replaces, since STIX sets wider);
  *   · "Wellness takes a new form" — built like Ralf's "BIENVENUE": light
  *     serif capitals, wide open tracking — but smaller, as asked;
  *   · the button and the line beneath it in Ralf's extended, widely
@@ -49,7 +51,7 @@ export function Hero() {
 
       <div className="mx-auto flex min-h-svh max-w-[1600px] flex-col items-center px-6 pb-10 pt-[calc(5rem+3rem)] text-center lg:px-10">
         <div className="flex flex-1 flex-col items-center justify-center">
-          <p className="font-serif text-[clamp(1.5rem,2.3vw,2.375rem)] italic leading-tight [text-shadow:0_1px_18px_rgba(40,24,10,0.25)]">
+          <p className="font-tagline text-[clamp(1.375rem,2.1vw,2.125rem)] italic leading-tight tracking-[-0.005em] [text-shadow:0_1px_18px_rgba(40,24,10,0.25)]">
             {HERO.tagline}
           </p>
 

@@ -33,7 +33,9 @@ export function OurSupplements({
   return (
     <section
       id={id}
-      className="scroll-mt-0 bg-cream pb-20 pt-10 lg:pb-28 lg:pt-14"
+      // The foot was narrowed too (Nov 2026): under the white header it
+      // read as an empty band before FlashRelease
+      className="scroll-mt-0 bg-cream pb-12 pt-10 lg:pb-14 lg:pt-14"
       aria-labelledby={`${id}-heading`}
     >
       <div className="mx-auto max-w-[1600px] px-5 lg:px-10">

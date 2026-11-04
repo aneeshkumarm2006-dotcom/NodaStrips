@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Figtree, Instrument_Serif } from "next/font/google";
+import { Figtree, Instrument_Serif, STIX_Two_Text } from "next/font/google";
 import { CartProvider } from "@/components/CartProvider";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
@@ -20,6 +20,21 @@ const instrument = Instrument_Serif({
   weight: "400",
   style: ["normal", "italic"],
   display: "swap",
+});
+
+/**
+ * STIX Two Text, for the hero tagline only — a trial the client asked
+ * for in Nov 2026 ("can you try stix two text font for the hero image's
+ * tagline"). Italic only, since that is all the tagline uses; not
+ * preloaded, as it is a single line.
+ */
+const stix = STIX_Two_Text({
+  variable: "--font-stix",
+  subsets: ["latin"],
+  weight: "400",
+  style: "italic",
+  display: "swap",
+  preload: false,
 });
 
 /** Figtree stands in for Arrae's Proxima Nova — body, labels, buttons. */
@@ -56,7 +71,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       // Keeps the smooth in-page scroll for anchors, but lets route changes
       // (the hero CTA now goes to /shop) jump straight to the top.
       data-scroll-behavior="smooth"
-      className={`${instrument.variable} ${figtree.variable} h-full antialiased`}
+      className={`${instrument.variable} ${figtree.variable} ${stix.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <CartProvider>

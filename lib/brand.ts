@@ -316,10 +316,11 @@ export const FLASH_RELEASE = {
    The headline is unchanged; the doc gives no replacement for it.       */
 
 export type FormatItem = {
-  icon: "bolt" | "layers" | "bag" | "pill" | "gummy" | "cup";
+  icon: "clock" | "layers" | "feather" | "pill" | "gummy" | "cup";
   title: string;
-  /** One paragraph, or several points rendered as a list */
-  body: string | readonly string[];
+  /** One paragraph, or — for the other formats — what the format works
+      well for and its trade-off, set as a ✓ row and a – row */
+  body: string | { works: string; tradeoff: string };
 };
 
 export const WHY_STRIPS: {
@@ -338,7 +339,7 @@ export const WHY_STRIPS: {
   eyebrow: "The Right Format",
   /** Words marked with ** are set in the italic */
   title: "Not every wellness **need calls** for the same format.",
-  body: "For sleep and energy, timing is everything. When you need support to kick in quickly, the format matters. That’s why we chose oral dissolvable strips for these needs: fast to take, easy to carry, and ready in the moment you need them.",
+  body: "For sleep and energy, timing is everything. When you need support to kick in quickly, the format matters. That’s why we chose dissolvable strips: fast to take, easy to carry, and ready in the moment you need them.",
   moments: [
     {
       kicker: "Sleep",
@@ -361,7 +362,8 @@ export const WHY_STRIPS: {
       label: "Why strips",
       items: [
         {
-          icon: "bolt",
+          // A clock, not a bolt — "use a clock or time symbol" (Nov 2026)
+          icon: "clock",
           title: "Built for when timing matters.",
           body: "Formulated for needs where you want support fast.",
         },
@@ -371,41 +373,43 @@ export const WHY_STRIPS: {
           body: "A thin oral film dissolves in your mouth and starts releasing its ingredients right away, instead of waiting on a pill or gummy to break down in your stomach.",
         },
         {
-          icon: "bag",
+          // A feather, for lightweight — replaces the bag (Nov 2026)
+          icon: "feather",
           title: "Easy by design.",
           body: "One measured dose, individually portioned, portable, and easy to incorporate into your routine. No leak, no mess.",
         },
       ],
     },
     {
+      // Reworked to the client's reference (Nov 2026): each format gets a
+      // "works well for" and a "the trade-off", so the contrast reads at
+      // a glance. The copy is the reference's.
       id: "other",
       label: "Other formats",
       items: [
         {
           icon: "pill",
           title: "Pills and capsules",
-          body: [
-            "Well suited to higher doses and steady daily support, like magnesium supplements.",
-            "Less suited to moments when timing matters: they need to break down before anything begins.",
-          ],
+          body: {
+            works: "Higher doses and steady daily support, such as magnesium supplements.",
+            tradeoff: "May require water and swallowing, making them less convenient in certain moments.",
+          },
         },
         {
           icon: "gummy",
           title: "Gummies",
-          body: [
-            "A familiar, enjoyable way to take a daily supplement.",
-            "The trade-off is added sugar, fillers, and artificial ingredients.",
-            "Plus, only so much fits in each gummy, and for sleep and energy, what fits has to be digested before it can start working.",
-          ],
+          body: {
+            works: "A familiar, enjoyable way to take daily supplements.",
+            tradeoff: "Some contain added sugar or fillers, and serving sizes can limit ingredient quantities.",
+          },
         },
         {
           icon: "cup",
-          title: "Powder",
-          body: [
-            "Great for larger servings like protein supplements.",
-            "The trade-off is mixing, a glass, and a moment a busy day rarely has, especially on the go.",
-            "Plus, drinking a full glass before bed can mean waking up for bathroom breaks, or one mid-workout. And for sleep and energy, the dose still has to be digested before it can start working.",
-          ],
+          title: "Powders",
+          body: {
+            works: "Larger servings, such as protein and daily nutrition supplements.",
+            tradeoff: "Requires mixing, water, and a little more preparation.",
+          },
         },
       ],
     },
@@ -468,6 +472,7 @@ export const COMMUNITY: {
   posts: readonly CommunityPost[];
   /** Index in the row at which the creator card sits (0-based) */
   ctaAt: number;
+  /** `{name}` in the body is set as the wordmark, without the ™ */
   cta: { title: string; body: string; action: string; href: string };
 } = {
   title: { plain: "Noda", italic: "Community" },
@@ -514,11 +519,45 @@ export const COMMUNITY: {
   /** Copy from the client's concept; only the look was to be elevated */
   cta: {
     title: "This could be you.",
-    body: "Share your NODA experience and receive a free gift to be featured on our page.",
+    body: "Share your {name} experience and receive a free gift to be featured on our page.",
     action: "Contact us",
-    href: "/contact",
+    href: "/contact?topic=creators#contact-form",
   },
 };
+
+/* ----------------------------------------------------------------------
+   Contact — the page behind "Contact us" on the creator card and the
+   footer's "Contact" link (client, Nov 2026: "insert a contact us
+   section — currently it does not take anywhere"). The creator card
+   opens it with "Creators" chosen.                                      */
+
+export const CONTACT = {
+  eyebrow: "Contact",
+  /** Words marked with ** are set in the italic */
+  title: "Get in **touch.**",
+  intro: "Questions about an order, the strips, or working together — send us a note and we’ll come back to you.",
+  topics: [
+    { id: "creators", label: "Creators" },
+    { id: "orders", label: "Orders & shipping" },
+    { id: "product", label: "The strips" },
+    { id: "wholesale", label: "Wholesale" },
+    { id: "other", label: "Something else" },
+  ],
+  creators: {
+    title: "This could be you.",
+    body: "Share your {name} experience and receive a free gift to be featured on our page. Tell us where you post and a little about your audience.",
+  },
+  fields: {
+    name: "Name",
+    email: "Email address",
+    handle: "Instagram or TikTok handle",
+    message: "Message",
+  },
+  action: "Send message",
+  done: "Thank you — we’ll be in touch soon.",
+} as const;
+
+export type ContactTopic = (typeof CONTACT.topics)[number]["id"];
 
 /* ---------------------------------------------------------------- 10 */
 
@@ -594,7 +633,7 @@ export const FOOTER_STATEMENT =
 export const SIGNUP = {
   /** Words marked with ** are set in the italic */
   title: "Sign up & get a **mystery** discount.",
-  body: "Enter your best email and phone number to get your mystery code.",
+  body: "Enter your email and phone number to get your mystery code.",
   fields: { name: "First Name", email: "Email Address", phone: "Phone Number" },
   action: "Subscribe",
   done: "Thank you — your code is on its way.",

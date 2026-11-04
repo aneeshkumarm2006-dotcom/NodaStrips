@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { ArtSlot } from "@/components/ArtSlot";
 import { Reveal } from "@/components/Reveal";
+import { WithWordmark } from "@/components/Wordmark";
 import { COMMUNITY, type CommunityPost } from "@/lib/brand";
 
 /**
@@ -20,7 +21,12 @@ import { COMMUNITY, type CommunityPost } from "@/lib/brand";
  *     look (gift icon, glossy beige) read as cheap, so this one is drawn
  *     as an empty camera frame waiting to be filled: viewfinder corners, a
  *     record light, the line in the italic;
- *   · an arrow beside the fourth card scrolls on to more posts;
+ *   · an arrow beside the fourth card scrolls on to more posts — in its
+ *     own gutter to the right of the row, clear of the card, rather than
+ *     straddling its edge ("the arrow is too close to the square"). The
+ *     gutter takes a little off each card, so the cards come out a touch
+ *     shorter too. "Previous" stacks above it once the row has moved;
+ *   · "NODA" in the card's line is set in the wordmark, without the ™;
  *   · clicking a post enlarges it, as Mondays' videos do — but on a light,
  *     frosted veil instead of their black screen, so it reads as the page
  *     opening up rather than a separate dark room.
@@ -60,7 +66,9 @@ export function Community() {
   row.splice(Math.min(ctaAt, row.length), 0, { kind: "cta" });
 
   return (
-    <section className="bg-bone py-20 lg:py-28" aria-labelledby="community-heading">
+    // Short at the foot: the journal follows on the same white, and the
+    // two paddings together read as a gap (client, Nov 2026)
+    <section className="bg-bone pb-8 pt-20 lg:pb-10 lg:pt-28" aria-labelledby="community-heading">
       <div className="mx-auto max-w-[1600px] px-5 lg:px-10">
         <Reveal className="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
           <h2
@@ -72,7 +80,8 @@ export function Community() {
           <p className="micro text-ink-soft/70">{COMMUNITY.note}</p>
         </Reveal>
 
-        <Reveal delay={120} className="relative mt-10 @container lg:mt-12">
+        {/* The right padding is the arrows' gutter (tablet and up) */}
+        <Reveal delay={120} className="relative mt-10 @container sm:pr-[4.5rem] lg:mt-12 lg:pr-20">
           <ul
             ref={rail}
             onScroll={measure}
@@ -93,19 +102,19 @@ export function Community() {
             ))}
           </ul>
 
-          {/* The arrows sit on the centre line of the media, over the
-              edges of the row — "an arrow next to the fourth one". */}
+          {/* The arrows sit in the gutter beside the fourth card — "next"
+              on the centre line of the media, "previous" just above it. */}
           <RailArrow
             dir={-1}
             hidden={edges.start}
             onClick={() => nudge(-1)}
-            className="left-0 -translate-x-1/2"
+            className="right-0 -mt-[3.75rem]"
           />
           <RailArrow
             dir={1}
             hidden={edges.end}
             onClick={() => nudge(1)}
-            className="right-0 translate-x-1/2"
+            className="right-0"
           />
         </Reveal>
       </div>
@@ -200,7 +209,7 @@ function CreatorCard() {
   const { cta } = COMMUNITY;
   return (
     <figure className="m-0">
-      <div className="relative flex aspect-[4/5] w-full flex-col items-center justify-center overflow-hidden rounded-[8px] bg-bone-deep px-8 text-center">
+      <div className="relative flex aspect-[4/5] w-full flex-col items-center justify-center overflow-hidden rounded-[8px] bg-bone-deep px-6 text-center">
         {/* Viewfinder corners — an empty frame, waiting for a creator */}
         {(["left-4 top-4 border-l border-t", "right-4 top-4 border-r border-t", "bottom-4 left-4 border-b border-l", "bottom-4 right-4 border-b border-r"] as const).map(
           (pos) => (
@@ -227,11 +236,11 @@ function CreatorCard() {
           00:00
         </span>
 
-        <h3 className="display text-[clamp(2.25rem,3.2vw,2.75rem)] italic leading-[0.95] text-ink">
+        <h3 className="display text-[clamp(2rem,2.5vw,2.5rem)] italic leading-[0.95] text-ink">
           {cta.title}
         </h3>
         <p className="mt-4 max-w-[17rem] text-[0.9375rem] font-light leading-relaxed text-ink-soft">
-          {cta.body}
+          <WithWordmark text={cta.body} />
         </p>
         <Link
           href={cta.href}
@@ -272,7 +281,8 @@ function RailArrow({
       tabIndex={hidden ? -1 : 0}
       aria-hidden={hidden}
       // On the media's centre line: half of a 4:5 card's height. The card
-      // is a quarter of the row (less the gaps) on desktop, a half on tablet.
+      // is a quarter of the row (less the gaps) on desktop, a half on
+      // tablet. 100cqw is the row less the gutter, so this still holds.
       className={[
         "absolute z-10 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-ink text-bone shadow-[0_10px_30px_-12px_rgba(22,19,15,0.6)] transition-[opacity,scale] duration-500 [transition-timing-function:var(--ease-quiet)] hover:scale-105 sm:flex",
         "top-[calc((100cqw_-_1rem)*0.3125)] lg:top-[calc((100cqw_-_3rem)*0.15625)]",

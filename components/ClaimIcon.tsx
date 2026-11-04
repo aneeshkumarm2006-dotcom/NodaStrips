@@ -1,5 +1,5 @@
 /**
- * The circled line icons beside the comparison claims.
+ * The circled line icons beside the comparison claims and the format rows.
  *
  * Hand-drawn paths rather than an icon package: four icons is not worth a
  * dependency, and these carry the brand's hairline weight exactly.
@@ -14,8 +14,10 @@ export type ClaimIconName =
   | "dose"
   | "sun"
   | "bolt"
+  | "clock"
   | "layers"
   | "bag"
+  | "feather"
   | "pill"
   | "gummy"
   | "cup";
@@ -69,6 +71,20 @@ const PATHS: Record<ClaimIconName, React.ReactNode> = {
   ),
   // Targeted support — a bolt
   bolt: <path d="M13.2 3.4 6.4 13.2h5.2l-1 7.4 6.8-9.8h-5.2l1-7.4Z" />,
+  // Timing — a clock face, hands at ten to two
+  clock: (
+    <>
+      <circle cx="12" cy="12" r="7.6" />
+      <path d="M12 7.4V12l3.2 1.9" />
+    </>
+  ),
+  // Lightweight — a feather
+  feather: (
+    <>
+      <path d="M13 18.4H6.6a1 1 0 0 1-1-1V11a2 2 0 0 1 .6-1.4l5.4-5.4a5.8 5.8 0 0 1 8.2 8.2l-5.4 5.4A2 2 0 0 1 13 18.4Z" />
+      <path d="M15.6 8.4 3.4 20.6M16.8 14.4H9.6" />
+    </>
+  ),
   // A thin film, in layers
   layers: (
     <>

@@ -36,7 +36,9 @@ export function BlogRow() {
 
   return (
     <section
-      className="overflow-hidden bg-sand py-20 lg:py-28"
+      // Short at the top, to sit close under Noda Community ("too much
+      // gap between Noda Journal and Noda Community", Nov 2026)
+      className="overflow-hidden bg-sand pb-20 pt-10 lg:pb-28 lg:pt-14"
       aria-labelledby="blog-row-heading"
     >
       {/* Heading row */}

@@ -23,16 +23,17 @@ const instrument = Instrument_Serif({
 });
 
 /**
- * STIX Two Text, for the hero tagline only — a trial the client asked
- * for in Nov 2026 ("can you try stix two text font for the hero image's
- * tagline"). Italic only, since that is all the tagline uses; not
+ * STIX Two Text, for the hero's type only — the tagline (client, Nov
+ * 2026: "can you try stix two text font for the hero image's tagline"),
+ * then the headline as well. Upright for the headline, italic for the
+ * tagline; not
  * preloaded, as it is a single line.
  */
 const stix = STIX_Two_Text({
   variable: "--font-stix",
   subsets: ["latin"],
   weight: "400",
-  style: "italic",
+  style: ["normal", "italic"],
   display: "swap",
   preload: false,
 });

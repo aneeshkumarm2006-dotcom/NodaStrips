@@ -12,8 +12,9 @@ import { HERO } from "@/lib/brand";
  *     Home. The Luxury of Elsewhere.", set in STIX Two Text italic, per
  *     the client's Nov 2026 typography note (a touch smaller than the
  *     serif it replaces, since STIX sets wider);
- *   · "Wellness takes a new form" — built like Ralf's "BIENVENUE": light
- *     serif capitals, wide open tracking — but smaller, as asked;
+ *   · "Wellness takes a new form" — built like Ralf's "BIENVENUE":
+ *     serif capitals, open tracking — now in STIX Two Text too (Nov
+ *     2026), set smaller to hold the width of the old condensed serif;
  *   · the button and the line beneath it in Ralf's extended, widely
  *     tracked caps, and "Discover more ↓" in small serif capitals.
  *
@@ -51,13 +52,15 @@ export function Hero() {
 
       <div className="mx-auto flex min-h-svh max-w-[1600px] flex-col items-center px-6 pb-10 pt-[calc(5rem+3rem)] text-center lg:px-10">
         <div className="flex flex-1 flex-col items-center justify-center">
-          <p className="font-tagline text-[clamp(1.375rem,2.1vw,2.125rem)] italic leading-tight tracking-[-0.005em] [text-shadow:0_1px_18px_rgba(40,24,10,0.25)]">
+          <p className="font-hero text-[clamp(1.375rem,2.1vw,2.125rem)] italic leading-tight tracking-[-0.005em] [text-shadow:0_1px_18px_rgba(40,24,10,0.25)]">
             {HERO.tagline}
           </p>
 
           <h1
             id="hero-heading"
-            className="mt-[clamp(0.9rem,1.6vw,1.6rem)] font-serif text-[clamp(2.15rem,5.6vw,5.75rem)] uppercase leading-[0.98] tracking-[0.03em] [text-shadow:0_2px_30px_rgba(40,24,10,0.22)] sm:tracking-[0.05em]"
+            // STIX sets far wider than the condensed serif it replaced, so
+            // the size comes down to keep the two lines at the same width
+            className="mt-[clamp(0.9rem,1.6vw,1.6rem)] font-hero text-[clamp(1.95rem,4.1vw,4.25rem)] uppercase leading-[1.02] tracking-[0.02em] [text-shadow:0_2px_30px_rgba(40,24,10,0.22)] sm:tracking-[0.04em]"
           >
             {HERO.title[0]}
             <br />

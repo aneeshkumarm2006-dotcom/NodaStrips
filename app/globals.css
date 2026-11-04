@@ -57,8 +57,9 @@
   --font-body: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-instrument), "Instrument Serif", Georgia, serif;
   --font-sans: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
-  /* The one exception: the hero tagline, in STIX Two Text (Nov 2026) */
-  --font-tagline: var(--font-stix), "STIX Two Text", Georgia, serif;
+  /* The one exception: the hero's tagline and headline, in STIX Two
+     Text (Nov 2026) */
+  --font-hero: var(--font-stix), "STIX Two Text", Georgia, serif;
 
   /* Motion — slow, quiet, deliberate */
   --ease-quiet: cubic-bezier(0.16, 1, 0.3, 1);

@@ -13,23 +13,28 @@ import { WHY_STRIPS as W, type FormatItem } from "@/lib/brand";
  * (Was "04 — The science of the strip"; renamed and un-numbered in the
  * Nov 2026 doc, which also supplied all of the copy.)
  *
- * Replaces the absorption chart on the main page, built to the client's
- * supplied layout. The chart moved, unchanged, to each product page.
- *
- *   LEFT   a hairline card: eyebrow, the headline with "need calls" in
- *          the italic, one paragraph, then a Sleep and an Energy & Focus
- *          card, each a photograph over an eyebrow, a title and copy.
+ *   LEFT   a card: eyebrow, the headline with "need calls" in the italic,
+ *          one paragraph, then a Sleep and an Energy & Focus card, each a
+ *          photograph over an eyebrow, a title and copy.
  *   RIGHT  a two-way toggle — Why strips / Other formats — over three
- *          ruled rows, each a circled line icon, a title and either a
- *          sentence or, for the other formats, their trade-offs as points.
+ *          rows, each a circled line icon, a title and either a sentence
+ *          or, for the other formats, a "works well for" and a trade-off.
  *
- * Same deep green ground, hairlines and toggle as the chart it replaces,
- * so the page keeps its rhythm.
+ * Nov 2026, second round: "change background color to white as well, and
+ * adjust the text and boxes with different color combinations so it looks
+ * a bit more elevated". So the deep green ground is gone and the colour
+ * moved into the boxes, each its own surface on the white:
  *
- * Other formats, per the client's Nov 2026 notes: each format reads as a
- * "✓ Works well for" and a "– The trade-off", set a size down so all three
- * fit in one view, on a #F2EFE7 card in place of the green — that colour
- * is for this panel only.
+ *   · the headline card is a pale sage (#EEF3EF) — the brand green at a
+ *     whisper — with its headline in the deep green and the eyebrow in
+ *     the brand green;
+ *   · the Sleep and Energy & Focus cards are white, raised off the sage
+ *     by a hairline and a soft green-tinted shadow, and lift on hover;
+ *   · the toggle fills deep green when chosen;
+ *   · Why strips sits on white, its icons in sage discs;
+ *   · Other formats is a warm stone card (#F5F1EA) — a second, warmer
+ *     neutral, so the two panels read as a pair rather than a repeat —
+ *     with what works in green and the trade-off in clay.
  */
 export function WhyStrips() {
   const [active, setActive] = useState(0);
@@ -37,23 +42,23 @@ export function WhyStrips() {
 
   return (
     <section
-      className="bg-brand-deep py-20 text-bone lg:py-28"
+      className="bg-[#FFFFFF] py-16 text-ink lg:py-24"
       aria-labelledby="why-strips-heading"
     >
       <div className="mx-auto grid max-w-[1600px] grid-cols-1 gap-12 px-5 lg:grid-cols-[1.12fr_1fr] lg:gap-16 lg:px-10">
         {/* ---------------------------------------------- the card */}
         <Reveal>
-          <div className="rounded-3xl border border-bone/12 bg-bone/[0.04] p-6 sm:p-9 lg:p-11">
-            <p className="micro text-bone/60">{W.eyebrow}</p>
+          <div className="rounded-3xl bg-[#EEF3EF] p-6 sm:p-9 lg:p-11">
+            <p className="micro text-brand">{W.eyebrow}</p>
 
             <h2
               id="why-strips-heading"
-              className="display mt-6 text-[clamp(2.25rem,3.9vw,3.75rem)]"
+              className="display mt-6 text-[clamp(2.25rem,3.9vw,3.75rem)] text-brand-deep"
             >
               <Emphasised text={W.title} />
             </h2>
 
-            <p className="mt-6 max-w-[38rem] text-[1.0625rem] font-light leading-relaxed text-bone/80">
+            <p className="mt-6 max-w-[38rem] text-[1.0625rem] font-light leading-relaxed text-ink-soft">
               {W.body}
             </p>
 
@@ -62,21 +67,30 @@ export function WhyStrips() {
                 <li key={m.kicker}>
                   <Link
                     href={m.href}
-                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-bone/12 transition-colors duration-500 hover:border-bone/30"
+                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#dde6e0] bg-white p-2 shadow-[0_24px_48px_-34px_rgba(10,74,67,0.45)] transition-[translate,box-shadow] duration-500 [transition-timing-function:var(--ease-quiet)] hover:-translate-y-1 hover:shadow-[0_30px_60px_-34px_rgba(10,74,67,0.55)]"
                   >
                     <ArtSlot
                       variant="dusk"
                       brief={m.brief}
                       showCaption={false}
                       sizes="(max-width: 640px) 100vw, 400px"
-                      className="aspect-[16/9] w-full rounded-2xl"
+                      className="aspect-[16/9] w-full rounded-xl"
                     />
-                    <div className="flex flex-1 flex-col p-6">
-                      <p className="micro text-bone/70">{m.kicker}</p>
-                      <h3 className="display mt-3 text-[1.65rem] leading-tight">
+                    <div className="flex flex-1 flex-col px-4 pb-5 pt-5">
+                      <p className="micro text-brand">{m.kicker}</p>
+                      <h3 className="display mt-3 text-[1.65rem] leading-tight text-ink">
                         {m.title}
                       </h3>
-                      <p className="mt-3 font-light leading-relaxed text-bone/70">{m.body}</p>
+                      <p className="mt-3 font-light leading-relaxed text-ink-soft">{m.body}</p>
+                      <span
+                        aria-hidden="true"
+                        className="micro mt-auto inline-flex items-center gap-2 pt-5 text-brand-deep"
+                      >
+                        Shop {m.kicker}
+                        <span className="transition-transform duration-500 [transition-timing-function:var(--ease-quiet)] group-hover:translate-x-1">
+                          →
+                        </span>
+                      </span>
                     </div>
                   </Link>
                 </li>
@@ -90,7 +104,7 @@ export function WhyStrips() {
           <div
             role="tablist"
             aria-label="Format"
-            className="inline-flex w-fit rounded-full border border-bone/25 p-1"
+            className="inline-flex w-fit rounded-full border border-brand-deep/15 bg-white p-1"
           >
             {W.tabs.map((t, i) => (
               <button
@@ -103,8 +117,8 @@ export function WhyStrips() {
                 onClick={() => setActive(i)}
                 className={`micro rounded-full px-6 py-3 transition-colors duration-500 [transition-timing-function:var(--ease-quiet)] ${
                   i === active
-                    ? "bg-bone text-brand-deep"
-                    : "text-bone/65 hover:text-bone"
+                    ? "bg-brand-deep text-white"
+                    : "text-ink-soft hover:text-brand-deep"
                 }`}
               >
                 {t.label}
@@ -119,20 +133,23 @@ export function WhyStrips() {
               id="why-panel"
               role="tabpanel"
               aria-labelledby={`why-tab-${tab.id}`}
-              className="mt-12 border-t border-bone/15"
+              className="mt-10 border-t border-hairline"
             >
               {tab.items.map((item) => (
                 <div
                   key={item.title}
-                  className="flex items-start gap-6 border-b border-bone/15 py-8"
+                  className="flex items-start gap-6 border-b border-hairline py-8"
                 >
-                  <ClaimIcon name={item.icon} className="h-14 w-14" />
+                  <ClaimIcon
+                    name={item.icon}
+                    className="h-14 w-14 border-0 bg-[#EEF3EF] text-brand-deep"
+                  />
                   <div>
-                    <dt className="display text-[clamp(1.6rem,2.2vw,2rem)] leading-tight">
+                    <dt className="display text-[clamp(1.6rem,2.2vw,2rem)] leading-tight text-ink">
                       {item.title}
                     </dt>
                     {typeof item.body === "string" && (
-                      <dd className="mt-3 max-w-md text-[1.0625rem] font-light leading-relaxed text-bone/70">
+                      <dd className="mt-3 max-w-md text-[1.0625rem] font-light leading-relaxed text-ink-soft">
                         {item.body}
                       </dd>
                     )}
@@ -149,8 +166,8 @@ export function WhyStrips() {
 
 /* ------------------------------------------------- other formats panel */
 
-/** Text on the #F2EFE7 card: brand green for what works, a warm clay for
-    the trade-off (5:1 on the card, so it holds at label size). */
+/** On the #F5F1EA card: brand green for what works, a warm clay for the
+    trade-off (5:1 on the card, so it holds at label size). */
 const TRADEOFF = "text-[#8a5a2e]";
 
 function OtherFormats({ id, items }: { id: string; items: readonly FormatItem[] }) {
@@ -159,14 +176,14 @@ function OtherFormats({ id, items }: { id: string; items: readonly FormatItem[] 
       id="why-panel"
       role="tabpanel"
       aria-labelledby={`why-tab-${id}`}
-      className="mt-8 rounded-3xl bg-[#F2EFE7] px-6 py-1 text-ink sm:px-8"
+      className="mt-8 rounded-3xl bg-[#F5F1EA] px-6 py-1 text-ink sm:px-8"
     >
       {items.map((item) => (
         <div
           key={item.title}
           className="flex items-start gap-5 border-b border-ink/10 py-6 last:border-b-0"
         >
-          <ClaimIcon name={item.icon} className="h-11 w-11 text-brand-deep" />
+          <ClaimIcon name={item.icon} className="h-11 w-11 border-0 bg-white text-brand-deep" />
           <div className="min-w-0">
             <dt className="display text-[1.5rem] leading-tight">{item.title}</dt>
             {typeof item.body !== "string" && (

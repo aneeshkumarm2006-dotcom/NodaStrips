@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ArtSlot } from "@/components/ArtSlot";
 import { Reveal } from "@/components/Reveal";
 import { FLASH_RELEASE as F } from "@/lib/brand";
+import { FlashCallouts } from "./FlashCallouts";
 
 /**
  * 03 — FlashRelease® technology. A replica of Seed's ViaCap® section,
@@ -13,12 +14,15 @@ import { FLASH_RELEASE as F } from "@/lib/brand";
  *   LEFT       507px. Mono label 12px/300 caps with a dot; headline
  *              40/44 at weight 350, −0.4px; a 380px note box — 0.8px
  *              white/25 hairline, 16px radius, 32px padding — holding an
- *              18px line and a 32px light stat; a 12px footnote. 24px
- *              between each.
+ *              18px line and a 32px light stat. 24px between each.
  *   RIGHT      677px. The capsule animation, 484px, centred; "Outer" top
  *              left and "Inner" lower right, each a 12px/500 caps heading
  *              and 12px copy in a 200px column, joined to the capsule by a
- *              70px dashed rule.
+ *              rule that draws itself in on scroll, as Seed's do — see
+ *              FlashCallouts.
+ *
+ * Nov 2026: the ° after the stat is an asterisk, and its "placeholder
+ * figure" footnote is gone.
  *
  * Seed's capsule animation stands in as a placeholder, per the client
  * ("use their capsule illustration for right now"). It is Seed's artwork
@@ -64,7 +68,7 @@ export function FlashRelease() {
             <div className="mt-6 flex w-full max-w-[380px] items-center justify-between gap-6 rounded-2xl border-[0.8px] border-white/25 p-8">
               <p className="max-w-[12rem] text-lg font-[350] leading-[1.3] tracking-[-0.01em]">
                 {F.stat.label}
-                <sup className="ml-0.5 text-[0.6em]">°</sup>
+                <sup className="ml-0.5 text-[0.6em]">{F.stat.mark}</sup>
               </p>
               <p className="flex shrink-0 items-center gap-1.5 text-[2rem] font-light leading-[48px]">
                 <span
@@ -89,10 +93,6 @@ export function FlashRelease() {
                 <span className="sr-only">faster</span>
               </p>
             </div>
-
-            <p className="mt-6 text-xs font-[350] leading-[1.4] tracking-[-0.003em]">
-              {F.footnote}
-            </p>
           </div>
 
           {/* ----------------------------------------------- right */}
@@ -109,54 +109,11 @@ export function FlashRelease() {
               />
             </div>
 
-            {/* Outer — top left, rule running in toward the capsule */}
-            <Callout
-              title={F.outer.title}
-              body={F.outer.body}
-              className="mt-8 lg:absolute lg:left-0 lg:top-[17px] lg:mt-0"
-              rule="after"
-            />
-
-            {/* Inner — lower right, rule running in from the capsule */}
-            <Callout
-              title={F.inner.title}
-              body={F.inner.body}
-              className="mt-8 lg:absolute lg:right-0 lg:top-[163px] lg:mt-0"
-              rule="before"
-            />
+            {/* Outer and inner, with the rules that draw in on scroll */}
+            <FlashCallouts outer={F.outer} inner={F.inner} />
           </div>
         </div>
       </Reveal>
     </section>
-  );
-}
-
-function Callout({
-  title,
-  body,
-  className,
-  rule,
-}: {
-  title: string;
-  body: string;
-  className: string;
-  rule: "before" | "after";
-}) {
-  const line = (
-    <span
-      aria-hidden="true"
-      className="hidden w-[70px] shrink-0 border-t-[0.8px] border-dashed border-[rgb(252,252,247)] lg:block"
-    />
-  );
-
-  return (
-    <div className={`flex items-center ${className}`}>
-      {rule === "before" && line}
-      <div className={`lg:w-[200px] ${rule === "before" ? "lg:pl-4" : ""}`}>
-        <h3 className="text-xs font-medium uppercase leading-[1.1]">{title}</h3>
-        <p className="mt-1 text-xs font-[350] leading-[1.4] tracking-[-0.003em]">{body}</p>
-      </div>
-      {rule === "after" && line}
-    </div>
   );
 }

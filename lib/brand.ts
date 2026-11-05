@@ -42,10 +42,21 @@ export const SECONDARY_NAV = [
   { label: JOURNAL_NAME, href: "/sleep-journal" },
 ] as const;
 
-/** The header's currency selector, per the mockup. Display only for now. */
+/**
+ * The header's currency selector. Every price in this file is in CAD;
+ * USD is converted from it at the day's rate (client, Nov 2026: "CAD and
+ * USD prices are the same, so we need to automatize them"). See
+ * components/CurrencyProvider.tsx. On Shopify, Markets does this.
+ */
 export const CURRENCIES = ["CAD", "USD"] as const;
 
 export type Currency = (typeof CURRENCIES)[number];
+
+/**
+ * CAD → USD, used until the live rate (ECB, via frankfurter.dev) loads, or
+ * if it can't be reached. The 4 Nov 2026 reference rate.
+ */
+export const FALLBACK_USD_PER_CAD = 0.7176;
 
 /* ----------------------------------------------------------------- 01
    Hero. The copy is the client's; the type follows the Ralf reference —
@@ -297,8 +308,8 @@ export const BUNDLE = {
 export const FLASH_RELEASE = {
   label: "FlashRelease® Technology",
   title: "Most sleep, energy and focus supplements make you wait. We don’t.",
-  stat: { label: "Faster absorption for effective support", figure: "10", unit: "x" },
-  footnote: "°Placeholder figure — requires third-party testing before launch.",
+  /** The asterisk replaces the ° and its placeholder footnote (Nov 2026) */
+  stat: { label: "Faster absorption for effective support", mark: "*", figure: "10", unit: "x" },
   outer: {
     title: "Outer strip",
     body: "Designed to minimize exposure to stomach acid through oral absorption, while delivering a consistent, precise dose of active ingredients in a fast-dissolving strip.",
@@ -519,7 +530,7 @@ export const COMMUNITY: {
   /** Copy from the client's concept; only the look was to be elevated */
   cta: {
     title: "This could be you.",
-    body: "Share your {name} experience and receive a free gift to be featured on our page.",
+    body: "Share your {name} experience and receive a free gift and opportunity to be featured on our page.",
     action: "Contact us",
     href: "/contact?topic=creators#contact-form",
   },
@@ -545,7 +556,7 @@ export const CONTACT = {
   ],
   creators: {
     title: "This could be you.",
-    body: "Share your {name} experience and receive a free gift to be featured on our page. Tell us where you post and a little about your audience.",
+    body: "Share your {name} experience and receive a free gift and opportunity to be featured on our page. Tell us where you post and a little about your audience.",
   },
   fields: {
     name: "Name",
@@ -848,12 +859,17 @@ export type Ingredient = {
 export type ProductPlan = {
   id: "quarterly" | "monthly" | "once";
   name: string;
+  /** Short name for the cart and the subscribe pop-up */
+  short: string;
   note: string;
-  price: string;
+  /** CAD. Formatted, and converted for USD, by useCurrency() */
+  price: number;
   /** Struck through beside the price */
-  compareAt?: string;
-  /** "$24 / Month" under the price */
-  perMonth?: string;
+  compareAt?: number;
+  /** Shown as "$24 / Month" under the price */
+  perMonth?: number;
+  /** "Save 20%" — for the subscribe pop-up's cadence menu */
+  savePct?: number;
   /** The dark bar across the top of the card */
   banner?: { strong: string; rest: string };
   /** The small chip under the price */
@@ -871,8 +887,8 @@ export type Product = {
   line: string;
   description: string;
   flavour: { name: string; swatch: string };
-  /** The one-time price, shown on the product cards */
-  price: string;
+  /** The one-time price in CAD, shown on the product cards */
+  price: number;
   unit: string;
   /**
    * The carton's colour, sampled off the product photograph. The purchase
@@ -906,28 +922,33 @@ const PLANS_34: readonly ProductPlan[] = [
   {
     id: "quarterly",
     name: "3 Month Delivery",
+    short: "Delivered every 3 months",
     note: "3 month supply, delivered every 3 months",
-    price: "$72",
-    compareAt: "$102",
-    perMonth: "$24 / Month",
+    price: 72,
+    compareAt: 102,
+    perMonth: 24,
+    savePct: 30,
     banner: { strong: "Best value", rest: "Save 30%" },
     subscription: true,
   },
   {
     id: "monthly",
     name: "1 Month Delivery",
+    short: "Delivered every month",
     note: "1 month supply, delivered every 1 month",
-    price: "$27",
-    compareAt: "$34",
-    perMonth: "$27 / Month",
+    price: 27,
+    compareAt: 34,
+    perMonth: 27,
+    savePct: 20,
     save: "Save 20%",
     subscription: true,
   },
   {
     id: "once",
     name: "1 Time Purchase",
+    short: "1 Time Purchase",
     note: "1 month supply, delivered once",
-    price: "$34",
+    price: 34,
     subscription: false,
   },
 ];
@@ -951,7 +972,7 @@ export const PRODUCTS: readonly Product[] = [
     description:
       "A fast-dissolving vegan strip for the end of the day. No water, no pills — one strip thirty minutes before bed, and the night takes it from there.",
     flavour: { name: "Mint", swatch: "#9ccfbd" },
-    price: "$34.00",
+    price: 34,
     unit: "30 strips · one month",
     accent: "#212d49",
     card: "product card — sleep",
@@ -1021,7 +1042,7 @@ export const PRODUCTS: readonly Product[] = [
     description:
       "A fast-dissolving vegan strip for the middle of the day. No mixing, no can, no crash — one strip whenever you need to switch on.",
     flavour: { name: "Citrus", swatch: "#f2b544" },
-    price: "$34.00",
+    price: 34,
     unit: "30 strips · one month",
     accent: "#a15719",
     card: "product card — energy",
@@ -1086,3 +1107,54 @@ export const PRODUCTS: readonly Product[] = [
 export function getProduct(slug: string): Product | undefined {
   return PRODUCTS.find((p) => p.slug === slug);
 }
+
+/* ----------------------------------------------------------------------
+   Our Supplements → "Meet Your Day & Night Duo" (Nov 2026), Energy first
+   and then Sleep — day, then night. The Shop all grid uses the same order
+   so the two cards read the same wherever they appear. The header and
+   footer links keep Sleep first, as the mockup has them.               */
+
+export const DUO = {
+  heading: "Meet Your Day & Night Duo",
+  order: ["energy", "sleep"] as const satisfies readonly Product["slug"][],
+};
+
+export const DUO_PRODUCTS: readonly Product[] = DUO.order.map(
+  (slug) => PRODUCTS.find((p) => p.slug === slug)!,
+);
+
+/* ----------------------------------------------------------------------
+   Three Simple Steps — on each product page, after "Science in a strip",
+   on Mondays' "Don't Overthink It" layout. The client's wording, verbatim
+   (Nov 2026).                                                           */
+
+export const THREE_STEPS = {
+  title: "Three Simple Steps",
+  steps: [
+    { icon: "peel", title: "Peel", body: "Open your individually sealed strip." },
+    {
+      icon: "place",
+      title: "Place",
+      body: "On top of your tongue, or wherever feels comfortable in your mouth.",
+    },
+    { icon: "dissolve", title: "Dissolve", body: "Let it dissolve. Nothing more needed." },
+  ],
+} as const;
+
+/* ----------------------------------------------------------------------
+   The subscribe pop-up — opens when a 1 Time Purchase goes into the cart,
+   on Mondays' "Subscribe, Save + Sip More 12%" drawer (Nov 2026: "when
+   you click on 1 time purchase, we should have this pop-up where we
+   incentivize to subscribe"). Placeholder copy, like the prices.        */
+
+export const SUBSCRIBE_UPSELL = {
+  added: "{product} added to your cart",
+  title: "Subscribe, save + never run out",
+  /** {pct} is the best saving on offer */
+  intro: "Save up to {pct}% when you subscribe, and you’ll also get:",
+  cadenceLabel: "Deliver every",
+  /** {pct} is the chosen cadence's saving */
+  accept: "Yes, save {pct}%",
+  decline: "Take me to my cart",
+  inCart: "Subscribe & save up to {pct}%",
+} as const;

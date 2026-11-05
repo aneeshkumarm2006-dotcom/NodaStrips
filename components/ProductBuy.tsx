@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ArtSlot } from "@/components/ArtSlot";
 import { useCart } from "@/components/CartProvider";
+import { useCurrency } from "@/components/CurrencyProvider";
+import { SubscribeUpsell } from "@/components/SubscribeUpsell";
 import {
   PRODUCTS,
   SUBSCRIPTION_BENEFITS,
@@ -38,6 +40,11 @@ import {
  *
  * On Shopify the three options are selling plans on the product, so the
  * structure carries over directly.
+ *
+ * Nov 2026: prices follow the header's currency (see CurrencyProvider),
+ * and adding a 1 Time Purchase opens the subscribe pop-up
+ * (SubscribeUpsell). The foot of the section is shorter, so "Science in a
+ * strip" follows without a wide empty band.
  */
 export function ProductBuy({ product }: { product: Product }) {
   const { plans, gallery, facts } = product;
@@ -45,7 +52,10 @@ export function ProductBuy({ product }: { product: Product }) {
   const [shot, setShot] = useState(0);
   const [plan, setPlan] = useState<ProductPlan["id"]>(product.defaultPlan);
   const { add } = useCart();
+  const { money } = useCurrency();
   const [added, setAdded] = useState(false);
+  /** The one-time line just added, while the subscribe pop-up is open */
+  const [upsell, setUpsell] = useState<string | null>(null);
 
   useEffect(() => {
     if (!added) return;
@@ -57,7 +67,7 @@ export function ProductBuy({ product }: { product: Product }) {
 
   return (
     <section
-      className="bg-bone pb-24 pt-10 lg:pb-32 lg:pt-14"
+      className="bg-bone pb-10 pt-10 lg:pb-14 lg:pt-14"
       aria-label={`Buy ${product.title}`}
       style={{ "--accent": product.accent } as React.CSSProperties}
     >
@@ -162,8 +172,9 @@ export function ProductBuy({ product }: { product: Product }) {
             <button
               type="button"
               onClick={() => {
-                add({ slug: `${product.slug}-${chosen.id}`, name: `${product.name} — ${chosen.name}` });
+                const key = add({ slug: product.slug, plan: chosen.id });
                 setAdded(true);
+                if (!chosen.subscription) setUpsell(key);
               }}
               className="mt-5 inline-flex h-[46px] w-full items-center justify-center gap-3 rounded-full border-[0.8px] border-[var(--accent)] bg-[var(--accent)] px-6 text-sm uppercase tracking-[0.06em] text-white transition-[filter] duration-300 hover:brightness-110"
             >
@@ -172,10 +183,10 @@ export function ProductBuy({ product }: { product: Product }) {
               ) : (
                 <>
                   <span>Add to cart</span>
-                  <span className="flex items-baseline gap-2 font-semibold">
-                    {chosen.price}
+                  <span className="flex items-baseline gap-2 font-semibold tabular-nums">
+                    {money(chosen.price)}
                     {chosen.compareAt && (
-                      <s className="font-normal opacity-80">{chosen.compareAt}</s>
+                      <s className="font-normal opacity-80">{money(chosen.compareAt)}</s>
                     )}
                   </span>
                 </>
@@ -196,6 +207,8 @@ export function ProductBuy({ product }: { product: Product }) {
           </div>
         </div>
       </div>
+
+      {upsell && <SubscribeUpsell lineKey={upsell} onClose={() => setUpsell(null)} />}
     </section>
   );
 }
@@ -209,6 +222,7 @@ function PlanOption({
   active: boolean;
   onSelect: () => void;
 }) {
+  const { money } = useCurrency();
   return (
     <label
       className={`block cursor-pointer overflow-hidden rounded-[8px] border-[0.8px] transition-colors duration-300 ${
@@ -251,13 +265,13 @@ function PlanOption({
         </span>
 
         <span className="flex shrink-0 flex-col items-end gap-0.5 text-right">
-          <span className="flex items-baseline gap-1 text-sm">
-            <span className="font-medium text-ink">{plan.price}</span>
-            {plan.compareAt && <s className="text-ink">{plan.compareAt}</s>}
+          <span className="flex items-baseline gap-1 text-sm tabular-nums">
+            <span className="font-medium text-ink">{money(plan.price)}</span>
+            {plan.compareAt && <s className="text-ink">{money(plan.compareAt)}</s>}
           </span>
           {plan.perMonth && (
             <span className="text-xs font-light tracking-[-0.01em] text-[#6e6e6e]">
-              {plan.perMonth}
+              {money(plan.perMonth)} / Month
             </span>
           )}
           {plan.save && (

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Figtree, Instrument_Serif, STIX_Two_Text } from "next/font/google";
 import { CartProvider } from "@/components/CartProvider";
+import { CurrencyProvider } from "@/components/CurrencyProvider";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import "./globals.css";
@@ -46,9 +47,9 @@ const figtree = Figtree({
 });
 
 /**
- * The favicon (app/icon.png, app/apple-icon.png) and the share image are
- * the N alone, cut from the custom NODA wordmark — the sunburst mark is
- * no longer used anywhere, per the client's Nov 2026 notes.
+ * The favicon (app/icon.png, app/apple-icon.png) is the "n" of the noda™
+ * wordmark, cut from the client's file (Nov 2026: "change tab N to our
+ * noda n"). The share image is still the old serif N.
  */
 export const metadata: Metadata = {
   // Swap for the real domain at launch; needed to resolve social images.
@@ -75,11 +76,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${instrument.variable} ${figtree.variable} ${stix.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <CartProvider>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </CartProvider>
+        <CurrencyProvider>
+          <CartProvider>
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </CartProvider>
+        </CurrencyProvider>
       </body>
     </html>
   );

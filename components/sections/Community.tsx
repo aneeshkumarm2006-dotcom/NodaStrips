@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { ArtSlot } from "@/components/ArtSlot";
 import { Reveal } from "@/components/Reveal";
-import { WithWordmark } from "@/components/Wordmark";
+import { Wordmark, WithWordmark } from "@/components/Wordmark";
 import { COMMUNITY, type CommunityPost } from "@/lib/brand";
 
 /**
@@ -26,7 +26,9 @@ import { COMMUNITY, type CommunityPost } from "@/lib/brand";
  *     straddling its edge ("the arrow is too close to the square"). The
  *     gutter takes a little off each card, so the cards come out a touch
  *     shorter too. "Previous" stacks above it once the row has moved;
- *   · "NODA" in the card's line is set in the wordmark, without the ™;
+ *   · "NODA" in the card's line is set in the wordmark, without the ™ —
+ *     and so is "Noda" in the heading ("could you use noda image file
+ *     for noda community as well");
  *   · clicking a post enlarges it, as Mondays' videos do — but on a light,
  *     frosted veil instead of their black screen, so it reads as the page
  *     opening up rather than a separate dark room.
@@ -75,7 +77,14 @@ export function Community() {
             id="community-heading"
             className="display text-[clamp(2.5rem,4vw,3.5rem)] text-ink"
           >
-            {COMMUNITY.title.plain} <em>{COMMUNITY.title.italic}</em>
+            {/* The wordmark, sized so its ascender meets the top of the
+                serif's capitals */}
+            <Wordmark
+              mark={false}
+              label={COMMUNITY.title.plain}
+              className="mr-[0.22em] h-[0.8em] align-[-0.04em]"
+            />
+            <em>{COMMUNITY.title.italic}</em>
           </h2>
           <p className="micro text-ink-soft/70">{COMMUNITY.note}</p>
         </Reveal>

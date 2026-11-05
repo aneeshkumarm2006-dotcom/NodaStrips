@@ -123,6 +123,40 @@ they are in git history. The masks are regenerated from
   consent wording with NODA's name (check against CASL before launch). The
   journal page's sign-up band uses the same form.
 
+## Nov 2026 — third doc ("Noda Website (3)")
+
+- **Favicon** is the "n" of the noda™ wordmark (`app/icon.png`,
+  `app/apple-icon.png`), cut from `public/brand/wordmark-noda.png`.
+- **Currency** — prices live in CAD in `lib/brand.ts` as numbers; USD is
+  converted at the day's ECB rate (frankfurter.dev, cached 12h, fallback
+  `FALLBACK_USD_PER_CAD`) by
+  [CurrencyProvider](components/CurrencyProvider.tsx). The header choice is
+  remembered. Shopify Markets replaces this at launch.
+- **Meet Your Day & Night Duo** (was Our Supplements): Energy first, no "+"
+  quick-add, #FFFFFF. Shop all uses the same order and is compacted so the
+  whole card, price included, sits above the fold; the "Oral strips" label
+  is gone.
+- **FlashRelease®** — "*" instead of "°", footnote removed; the callout
+  rules draw in on scroll with Seed's timings
+  ([FlashCallouts](components/sections/FlashCallouts.tsx)).
+- **The Right Format** is on white; the colour moved into the boxes (sage
+  headline card, white raised moment cards, warm stone Other formats).
+- **Noda Community** — "Noda" in the heading is the wordmark; the creator
+  card reads "…receive a free gift and opportunity to be featured…".
+- **Product pages** — tighter gaps around "Science in a strip" and the
+  timing teaser, and **Three Simple Steps** (Peel / Place / Dissolve) after
+  "Science in a strip" ([ThreeSteps](components/sections/ThreeSteps.tsx)).
+- **Cart** — quantity steppers, Remove, line prices and a subtotal.
+  Adding a **1 Time Purchase** opens the subscribe pop-up
+  ([SubscribeUpsell](components/SubscribeUpsell.tsx), after Mondays'
+  drawer); one-time lines in the cart offer it too.
+- **Strip doorway** — a crescent moon and stars beside the sunrise.
+- **Hero type tests** at `/type-test/<font>` (unlinked, noindex): the hero
+  with only the headline swapped, for the nine faces the client listed.
+  Inter and Montserrat load from Google Fonts; the seven licensed faces
+  render only where installed (Helvetica Neue, Avenir Next and Futura ship
+  with macOS), and a badge says when a fallback is showing.
+
 ## Brand assets
 
 Originals are in [Logos/](Logos/) plus `1.png` / `2.png`. Web-ready versions

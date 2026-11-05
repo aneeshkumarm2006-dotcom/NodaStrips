@@ -22,7 +22,13 @@ import { HERO } from "@/lib/brand";
  * shop — its own page, as Mondays' "Our Products" is, rather than the
  * section under the hero (client, Nov 2026).
  */
-export function Hero() {
+export function Hero({
+  headlineFont,
+}: {
+  /** A CSS font-family for the headline only — the /type-test pages use
+      it to try other faces (Nov 2026). The site itself never passes it. */
+  headlineFont?: string;
+} = {}) {
   return (
     <section
       className="relative isolate overflow-hidden text-cream"
@@ -61,6 +67,7 @@ export function Hero() {
             // STIX sets far wider than the condensed serif it replaced, so
             // the size comes down to keep the two lines at the same width
             className="mt-[clamp(0.9rem,1.6vw,1.6rem)] font-hero text-[clamp(1.95rem,4.1vw,4.25rem)] uppercase leading-[1.02] tracking-[0.02em] [text-shadow:0_2px_30px_rgba(40,24,10,0.22)] sm:tracking-[0.04em]"
+            style={headlineFont ? { fontFamily: headlineFont } : undefined}
           >
             {HERO.title[0]}
             <br />

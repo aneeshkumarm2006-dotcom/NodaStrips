@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Wordmark } from "./Wordmark";
 
@@ -15,7 +15,9 @@ import { Wordmark } from "./Wordmark";
  * doors inside. On click:
  *
  *   1. a cream veil rises and the strip draws itself in      0–900ms
- *   2. the doors swing open onto a sunrise                  900–1700ms
+ *   2. the doors swing open onto a sunrise, with the moon     900–1700ms
+ *      still up — day and night together (client, Nov 2026: "can we
+ *      incorporate the moon somehow alongside the sun")
  *   3. we push through the opening                         1700–2300ms
  *   4. we land — on another page when given an `href` (the hero CTA goes
  *      to /shop, its own page, per the client's Nov 2026 notes), or
@@ -126,6 +128,7 @@ function Veil({ phase }: { phase: Phase }) {
 }
 
 function Doorway({ phase }: { phase: Phase }) {
+  const moonMask = useId();
   const drawn = phase !== "veil";
   const open = phase === "open" || phase === "through" || phase === "out";
   const through = phase === "through" || phase === "out";
@@ -142,10 +145,32 @@ function Doorway({ phase }: { phase: Phase }) {
             className="absolute inset-0"
             style={{
               background:
-                "radial-gradient(70% 55% at 50% 100%, #fbe2b6 0%, #f3c98b 32%, #e9b98c 52%, #d9b8a3 70%, #efe4d6 100%)",
+                // The last of the night lingering in the upper left, behind
+                // the moon, over the sunrise
+                "radial-gradient(48% 40% at 22% 20%, rgba(176,168,201,0.38) 0%, rgba(176,168,201,0.14) 55%, transparent 100%), radial-gradient(70% 55% at 50% 100%, #fbe2b6 0%, #f3c98b 32%, #e9b98c 52%, #d9b8a3 70%, #efe4d6 100%)",
             }}
           />
           <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full" fill="none">
+            {/* The moon — a crescent, still up as the sun rises, with a
+                soft halo and a few stars on the night side */}
+            <defs>
+              <mask id={moonMask}>
+                <circle cx="25" cy="25" r="7.2" fill="#fff" />
+                <circle cx="28.6" cy="22.4" r="6.4" fill="#000" />
+              </mask>
+            </defs>
+            <circle cx="25" cy="25" r="11" fill="#fff6e4" opacity="0.16" />
+            <circle cx="25" cy="25" r="7.2" fill="#fff6e4" mask={`url(#${moonMask})`} />
+            {[
+              [13, 14, 0.55],
+              [38, 11, 0.45],
+              [41, 27, 0.4],
+              [11.5, 34, 0.42],
+              [31, 38, 0.35],
+            ].map(([cx, cy, r]) => (
+              <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r={r} fill="#fff6e4" opacity="0.85" />
+            ))}
+
             {/* The sun, rising on the threshold */}
             <circle cx="50" cy="78" r="13" fill="#fff6e4" />
             {[-62, -38, -14, 14, 38, 62].map((a) => (

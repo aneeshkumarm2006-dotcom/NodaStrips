@@ -7,16 +7,19 @@ import { SCIENCE_TEASER as T } from "@/lib/brand";
  * Science teaser (on the Sleep page since Nov 2026), on Seed's "You are more than human" model: a bracketed
  * brand label, a large claim, a short paragraph, a pill CTA, and a scientific
  * illustration in a panel on the right.
+ *
+ * Its padding and inner gaps were cut in Nov 2026 (client: too much white
+ * space around it).
  */
 export function ScienceTeaser() {
   return (
-    <section className="bg-bone py-24 lg:py-32" aria-labelledby="science-heading">
+    <section className="bg-bone py-12 lg:py-16" aria-labelledby="science-heading">
       <div className="mx-auto max-w-[1600px] px-6 lg:px-10">
         <Reveal>
           <p className="micro text-ink-soft">{T.label}</p>
         </Reveal>
 
-        <div className="mt-14 grid grid-cols-1 items-center gap-14 lg:grid-cols-[1fr_1fr] lg:gap-24">
+        <div className="mt-6 grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_1fr] lg:gap-20">
           <Reveal>
             <h2
               id="science-heading"
@@ -25,11 +28,11 @@ export function ScienceTeaser() {
               {T.title}
             </h2>
 
-            <p className="prose-quiet mt-8 max-w-md text-ink-soft">{T.body}</p>
+            <p className="prose-quiet mt-6 max-w-md text-ink-soft">{T.body}</p>
 
             <Link
               href={T.href}
-              className="micro group mt-10 inline-flex items-center gap-2.5 rounded-full bg-brand px-8 py-4 text-bone transition-colors duration-500 [transition-timing-function:var(--ease-quiet)] hover:bg-brand-deep"
+              className="micro group mt-8 inline-flex items-center gap-2.5 rounded-full bg-brand px-8 py-4 text-bone transition-colors duration-500 [transition-timing-function:var(--ease-quiet)] hover:bg-brand-deep"
             >
               {T.cta}
               <span
@@ -40,7 +43,7 @@ export function ScienceTeaser() {
               </span>
             </Link>
 
-            <p className="micro mt-16 text-ink-soft opacity-70">{T.footLabel}</p>
+            <p className="micro mt-10 text-ink-soft opacity-70">{T.footLabel}</p>
           </Reveal>
 
           <Reveal delay={120}>

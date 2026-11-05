@@ -25,7 +25,9 @@ import type { Product } from "@/lib/brand";
  * of ours has five ingredients, so the same card runs as a rail.
  *
  * Moved off the main page onto each product page in Nov 2026, so it takes
- * the formula of the product it sits on.
+ * the formula of the product it sits on. Its padding was cut in the second
+ * Nov 2026 round ("too much white space between the first section and
+ * science in a strip").
  */
 export function ScienceStrip({ product }: { product: Product }) {
   const S = product.science;
@@ -42,7 +44,7 @@ export function ScienceStrip({ product }: { product: Product }) {
   return (
     <section
       id="ingredients"
-      className="overflow-hidden bg-bone py-24 lg:py-32"
+      className="overflow-hidden bg-bone pb-12 pt-10 lg:pb-16 lg:pt-14"
       aria-labelledby="science-strip-heading"
     >
       <div className="mx-auto grid max-w-[1600px] grid-cols-1 gap-12 px-6 lg:grid-cols-[25.5rem_1fr] lg:gap-14 lg:px-10">

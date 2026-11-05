@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { CURRENCIES, NAV, SECONDARY_NAV, type Currency } from "@/lib/brand";
+import { CURRENCIES, NAV, SECONDARY_NAV } from "@/lib/brand";
 import { useCart } from "./CartProvider";
+import { useCurrency } from "./CurrencyProvider";
 import { Wordmark } from "./Wordmark";
 
 /**
@@ -34,7 +35,8 @@ const ARRAE_TRANSITION =
 
 export function Header() {
   const pathname = usePathname();
-  const overHero = pathname === "/";
+  // The hero type tests (/type-test/…) are the home hero too
+  const overHero = pathname === "/" || pathname.startsWith("/type-test/");
 
   const [atTop, setAtTop] = useState(true);
   const [hidden, setHidden] = useState(false);
@@ -186,9 +188,10 @@ function CartLink({ onHero }: { onHero: boolean }) {
   );
 }
 
+/** Switches every price on the site — see CurrencyProvider */
 function CurrencySelector() {
   const [open, setOpen] = useState(false);
-  const [current, setCurrent] = useState<Currency>(CURRENCIES[0]);
+  const { currency: current, setCurrency: setCurrent } = useCurrency();
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

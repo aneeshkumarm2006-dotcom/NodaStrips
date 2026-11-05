@@ -5,6 +5,7 @@ import { Compare } from "@/components/sections/Compare";
 import { ScienceStrip } from "@/components/sections/ScienceStrip";
 import { ScienceTeaser } from "@/components/sections/ScienceTeaser";
 import { Testimonials } from "@/components/sections/Testimonials";
+import { ThreeSteps } from "@/components/sections/ThreeSteps";
 import {
   COMPARISON,
   COMPARISON_CLAIMS,
@@ -22,6 +23,10 @@ import {
  * absorption chart. The second Nov 2026 doc moved two more onto the
  * Sleep page only: the "timing problem" science teaser and the "Better
  * nights, one strip at a time" member stories.
+ *
+ * Nov 2026, second round: "Three Simple Steps" follows "Science in a
+ * strip", and the white gaps around "Science in a strip" and the timing
+ * teaser were closed up.
  */
 export function generateStaticParams() {
   return PRODUCTS.map((p) => ({ slug: p.slug }));
@@ -51,6 +56,7 @@ export default async function ProductPage({ params }: PageProps<"/shop/[slug]">)
     <>
       <ProductBuy product={product} />
       <ScienceStrip product={product} />
+      <ThreeSteps product={product} />
       {sleep && <ScienceTeaser />}
       <Compare
         datasets={energy ? COMPARISON_ENERGY : COMPARISON}

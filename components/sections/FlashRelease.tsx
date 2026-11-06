@@ -3,6 +3,7 @@ import { ArtSlot } from "@/components/ArtSlot";
 import { Reveal } from "@/components/Reveal";
 import { FLASH_RELEASE as F } from "@/lib/brand";
 import { FlashCallouts } from "./FlashCallouts";
+import { ScrambleLabel, StatCount } from "./FlashMotion";
 
 /**
  * 03 — FlashRelease® technology. A replica of Seed's ViaCap® section,
@@ -22,7 +23,8 @@ import { FlashCallouts } from "./FlashCallouts";
  *              FlashCallouts.
  *
  * Nov 2026: the ° after the stat is an asterisk, and its "placeholder
- * figure" footnote is gone.
+ * figure" footnote is gone. On scroll the label decodes itself and the
+ * stat counts up, as Seed's do — see FlashMotion.
  *
  * Seed's capsule animation stands in as a placeholder, per the client
  * ("use their capsule illustration for right now"). It is Seed's artwork
@@ -52,10 +54,10 @@ export function FlashRelease() {
         <div className="flex flex-col gap-8 rounded-[32px] bg-[rgba(87,94,85,0.35)] p-7 text-[rgb(252,252,247)] backdrop-blur-[37.5px] sm:p-12 lg:min-h-[560px] lg:flex-row lg:items-start lg:p-20">
           {/* ------------------------------------------------ left */}
           <div className="lg:w-[507px] lg:shrink-0">
-            <p className="flex items-center gap-2 font-sans text-xs font-normal uppercase leading-[18px] tracking-[0.08em]">
-              <span aria-hidden="true" className="h-[7px] w-[7px] rounded-full bg-current" />
-              {F.label}
-            </p>
+            <ScrambleLabel
+              text={F.label}
+              className="flex items-center gap-2 font-sans text-xs font-normal uppercase leading-[18px] tracking-[0.08em]"
+            />
 
             <h2
               id="flash-heading"
@@ -70,28 +72,11 @@ export function FlashRelease() {
                 {F.stat.label}
                 <sup className="ml-0.5 text-[0.6em]">{F.stat.mark}</sup>
               </p>
-              <p className="flex shrink-0 items-center gap-1.5 text-[2rem] font-light leading-[48px]">
-                <span
-                  aria-hidden="true"
-                  className="flex h-[1.95rem] w-[1.95rem] items-center justify-center rounded-full bg-[rgb(252,252,247)] text-[rgb(70,76,68)]"
-                >
-                  <svg viewBox="0 0 16 16" className="h-4 w-4">
-                    <path
-                      d="M8 13V3.4M3.8 7.4 8 3.2l4.2 4.2"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
-                <span>
-                  {F.stat.figure}
-                  {F.stat.unit}
-                </span>
-                <span className="sr-only">faster</span>
-              </p>
+              <StatCount
+                to={Number(F.stat.figure)}
+                unit={F.stat.unit}
+                label={`${F.stat.figure}${F.stat.unit} faster`}
+              />
             </div>
           </div>
 

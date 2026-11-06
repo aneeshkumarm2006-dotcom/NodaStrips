@@ -136,9 +136,13 @@ they are in git history. The masks are regenerated from
   quick-add, #FFFFFF. Shop all uses the same order and is compacted so the
   whole card, price included, sits above the fold; the "Oral strips" label
   is gone.
-- **FlashRelease®** — "*" instead of "°", footnote removed; the callout
-  rules draw in on scroll with Seed's timings
-  ([FlashCallouts](components/sections/FlashCallouts.tsx)).
+- **FlashRelease®** — "*" instead of "°", footnote removed. On scroll it
+  plays Seed's ViaCap® animation: the "FlashRelease® Technology" label
+  decodes letter by letter, the 10x counts up as its arrow rises
+  ([FlashMotion](components/sections/FlashMotion.tsx)), and the callout
+  rules draw in ([FlashCallouts](components/sections/FlashCallouts.tsx)).
+  All of it replays when the section comes back into view. (The first
+  pass only drew the rules in; the client marked it "not done".)
 - **The Right Format** is on white; the colour moved into the boxes (sage
   headline card, white raised moment cards, warm stone Other formats).
 - **Noda Community** — "Noda" in the heading is the wordmark; the creator
@@ -150,12 +154,17 @@ they are in git history. The masks are regenerated from
   Adding a **1 Time Purchase** opens the subscribe pop-up
   ([SubscribeUpsell](components/SubscribeUpsell.tsx), after Mondays'
   drawer); one-time lines in the cart offer it too.
-- **Strip doorway** — a crescent moon and stars beside the sunrise.
+- **Strip doorway** — a moon was tried beside the sunrise; the client asked
+  for the previous version back, so it is sun only again.
 - **Hero type tests** at `/type-test/<font>` (unlinked, noindex): the hero
   with only the headline swapped, for the nine faces the client listed.
   Inter and Montserrat load from Google Fonts; the seven licensed faces
   render only where installed (Helvetica Neue, Avenir Next and Futura ship
-  with macOS), and a badge says when a fallback is showing.
+  with macOS), and a badge says when a fallback is showing. The client's
+  nine screenshots (in the "Hero fonts" folder, outside the repo) set the
+  licensed faces with each foundry's own web preview font (Swiss
+  Typefaces, Klim, Hoefler&Co., Adobe Fonts), over the hero as rendered.
+  Whichever face is chosen has to be licensed for web use before launch.
 
 ## Brand assets
 
